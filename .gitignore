@@ -1,0 +1,5 @@
+# created by virtualenv automatically
+*/security_settings.py
+.idea
+db.sqlite3
+pyvenv.cfg
