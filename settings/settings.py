@@ -1,8 +1,8 @@
 from pathlib import Path
-from security_settings import project_SECRET_KEY
+from .security_settings import project_SECRET_KEY
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = project_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -29,7 +29,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'DjangoWatchShop.urls'
+# ROOT_URLCONF = 'DjangoWatchShop.urls'
+ROOT_URLCONF = 'settings.urls'
 
 TEMPLATES = [
     {
@@ -48,7 +49,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'DjangoWatchShop.wsgi.application'
+WSGI_APPLICATION = 'settings.wsgi.application'
 
 DATABASES = {
     'default': {
@@ -56,7 +57,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -73,7 +73,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
@@ -81,7 +80,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 STATIC_URL = 'static/'
 
