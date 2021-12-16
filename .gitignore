@@ -3,4 +3,5 @@
 pyvenv.cfg
 /db.sqlite3
 */security_settings.py
-
+Lib
+/media/
