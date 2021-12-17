@@ -2,12 +2,11 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from Shop import views
 
-from . import views
 
 urlpatterns = [
     path('', views.PostView.as_view()),
-
 ]
 
 if settings.DEBUG:

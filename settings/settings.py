@@ -9,7 +9,8 @@ SECRET_KEY = project_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+# DEBUG = False
+# ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -33,7 +34,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ROOT_URLCONF = 'DjangoWatchShop.urls'
 ROOT_URLCONF = 'settings.urls'
 
 TEMPLATES = [
