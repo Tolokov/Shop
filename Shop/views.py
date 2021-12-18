@@ -20,7 +20,7 @@ class HomeView(View):
 
 class BlogView(View):
     def get(self, request):
-        news = News.objects.all()
+        news = News.objects.filter(draft=False)
         return render(request, 'pages/blog.html', {'posts': news})
 
 # class SinglePostVies(View):
