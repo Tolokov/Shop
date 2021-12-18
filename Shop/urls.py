@@ -7,7 +7,7 @@ from Shop import views
 
 urlpatterns = [
     path('', views.PostView.as_view()),
-    path('accounts/', include('django.contrib.auth.urls'))
+
 ]
 
 if settings.DEBUG:
