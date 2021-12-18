@@ -85,6 +85,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+LOGIN_REDIRECT_URL = '/'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 STATIC_URL = 'static/'
 STATIC_DIR = path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
