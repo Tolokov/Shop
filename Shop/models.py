@@ -31,8 +31,7 @@ class News(models.Model):
         return self.title
 
     def get_absolute_url(self):
-
-        return f'{self.pk}'
+        return reverse('single_post', kwargs={'post_id': self.id})
 
 
     class Meta:
