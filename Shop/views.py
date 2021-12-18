@@ -52,7 +52,9 @@ class Product_detailView(View):
         return render(request, 'pages/product-detail.html', {})
 
 
-
+class FavoritesView(View):
+    def get(self, request):
+        return render(request, 'pages/product-detail.html', {})
 
 
 
