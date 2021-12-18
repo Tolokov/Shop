@@ -13,6 +13,6 @@ def ex404(request, exception):
 
 class PostView(View):
     def get(self, request):
-        return render(request, 'registration/LoginTRUE.html')
+        return render(request, 'pages/blog.html')
 
 
