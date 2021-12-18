@@ -6,8 +6,9 @@ from Shop import views
 
 
 urlpatterns = [
-    path('', views.PostView.as_view(), name='home'),
+    path('', views.HomeView.as_view(), name='home'),
     path('blog/', views.BlogView.as_view(), name='blog'),
+    # path('blog/<int:int>/', views.SinglePostVies.as_view(), name='single-post')
 ]
 
 if settings.DEBUG:
