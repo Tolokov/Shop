@@ -1,7 +1,23 @@
 {% extends "pages/base.html" %}
 {##}
 {% block content %}
-<p>Logged out!</p>
 
-<a href="{% url 'login'%}">Click here to login again.</a>
+    <div id="form" class="container">
+        <div class="col-sm-4 col-sm-offset-1">
+            <section>
+                <div class="login-form">
+                    <h2>Вы вышли из системы !</h2>
+                    <a href="{% url 'login' %}">Нажмите сюда чтобы войти снова.</a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
 {% endblock %}
+
+
+
+
+
+
