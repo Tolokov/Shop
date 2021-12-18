@@ -67,10 +67,10 @@
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
                             <li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-                            <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                            <li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
+                            <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Wishlist</a></li>
+                            <li><a href="{% url 'checkout' %}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Login</a></li>
                         </ul>
                     </div>
                 </div>
@@ -98,26 +98,23 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
 
                             <!--header-column 1-->
-                            <li><a href="{%   url 'home' %}" class="active">Home</a></li>
-                            <li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
-                                <ul role="menu" class="sub-menu">
-
-                                    <!--header-column 2-->
-                                    <li><a href="shop.html">Products</a></li>
-
-                                </ul>
+                            <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                            <li>
+                                <!--header-column 2-->
+                                <a href="{% url 'shop' %}">Shop</a>
                             </li>
-                            <!--header-column 3-->
-                            <li><a href="{% url 'blog' %}">Blog</a>
-                                <ul role="menu" class="sub-menu">
 
-                                </ul>
-                            </li>
                             <!--header-column 3-->
-                            <li><a href="404.html">404</a></li>
+                            <li><a href="{% url 'blog' %}">Blog</a></li>
+
+                            </li>
+
 
                             <!--header-column 4-->
-                            <li><a href="contact-us.html">Contact</a></li>
+                            <li>
+                                <a href="{% url 'contact' %}">Contact</a>
+
+                            </li>
                         </ul>
                     </div>
                 </div>
