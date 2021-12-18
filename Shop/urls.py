@@ -9,7 +9,13 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('blog/', views.BlogView.as_view(), name='blog'),
     path('<int:post_id>/', views.SinglePostVies.as_view(), name='single_post'),
-    # path('blog/<int:post_id>/', views.SinglePostVies.as_view()),
+
+    path('cart/', views.CartView.as_view(), name='cart'),
+    path('checkout/', views.CheckoutView.as_view(), name='checkout'),
+    path('contact/', views.ContactView.as_view(), name='contact'),
+    path('shop/', views.ShopView.as_view(), name='shop'),
+    path('product-detail/', views.Product_detailView.as_view(), name='product_detail'),
+
 ]
 
 if settings.DEBUG:

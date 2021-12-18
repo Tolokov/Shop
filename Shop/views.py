@@ -29,3 +29,35 @@ class SinglePostVies(View):
         return render(request, 'pages/blog-single.html', {'single_post': single_post})
 
 
+# /////////////////////////////
+
+class CartView(View):
+    def get(self, request):
+        return render(request, 'pages/cart.html', {})
+
+class CheckoutView(View):
+    def get(self, request):
+        return render(request, 'pages/checkout.html', {})
+
+class ContactView(View):
+    def get(self, request):
+        return render(request, 'pages/contact-us.html', {})
+
+class ShopView(View):
+    def get(self, request):
+        return render(request, 'pages/shop.html', {})
+
+class Product_detailView(View):
+    def get(self, request):
+        return render(request, 'pages/product-detail.html', {})
+
+
+
+
+
+
+
+
+
+
+
