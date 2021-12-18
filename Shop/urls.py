@@ -8,7 +8,8 @@ from Shop import views
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('blog/', views.BlogView.as_view(), name='blog'),
-    # path('blog/<int:int>/', views.SinglePostVies.as_view(), name='single-post')
+    path('blog/<int:post_id>/', views.SinglePostVies.as_view(), name='single-post'),
+    # path('blog/<int:post_id>/', views.SinglePostVies.as_view()),
 ]
 
 if settings.DEBUG:

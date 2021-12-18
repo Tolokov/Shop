@@ -1,3 +1,6 @@
+# from django.shortcuts import reverse
+from django.urls import reverse
+
 from django.db import models
 from django.db.models import BooleanField, TextField, CharField, ImageField, DateField, TimeField
 
@@ -24,14 +27,17 @@ class News(models.Model):
     poster = ImageField('Постер', upload_to='media/poster/')
     creator = CharField('Создатель', max_length=150, null=True)
 
-
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+
+        return f'{self.pk}'
+
 
     class Meta:
         verbose_name = 'Новость или событие'
         verbose_name_plural = 'Новости и события'
-
 
 
 
