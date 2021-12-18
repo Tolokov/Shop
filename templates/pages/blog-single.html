@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 {% load static %}
-{% block title %} blog-single {% endblock title %}
+{% block title %} {{ single_post.title }} {% endblock title %}
 
 {% block content %}
     {% include 'include/slider.html' %}
@@ -22,17 +22,15 @@
 									<li><i class="fa fa-calendar"></i>{{ single_post.date }}</li>
 								</ul>
 							</div>
-							<a href="">
 								<img src="{{ single_post.poster.url }}" alt="">
-							</a>
                             <p>
                                 {{ single_post.description }}
                             </p>
 
 							<div class="pager-area">
 								<ul class="pager pull-right">
-									<li><a href="#">Pre</a></li>
-									<li><a href="#">Next</a></li>
+									<li><a href="{{ single_post.get_prev_absolute_url }}">Pre</a></li>
+									<li><a href="{{ single_post.get_next_absolute_url }}">Next</a></li>
 								</ul>
 							</div>
 						</div>
@@ -83,7 +81,10 @@
 								<a class="btn btn-primary" href="">Other Posts</a>
 							</div>
 						</div>
-					</div><!--Comments-->
+					</div>
+
+
+                    <!--Comments-->
 					<div class="response-area">
 						<h2>3 RESPONSES</h2>
 						<ul class="media-list">
@@ -170,4 +171,6 @@
 			</div>
 		</div>
 	</section>
+
+
 {% endblock content %}

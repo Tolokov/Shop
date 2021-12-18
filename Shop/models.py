@@ -33,6 +33,17 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse('single_post', kwargs={'post_id': self.id})
 
+    def get_prev_absolute_url(self):
+        prev_page = self.id - 1
+        return reverse('single_post', kwargs={'post_id': prev_page})
+
+    def get_next_absolute_url(self):
+        next_page = self.id + 1
+
+        return reverse('single_post', kwargs={'post_id': next_page})
+
+
+
 
     class Meta:
         verbose_name = 'Новость или событие'
