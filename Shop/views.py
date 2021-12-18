@@ -13,6 +13,8 @@ def ex404(request, exception):
 
 class PostView(View):
     def get(self, request):
+        return render(request, 'pages/index.html')
+
+class BlogView(View):
+    def get(self, request):
         return render(request, 'pages/blog.html')
-
-
