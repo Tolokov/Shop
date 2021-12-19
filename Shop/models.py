@@ -80,8 +80,8 @@ class Category(models.Model):
     '''
     Многие ко многим
     '''
-    name = models.CharField("Категория", max_length=150)
-    description = models.TextField("Описание", max_length=1500)
+    name = models.CharField("Название категории", max_length=150)
+    description = models.TextField("Описание", max_length=1500, blank=True)
     url = models.SlugField(max_length=160, unique=True)
 
     def __str__(self):
@@ -96,7 +96,7 @@ class Brand(models.Model):
     '''
     Один ко многим
     '''
-    name = models.CharField("Категория", max_length=150)
+    name = models.CharField("Название бренда", max_length=150)
     description = models.TextField("Описание", max_length=1500)
     url = models.SlugField(max_length=160, unique=True)
     logo = ImageField("Логотип", upload_to="media/brands/")
@@ -113,13 +113,14 @@ class Cart_Product(models.Model):
     '''
     Карточка продукта
     '''
-    product_public_ID = models.IntegerField(blank=False, primary_key=False, max_length=6, default=100000)
-    # product_public_ID = models.AutoField(
-    #     auto_created=True,
-    #     primary_key=False,
-    #     blank=False,
-    #     max_length=6,
-    #     default=100000,
+    product_public_ID = models.IntegerField(blank=False, primary_key=False, max_length=6, default=100000, unique=True,)
+    # public_ID = models.AutoField(
+        # auto_created=True,
+        # primary_key=False,
+        # blank=False,
+        # default=100000,
+        # unique=True,
+        # null=False,
     # )
     name = CharField(max_length=300)
     description = TextField(max_length=5000)
@@ -158,13 +159,13 @@ class ProductImage(models.Model):
     '''
     Изображения отображаемые с карточкой товара.
     '''
-    title = models.CharField("Заголовок", max_length=100)
-    description = models.TextField("Описание", max_length=2000)
+    title = models.CharField("Заголовок", max_length=100, blank=True)
+    description = models.TextField("Описание", max_length=2000, blank=True)
     image = models.ImageField("Фотография товара", upload_to="media/")
-    product = models.ForeignKey(Cart_Product, verbose_name="Фотографии", on_delete=models.CASCADE)
+    product = models.ForeignKey(Cart_Product, verbose_name="Продукты", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return f'{self.title if len(self.title) > 2 else "нет заголовка"} {self.product}'
 
     class Meta:
         verbose_name = 'Фотография к товару'
