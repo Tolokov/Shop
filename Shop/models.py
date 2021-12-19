@@ -6,13 +6,13 @@ from django.db.models import BooleanField, TextField, CharField, ImageField, Dat
 
 from datetime import date
 
+
 # step 1
 class User(models.Model):
     '''
     Учетная запись пользователя после регистрации
     '''
     pass
-
 
 
 class News(models.Model):
@@ -41,12 +41,9 @@ class News(models.Model):
         next_page = self.id + 1
         return reverse('single_post', kwargs={'post_id': next_page})
 
-
     class Meta:
         verbose_name = 'Новость или событие'
         verbose_name_plural = 'Новости и события'
-
-
 
 
 class Comment(models.Model):
@@ -65,7 +62,6 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
 
-
 class Appeal_to_support(models.Model):
     '''
     Сообщение пользователя в тех.поддержку(реализовать без моделей)
@@ -74,6 +70,9 @@ class Appeal_to_support(models.Model):
     date = DateField('Дата создания', default=date.today)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
+    class Meta:
+        verbose_name = "Обращение"
+        verbose_name_plural = "Обращения"
 
 
 # step 2
@@ -92,6 +91,7 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
+
 class Brand(models.Model):
     '''
     Один ко многим
@@ -103,6 +103,10 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Бренд"
+        verbose_name_plural = "Бренды"
 
 
 class Cart_Product(models.Model):
@@ -140,17 +144,14 @@ class Cart_Product(models.Model):
 
     icon = ImageField('Изображение в корзине', upload_to='media/product_icon')
     category = models.ManyToManyField(Category, verbose_name="категории")
-    brand = models.ForeignKey(Brand, verbose_name="бренды", on_delete = models.SET_NULL, null = True, blank=False)
+    brand = models.ForeignKey(Brand, verbose_name="бренды", on_delete=models.SET_NULL, null=True, blank=False)
 
     def __str__(self):
         return f'ID: {self.product_public_ID} NAME: {self.name}'
 
     class Meta:
-        verbose_name = 'Товар'
-        verbose_name_plural = ' Товары'
-
-
-
+        verbose_name = 'Карточка продукта'
+        verbose_name_plural = 'Карточки продуктов'
 
 
 class ProductImage(models.Model):
@@ -166,8 +167,9 @@ class ProductImage(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = 'Фотография'
-        verbose_name_plural = 'Фотографии'
+        verbose_name = 'Фотография к товару'
+        verbose_name_plural = 'Фотографии к товару'
+
 
 class RatingGrade(models.Model):
     '''
@@ -177,6 +179,10 @@ class RatingGrade(models.Model):
 
     def __str__(self):
         return f' Текущая оценка продукта{self.value}'
+
+    class Meta:
+        verbose_name = 'отображаемое значение рейтинга'
+        verbose_name_plural = 'Отображаемые значения рейтинга'
 
 
 class Rating(models.Model):
@@ -193,8 +199,6 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
-
-
 
 # # step 3
 # class Cart(models.Model):
