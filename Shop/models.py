@@ -39,10 +39,7 @@ class News(models.Model):
 
     def get_next_absolute_url(self):
         next_page = self.id + 1
-
         return reverse('single_post', kwargs={'post_id': next_page})
-
-
 
 
     class Meta:
@@ -50,8 +47,6 @@ class News(models.Model):
         verbose_name_plural = 'Новости и события'
 
 
-
-# \\\\\
 
 
 class Comment(models.Model):
@@ -65,6 +60,10 @@ class Comment(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
+
 
 
 class Appeal_to_support(models.Model):
@@ -74,8 +73,6 @@ class Appeal_to_support(models.Model):
     text = TextField("Сообщение", max_length=1500)
     date = DateField('Дата создания', default=date.today)
     creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-
 
 
 
