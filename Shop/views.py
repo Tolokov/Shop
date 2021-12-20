@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 
-from .models import News, Cart_Product
+from .models import News, Cart_Product, Category
 
 
 # def ex404(request, exception):
@@ -17,7 +17,11 @@ def ex404(request, exception):
 class HomeView(View):
     def get(self, request):
         products = Cart_Product.objects.filter(availability=False)
-        return render(request, 'pages/index.html', {'products': products})
+        categories = Cart_Product.objects.filter(availability=False)
+        # categories = products.objects.filter()
+        return render(request, 'pages/index.html', {
+            'products': products, 'categories': categories
+        })
 
 class BlogView(View):
     def get(self, request):
