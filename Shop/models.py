@@ -130,7 +130,6 @@ class Cart_Product(models.Model):
     NEW = 'N'
     FRESH = 'F'
     SECOND_HAND = 'S'
-    HIDDEN = 'H'
     CONDITION_CHOICE = [
         (NEW, 'new'),
         (FRESH, 'fresh'),
