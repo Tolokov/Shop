@@ -56,6 +56,8 @@ class Comment(models.Model):
     )
     news = models.ForeignKey(News, on_delete=models.CASCADE)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    # created = models.DateTimeField(auto_now_add=True)
+    # updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Комментарий'
@@ -90,6 +92,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
 
 
 class Brand(models.Model):
@@ -152,6 +155,7 @@ class Cart_Product(models.Model):
     class Meta:
         verbose_name = 'Карточка продукта'
         verbose_name_plural = 'Карточки продуктов'
+        ordering = ['product_public_ID']
 
 
 class ProductImage(models.Model):
