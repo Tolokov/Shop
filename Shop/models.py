@@ -116,7 +116,7 @@ class Cart_Product(models.Model):
     '''
     Карточка продукта
     '''
-    product_public_ID = models.IntegerField(blank=False, primary_key=False, max_length=6, default=100000, unique=True,)
+    product_public_ID = models.IntegerField(blank=False, primary_key=False, max_length=6, default=100000, unique=True)
     # public_ID = models.AutoField(
         # auto_created=True,
         # primary_key=False,
@@ -156,6 +156,13 @@ class Cart_Product(models.Model):
         verbose_name = 'Карточка продукта'
         verbose_name_plural = 'Карточки продуктов'
         ordering = ['product_public_ID']
+
+    # Увеличивает счетчик product_public_ID на единицу, после сохраниния
+    # def save(self, *args, **kwargs):
+    #     self.product_public_ID = self.product_public_ID + 1
+    #     super().save(*args, **kwargs) # Call the "real" save() method.
+
+
 
 
 class ProductImage(models.Model):
