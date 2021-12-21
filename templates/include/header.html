@@ -67,8 +67,6 @@
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
 
-
-
                             {% if user.is_authenticated %}
                                 <li><a href="#" alt="Профиль" ><i class="fa fa-user"></i>{{ user.username }}</a></li>
                                 <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
@@ -79,9 +77,9 @@
                             {% else %}
                             <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
                             <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Войти</a></li>
-                            <li><a href=""><i class="fa fa-lock"></i> Регистрация</a></li>
-
+                            <li><a href="{% url 'signup' %}"><i class="fa fa-lock"></i> Регистрация</a></li>
                             {% endif %}
+
                         </ul>
                     </div>
                 </div>
