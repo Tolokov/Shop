@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from django.db import models
 from django.db.models import BooleanField, TextField, CharField, ImageField, DateField, TimeField
+from django.db.models import CASCADE, SET_NULL
 
 from datetime import date
 
@@ -52,10 +53,10 @@ class Comment(models.Model):
     '''
     text = models.TextField("Сообщение", max_length=1500)
     parent = models.ForeignKey(
-        'self', verbose_name="Ответ на сообщение", on_delete=models.SET_NULL, blank=True, null=True
+        'self', verbose_name="Ответ на сообщение", on_delete=SET_NULL, blank=True, null=True
     )
-    news = models.ForeignKey(News, on_delete=models.CASCADE)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    news = models.ForeignKey(News, on_delete=CASCADE)
+    creator = models.ForeignKey(User, on_delete=CASCADE)
     # created = models.DateTimeField(auto_now_add=True)
     # updated = models.DateTimeField(auto_now=True)
 
@@ -70,7 +71,7 @@ class Appeal_to_support(models.Model):
     '''
     text = TextField("Сообщение", max_length=1500)
     date = DateField('Дата создания', default=date.today)
-    creator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    creator = models.ForeignKey(User, on_delete=SET_NULL, null=True)
 
     class Meta:
         verbose_name = "Обращение"
@@ -147,7 +148,7 @@ class Card_Product(models.Model):
 
     icon = ImageField('Изображение в корзине', upload_to='media/product_icon')
     category = models.ManyToManyField(Category, verbose_name="категории")
-    brand = models.ForeignKey(Brand, verbose_name="бренды", on_delete=models.SET_NULL, null=True, blank=False)
+    brand = models.ForeignKey(Brand, verbose_name="бренды", on_delete=SET_NULL, null=True, blank=False)
 
     def __str__(self):
         return f'ID: {self.product_public_ID} NAME: {self.name}'
@@ -172,7 +173,7 @@ class ProductImage(models.Model):
     title = models.CharField("Заголовок", max_length=100, blank=True)
     description = models.TextField("Описание", max_length=2000, blank=True)
     image = models.ImageField("Фотография товара", upload_to="media/")
-    product = models.ForeignKey(Cart_Product, verbose_name="Продукты", on_delete=models.CASCADE)
+    product = models.ForeignKey(Card_Product, verbose_name="Продукты", on_delete=CASCADE)
 
     def __str__(self):
         return f'{self.title if len(self.title) > 2 else "нет заголовка"} {self.product}'
@@ -200,9 +201,9 @@ class Rating(models.Model):
     '''
     Рейтинг выставленный продукту
     '''
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="создатель")
-    grade = models.ForeignKey(RatingGrade, on_delete=models.CASCADE, verbose_name="оценка")
-    product = models.ForeignKey(Cart_Product, on_delete=models.CASCADE, verbose_name="продукт")
+    creator = models.ForeignKey(User, on_delete=CASCADE, verbose_name="создатель")
+    grade = models.ForeignKey(RatingGrade, on_delete=CASCADE, verbose_name="оценка")
+    product = models.ForeignKey(Card_Product, on_delete=CASCADE, verbose_name="продукт")
 
     def __str__(self):
         return f'{self.product}, {self.grade}, {self.creator}'
@@ -211,37 +212,61 @@ class Rating(models.Model):
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
 
-# # step 3
-# class Cart(models.Model):
+# step 3
+
+class CartProduct(models.Model):
+    '''
+    Выбранные пользователем товары
+    '''
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    products = models.ManyToManyField(Card_Product)
+
+    class Meta:
+        verbose_name = "Товар добавленный в корзину"
+        verbose_name_plural = "Товары добавленные в корзину"
+
+
+
+class Cart(models.Model):
+    '''
+    Корзина пользователя
+    '''
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    products = models.ForeignKey(CartProduct, on_delete=CASCADE, blank=True)
+    total_product = models.PositiveIntegerField(default=0)
+    total_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+
+    def __str__(self):
+        return (self.products)
+    class Meta:
+        verbose_name = 'Тележка'
+        verbose_name_plural = 'Тележки'
+
+
+
+class Favorites(models.Model):
+    '''
+    Избранное
+    '''
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    products = models.ManyToManyField(Card_Product)
+
+    class Meta:
+        verbose_name = "Товар добавленный в корзину"
+        verbose_name_plural = "Товары добавленные в корзину"
+
+
+# class Order(models.Model):
 #     '''
-#     Корзина пользователя
+#     Заказ
 #     '''
 #
-#
-# class Cart_product(models.Model):
-#     '''
-#     Выбранные пользователем товары
-#     '''
-#
-#
-# class Favorites(models.Model):
-#     '''
-#     Избранное
-#     '''
-#
-#
-# class Cart_favorites(models.Model):
-#     '''
-#     Товары добавленные пользователем в избранное
-#     '''
-#
-#
-# class Product(models.Model):
-#     '''
-#     Все продукты
-#     '''
-#
-#
+
+
+
+
+
+
 # # step 4
 # class Promo(models.Model):
 #     '''
@@ -249,10 +274,7 @@ class Rating(models.Model):
 #     '''
 #
 #
-# class Order(models.Model):
-#     '''
-#     Заказ
-#     '''
+
 #
 #
 # class Currency(models.Model):
