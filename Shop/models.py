@@ -45,7 +45,7 @@ class News(models.Model):
     class Meta:
         verbose_name = 'Новость или событие'
         verbose_name_plural = 'Новости и события'
-
+        ordering = ['-date']
 
 class Comment(models.Model):
     '''
@@ -225,8 +225,8 @@ class CartProduct(models.Model):
     products = models.ManyToManyField(Card_Product)
 
     class Meta:
-        verbose_name = "Товар добавленный в корзину"
-        verbose_name_plural = "Товары добавленные в корзину"
+        verbose_name = "Выбранный пользователем товар"
+        verbose_name_plural = "Выбранные пользователем товары"
 
 
 
