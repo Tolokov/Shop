@@ -66,11 +66,22 @@
                 <div class="col-sm-8">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-user"></i> Профиль</a></li>
+
+
+
+                            {% if user.is_authenticated %}
+                                <li><a href="#" alt="Профиль" ><i class="fa fa-user"></i>{{ user.username }}</a></li>
+                                <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
+                                <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
+                                <li><a href="{% url 'checkout' %}"><i class="fa fa-crosshairs"></i> Поставка</a></li>
+                                <li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Выйти</a></li>
+
+                            {% else %}
                             <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
-                            <li><a href="{% url 'checkout' %}"><i class="fa fa-crosshairs"></i> Поставка</a></li>
-                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
                             <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Войти</a></li>
+                            <li><a href=""><i class="fa fa-lock"></i> Регистрация</a></li>
+
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -106,16 +117,12 @@
                             </li>
                             <!--header-column 4-->
                             <li>
-                                <a href="{% url 'contact' %}">Коннтакты</a>
+                                <a href="{% url 'contact' %}">Контакты</a>
 
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
-                    </div>
                 </div>
             </div>
         </div>
