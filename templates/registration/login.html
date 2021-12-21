@@ -1,64 +1,45 @@
 {% extends "pages/base.html" %}
 
 {% block content %}
-
-<!--/form-->
 <section id="form">
-<div class="container">
-<div class="row">
-<div class="col-sm-4 col-sm-offset-1">
-<div class="login-form">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 col-sm-offset-1">
 
-                <!-- message title -->
-{#                <h2>Войти в свой аккаунт</h2>#}
-{#                {% if form.errors %}#}
-{#                  <p>Логин или пароль не найдены. Попробуйте заново.</p>#}
-{#                {% endif %}#}
+                    <div class="login-form">
+                        <h2>Авторизоваться</h2>
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="checkbox">Войти</button>
+                            <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+                        </form>
+                    </div>
 
-                <!--login form-->
-                <form method="post" action="{% url 'login' %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-<button type="submit" class="checkbox" >Войти</button>
-<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+				</div>
+				<div class="col-sm-1">
+					<h2 class="or">OR</h2>
+				</div>
+				<div class="col-sm-4">
+{#                        {% include 'registration/signup.html' %}#}
+{#                    <!--sign up form-->#}
+{#					<div class="signup-form">#}
+{#						<h2>New User Signup!</h2>#}
+{#						<form action="#">#}
+{#							<input type="text" placeholder="Name"/>#}
+{#							<input type="email" placeholder="Email Address"/>#}
+{#							<input type="password" placeholder="Password"/>#}
+{#							<button type="submit" class="btn btn-default">Signup</button>#}
+{#						</form>#}
+					</div>
+{#                    <!--/sign up form-->#}
 
-{#                    <input type="text" placeholder="Name"/>#}
-{#                    <input type="password" placeholder="Password"/>#}
-{#<span><input type="checkbox" class="checkbox">Keep me signed in</span>#}
-
-{#<button type="submit" class="btn btn-default">Login</button>#}
-                            </form>
-
-
-                        </div>
-</div>
-
-                        <!--/login form-->
-
-{#<div class="col-sm-1">#}
-{#<h2 class="or">OR</h2>#}
-{#</div>#}
-{#<div class="col-sm-4">#}
-{#                        <!--sign up form-->#}
-{#                        <div class="signup-form">#}
-{#                            <h2>New User Signup!</h2>#}
-{#                            <form action="#">#}
-{#                                <input type="text" placeholder="Name"/>#}
-{#                                <input type="email" placeholder="Email Address"/>#}
-{#                                <input type="password" placeholder="Password"/>#}
-{#                                <button type="submit" class="btn btn-default">Signup</button>#}
-{#                            </form>#}
-{#                        </div>#}
-{#                        <!--/sign up form-->#}
-{#</div>#}
-{#</div>#}
-{#</div>#}
-</section>
+{#				</div>#}
+			</div>
+		</div>
+	</section>
+    <!--/form-->
 {% endblock content %}
-
-
-
-
 
 
 
