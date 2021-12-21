@@ -112,7 +112,7 @@ class Brand(models.Model):
         verbose_name_plural = "Бренды"
 
 
-class Cart_Product(models.Model):
+class Card_Product(models.Model):
     '''
     Карточка продукта
     '''
