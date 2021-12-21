@@ -84,7 +84,7 @@ class Category(models.Model):
     '''
     name = models.CharField("Название категории", max_length=150)
     description = models.TextField("Описание", max_length=1500, blank=True)
-    url = models.SlugField(max_length=160, unique=True)
+    slug = models.SlugField(max_length=160, unique=True)
 
     def __str__(self):
         return self.name
@@ -101,7 +101,7 @@ class Brand(models.Model):
     '''
     name = models.CharField("Название бренда", max_length=150)
     description = models.TextField("Описание", max_length=1500)
-    url = models.SlugField(max_length=160, unique=True)
+    slug = models.SlugField(max_length=160, unique=True)
     logo = ImageField("Логотип", upload_to="media/brands/")
 
     def __str__(self):
@@ -116,7 +116,7 @@ class Cart_Product(models.Model):
     '''
     Карточка продукта
     '''
-    product_public_ID = models.IntegerField(blank=False, primary_key=False, max_length=6, default=100000, unique=True)
+    product_public_ID = models.IntegerField(blank=False, primary_key=False, default=100000, unique=True)
     # public_ID = models.AutoField(
         # auto_created=True,
         # primary_key=False,
