@@ -153,6 +153,9 @@ class Card_Product(models.Model):
     def __str__(self):
         return f'ID: {self.product_public_ID} NAME: {self.name}'
 
+    def get_absolute_url(self):
+        return reverse('product_detail', kwargs={'product_public_ID': self.product_public_ID})
+
     class Meta:
         verbose_name = 'Карточка продукта'
         verbose_name_plural = 'Карточки продуктов'

@@ -9,7 +9,7 @@
             <div class="productinfo text-center">
                 <img src="{{ product.icon.url }}" alt="{{ product.name }}"/>
                 <h2>{{ product.price }}</h2>
-                <p>{{ product.name }}</p>
+                <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
                 <a href="#" class="btn btn-default add-to-cart">
                     <i class="fa fa-shopping-cart"></i>
                     Add to cart</a>

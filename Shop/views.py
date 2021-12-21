@@ -17,13 +17,16 @@ def ex404(request, exception):
 class HomeView(View):
     def get(self, request):
         products = Card_Product.objects.filter(availability=False)
-        categories = Card_Product.objects.filter(availability=False)
-        # categories = products.objects.filter()
         return render(request, 'pages/index.html', {
-            'products': products, 'categories': categories
+            'products': products,
         })
 
-class BlogView(View):
+class ProductDetailView(View):
+    def get(self, request, product_public_ID):
+        product_detail = Card_Product.objects.get(product_public_ID=product_public_ID)
+        return render(request, 'pages/product-detail.html', {'product_detail': product_detail})
+
+class BlogListView(View):
     def get(self, request):
         posts = News.objects.filter(draft=False)
         return render(request, 'pages/blog.html', {'posts': posts})
@@ -32,6 +35,11 @@ class SinglePostVies(View):
     def get(self, request, post_id):
         single_post = News.objects.get(id=post_id)
         return render(request, 'pages/blog-single.html', {'single_post': single_post})
+
+
+
+
+
 
 
 # /////////////////////////////
@@ -52,9 +60,7 @@ class ShopView(View):
     def get(self, request):
         return render(request, 'pages/shop.html', {})
 
-class Product_detailView(View):
-    def get(self, request):
-        return render(request, 'pages/product-detail.html', {})
+
 
 
 class FavoritesView(View):
