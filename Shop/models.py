@@ -6,7 +6,7 @@ from django.db.models import BooleanField, TextField, CharField, ImageField, Dat
 from django.db.models import CASCADE, SET_NULL
 
 from datetime import date
-
+from django.utils import timezone
 
 # step 1
 class User(models.Model):
@@ -134,11 +134,11 @@ class Card_Product(models.Model):
     NEW = 'N'
     FRESH = 'F'
     SECOND_HAND = 'S'
-    CONDITION_CHOICE = [
+    CONDITION_CHOICE = (
         (NEW, 'new'),
         (FRESH, 'fresh'),
         (SECOND_HAND, 'second hand'),
-    ]
+    )
     condition = models.CharField(
         max_length=1,
         choices=CONDITION_CHOICE,
@@ -256,13 +256,50 @@ class Favorites(models.Model):
         verbose_name_plural = "Товары добавленные в корзину"
 
 
-# class Order(models.Model):
-#     '''
-#     Заказ
-#     '''
-#
+class Order(models.Model):
+    '''
+    Заказ
+    '''
+    user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True,)
+
+    first_name = models.CharField(max_length=350, verbose_name='Имя')
+    last_name = models.CharField(max_length=350, verbose_name='Фамилия')
+    phone = models.CharField(max_length=20, verbose_name='Телефон')
+    address = models.TextField(verbose_name='Адрес', null=True, blank=True)
+    message = models.TextField(verbose_name='Комментарий', null=True, blank=True)
+
+    order_start = models.DateTimeField(auto_now_add=True, verbose_name='Пполучен')
+    order_finish = models.DateTimeField(verbose_name='Исполнен', default=timezone.now)
+
+    STATUS_1 = 'created'
+    STATUS_2 = 'in_progress'
+    STATUS_3 = 'ready_to_receive'
+    STATUS_4 = 'completed'
+    STATUS_CHOICES = (
+        (STATUS_1, 'Заказ получен'),
+        (STATUS_2, 'Заказ обрабатывается'),
+        (STATUS_3, 'Заказ готов к выдаче'),
+        (STATUS_4, 'Заказ исполнен')
+    )
+    status = models.CharField(max_length=22, verbose_name='Статус заказа', choices=STATUS_CHOICES, default=STATUS_1)
 
 
+    BUYING_SELF = 'self'
+    BUYING_DELIVERY = 'delivery'
+    BUYING_CHOICES = (
+        (BUYING_SELF, 'Самовывоз'),
+        (BUYING_DELIVERY, 'Доставка')
+    )
+    buying_type = models.CharField(max_length=22, verbose_name='Тип заказа', choices=BUYING_CHOICES, default=BUYING_SELF)
+
+
+    def __str__(self):
+        return f'{self.user}, {self.cart}'
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 
 
@@ -272,10 +309,6 @@ class Favorites(models.Model):
 #     '''
 #     Промокоды, скидки и подарочные сертификаты
 #     '''
-#
-#
-
-#
 #
 # class Currency(models.Model):
 #     '''
@@ -288,7 +321,6 @@ class Favorites(models.Model):
 #     '''
 #     Поставщик товара, заполняется зарегистрированным пользователем
 #     '''
-#
 #
 # class Cart_Supplier(models.Model):
 #     '''
