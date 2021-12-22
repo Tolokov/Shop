@@ -5,41 +5,41 @@
 
 {% block content %}
     <!-- blog -->
-	<section>
-		<div class="container">
-				<div class="col-sm-9">
-					<div class="blog-post-area">
-						<h2 class="title text-center" >Latest From our Blog</h2>
-                        <!-- posts -->
-                        {% for post in posts %}
-						<div class="single-blog-post">
-							<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
-							<div class="post-meta">
-								<ul>
-									<li><i class="fa fa-user"></i>{{ post.creator }}</li>
-									<li><i class="fa fa-clock-o"></i> {{ post.time }}</li>
-									<li><i class="fa fa-calendar"></i> {{ post.date }}</li>
-								</ul>
-							</div>
-							<a href="{{ post.get_absolute_url }}">
-								<img src="{{ post.poster.url }}"  alt="Читать дальше">
-							</a>
-							<p>{{ post.description|truncatewords:30 }}</p>
-							<a  class="btn btn-primary" href="{{ post.get_absolute_url }}">Читать дальше</a>
-						</div>
-                        {% endfor %}
+    <section>
+        <div class="container">
+            <div class="col-sm-9">
+                <div class="blog-post-area">
+                    <h2 class="title text-center">Latest From our Blog</h2>
+                    <!-- posts -->
+                    {% for post in posts %}
+                        <div class="single-blog-post">
+                            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                            <div class="post-meta">
+                                <ul>
+                                    <li><i class="fa fa-user"></i>{{ post.creator }}</li>
+                                    <li><i class="fa fa-clock-o"></i> {{ post.time }}</li>
+                                    <li><i class="fa fa-calendar"></i> {{ post.date }}</li>
+                                </ul>
+                            </div>
+                            <a href="{{ post.get_absolute_url }}">
+                                <img src="{{ post.poster.url }}" alt="Читать дальше">
+                            </a>
+                            <p>{{ post.description|truncatewords:30 }}</p>
+                            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Читать дальше</a>
+                        </div>
+                    {% endfor %}
 
-                        <!-- pagination -->
-						<div class="pagination-area">
-							<ul class="pagination">
-								<li><a href="" class="active">1</a></li>
-								<li><a href="">2</a></li>
-								<li><a href="">3</a></li>
-								<li><a href=""><i class="fa fa-angle-double-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-		</div>
-	</section>
+                    <!-- pagination -->
+                    <div class="pagination-area">
+                        <ul class="pagination">
+                            <li><a href="" class="active">1</a></li>
+                            <li><a href="">2</a></li>
+                            <li><a href="">3</a></li>
+                            <li><a href=""><i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock content %}
