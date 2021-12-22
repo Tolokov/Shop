@@ -5,15 +5,11 @@ from django.db import models
 from django.db.models import BooleanField, TextField, CharField, ImageField, DateField, TimeField
 from django.db.models import CASCADE, SET_NULL
 
+from django.contrib.auth.models import User
+
+
 from datetime import date
 from django.utils import timezone
-
-# step 1
-class User(models.Model):
-    '''
-    Учетная запись пользователя после регистрации
-    '''
-    pass
 
 
 class News(models.Model):

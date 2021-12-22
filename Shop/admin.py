@@ -117,7 +117,7 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Appeal_to_support)
 class AppealAdmin(admin.ModelAdmin):
     list_display = ("creator", "text", "date")
-    readonly_fields = ("creator", "text", "date")
+    # readonly_fields = ("creator", "text", "date")
 
 
 @admin.register(RatingGrade)
