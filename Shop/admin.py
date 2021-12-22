@@ -55,7 +55,7 @@ class ProductImages(admin.ModelAdmin, GetImage):
         return "\n".join([cat.name for cat in obj.product.all()])
 
 
-class ProductImagesInline(admin.StackedInline, GetImage, admin.TabularInline):
+class ProductImagesInline(admin.TabularInline, GetImage):
     model = ProductImage
     extra = 0
     readonly_fields = ('get_image',)
