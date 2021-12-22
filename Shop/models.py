@@ -220,6 +220,9 @@ class CartProduct(models.Model):
     user = models.ForeignKey(User, on_delete=CASCADE)
     products = models.ManyToManyField(Card_Product)
 
+    def __str__(self):
+        return f'{self.id} {self.user} {self.products}'
+
     class Meta:
         verbose_name = "Выбранный пользователем товар"
         verbose_name_plural = "Выбранные пользователем товары"
@@ -238,8 +241,8 @@ class Cart(models.Model):
     def __str__(self):
         return (self.products)
     class Meta:
-        verbose_name = 'Тележка'
-        verbose_name_plural = 'Тележки'
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
 
 
 

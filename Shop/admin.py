@@ -24,6 +24,9 @@ class GetImage:
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
+    '''
+    Новости и события
+    '''
     list_display = ('title', 'date', 'time', 'draft', 'poster', 'creator',)
     list_filter = ('creator', 'draft',)
     search_fields = ('title', 'description')
@@ -44,9 +47,11 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
 
 
-
 @admin.register(ProductImage)
 class ProductImages(admin.ModelAdmin, GetImage):
+    '''
+    Все второстепенные изображения товара
+    '''
     list_display = ('product', 'get_image')
     readonly_fields = ('get_image',)
     list_filter = ('product',)
@@ -63,6 +68,9 @@ class ProductImagesInline(admin.TabularInline, GetImage):
 
 @admin.register(Card_Product)
 class CardProductAdmin(admin.ModelAdmin, GetImage):
+    '''
+    Карточка продукта
+    '''
     list_per_page = 50
     save_as = True
     readonly_fields = ('get_icon',)
@@ -113,39 +121,50 @@ class CommentAdmin(admin.ModelAdmin):
     readonly_fields = ("creator",)
 
 
-
 @admin.register(Appeal_to_support)
 class AppealAdmin(admin.ModelAdmin):
+    '''
+    Сообщение для последующей обработки
+    '''
     list_display = ("creator", "text", "date")
-    # readonly_fields = ("creator", "text", "date")
 
 
 @admin.register(RatingGrade)
 class RatingAdmin(admin.ModelAdmin):
+    '''Итоговый рейтинг'''
     list_display = ("value",)
+
 
 @admin.register(Rating)
 class RatingGradeAdmin(admin.ModelAdmin):
+    '''Все оценки продукту'''
     list_display = ("creator", "grade", "product")
+
 
 @admin.register(Cart)
 class CartGradeAdmin(admin.ModelAdmin):
+    '''Корзина покупателя'''
     list_display = ('user', "total_product", 'total_price', "products")
     # def show_products(self, obj):
     #     return "\n".join([cat.name for cat in obj.products.all()])
 
-admin.site.register(Favorites)
-# @admin.register(Favorites)
-# class FavoritesAdmin(admin.ModelAdmin):
-    # list_display = ('user', 'products')
-    # def show_products(self, obj):
-    #     return "\n".join([cat.name for cat in obj.products.all()])
+
+@admin.register(Favorites)
+class FavoritesAdmin(admin.ModelAdmin):
+    '''Избранное'''
+    list_display = ('user', 'show_products')
+
+    def show_products(self, obj):
+        return "\n".join([cat.name for cat in obj.products.all()])
 
 
-admin.site.register(CartProduct)
-# @admin.register(CartProduct)
-# class CartProductAdmin(admin.ModelAdmin):
-#     list_display = ("user", )
+@admin.register(CartProduct)
+class CartProductAdmin(admin.ModelAdmin):
+    list_display = ('id', "user", 'show_products')
+
+    def show_products(self, obj):
+        return ", ".join([cat.name for cat in obj.products.all()])
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -162,11 +181,3 @@ class OrderAdmin(admin.ModelAdmin):
         "status",
         "buying_type",
     )
-
-
-
-
-
-
-
-
