@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import News, Comment, Appeal_to_support, Category, Brand, Card_Product, Order
-from .models import ProductImage, RatingGrade, Rating, Favorites, Cart, CartProduct
+from .models import ProductImage, RatingGrade, Rating, Favorites, Cart, CartProduct, Favorites
 
 admin.site.site_title = 'Панель администрирования интернет магазина'
 admin.site.site_header = 'Панель администрирования интернет магазина'
@@ -48,15 +48,17 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(ProductImage)
 class ProductImages(admin.ModelAdmin, GetImage):
     list_display = ('product', 'get_image')
+    readonly_fields = ('get_image',)
     list_filter = ('product',)
 
     def show_product(self, obj):
         return "\n".join([cat.name for cat in obj.product.all()])
 
 
-# class ProductImagesInline(admin.StackedInline):
-#     model = ProductImage
-#     extra = 3
+class ProductImagesInline(admin.StackedInline, GetImage, admin.TabularInline):
+    model = ProductImage
+    extra = 0
+    readonly_fields = ('get_image',)
 
 
 @admin.register(Card_Product)
@@ -67,7 +69,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
     search_fields = ('product_public_ID', 'name', 'description')
     list_filter = ('availability', 'condition', 'category', 'brand',)
 
-    # inlines = [ProductImagesInline]
+    inlines = [ProductImagesInline]
     list_display = (
         'name',
         'product_public_ID',
@@ -88,7 +90,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
          {
              'fields': (('price', 'availability', 'condition'),)
          }),
-        ('Не изменяемые категории товаров',
+        ('Неизменяемые категории товаров',
          {
              'classes': ('collapse',),
              'fields': (('brand', 'category'),)
@@ -104,11 +106,67 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         return "\n".join([cat.name for cat in obj.category.all()])
 
 
-admin.site.register(Comment)
-admin.site.register(Appeal_to_support)
-admin.site.register(RatingGrade)
-admin.site.register(Rating)
+# \\\\\\\
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("creator", "text", "parent", "news")
+    readonly_fields = ("creator",)
+
+
+
+@admin.register(Appeal_to_support)
+class AppealAdmin(admin.ModelAdmin):
+    list_display = ("creator", "text", "date")
+    readonly_fields = ("creator", "text", "date")
+
+
+@admin.register(RatingGrade)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ("value",)
+
+@admin.register(Rating)
+class RatingGradeAdmin(admin.ModelAdmin):
+    list_display = ("creator", "grade", "product")
+
+@admin.register(Cart)
+class CartGradeAdmin(admin.ModelAdmin):
+    list_display = ('user', "total_product", 'total_price', "products")
+    # def show_products(self, obj):
+    #     return "\n".join([cat.name for cat in obj.products.all()])
+
 admin.site.register(Favorites)
-admin.site.register(Cart)
+# @admin.register(Favorites)
+# class FavoritesAdmin(admin.ModelAdmin):
+    # list_display = ('user', 'products')
+    # def show_products(self, obj):
+    #     return "\n".join([cat.name for cat in obj.products.all()])
+
+
 admin.site.register(CartProduct)
-admin.site.register(Order)
+# @admin.register(CartProduct)
+# class CartProductAdmin(admin.ModelAdmin):
+#     list_display = ("user", )
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "cart",
+        "first_name",
+        "last_name",
+        "phone",
+        "address",
+        "message",
+        "order_start",
+        "order_finish",
+        "status",
+        "buying_type",
+    )
+
+
+
+
+
+
+
+

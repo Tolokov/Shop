@@ -255,8 +255,8 @@ class Favorites(models.Model):
     products = models.ManyToManyField(Card_Product)
 
     class Meta:
-        verbose_name = "Товар добавленный в корзину"
-        verbose_name_plural = "Товары добавленные в корзину"
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранные"
 
 
 class Order(models.Model):
