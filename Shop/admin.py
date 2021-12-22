@@ -3,6 +3,9 @@ from django.utils.safestring import mark_safe
 from .models import News, Comment, Appeal_to_support, Category, Brand, Card_Product, Order
 from .models import ProductImage, RatingGrade, Rating, Favorites, Cart, CartProduct
 
+admin.site.site_title = 'Панель администрирования интернет магазина'
+admin.site.site_header = 'Панель администрирования интернет магазина'
+
 
 class GetImage:
 
