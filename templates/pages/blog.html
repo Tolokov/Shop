@@ -22,10 +22,10 @@
 								</ul>
 							</div>
 							<a href="{{ post.get_absolute_url }}">
-								<img src="{{ post.poster.url }}"  alt="">
+								<img src="{{ post.poster.url }}"  alt="Читать дальше">
 							</a>
-							<p>{{ post.description }}</p>
-							<a  class="btn btn-primary" href="{{ post.get_absolute_url }}">Read More</a>
+							<p>{{ post.description|truncatewords:30 }}</p>
+							<a  class="btn btn-primary" href="{{ post.get_absolute_url }}">Читать дальше</a>
 						</div>
                         {% endfor %}
 
