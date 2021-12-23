@@ -39,12 +39,14 @@ class NewsAdmin(admin.ModelAdmin):
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin, GetImage):
     list_display = ('name', 'description', 'get_logo')
+    prepopulated_fields = {'slug': ('name',)}
+
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
-
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(ProductImage)
 class ProductImages(admin.ModelAdmin, GetImage):
