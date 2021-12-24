@@ -7,7 +7,6 @@ from django.db.models import CASCADE, SET_NULL
 
 from django.contrib.auth.models import User
 
-
 from datetime import date
 from django.utils import timezone
 
@@ -31,17 +30,18 @@ class News(models.Model):
         return reverse('single_post', kwargs={'post_id': self.id})
 
     def get_prev_absolute_url(self):
-        prev_page = self.id - 1
+        prev_page = self.get_previous_by_date(draft=False).id
         return reverse('single_post', kwargs={'post_id': prev_page})
 
     def get_next_absolute_url(self):
-        next_page = self.id + 1
+        next_page = self.get_next_by_date(draft=False).id
         return reverse('single_post', kwargs={'post_id': next_page})
 
     class Meta:
         verbose_name = 'Новость или событие'
         verbose_name_plural = 'Новости и события'
         ordering = ['-date']
+
 
 class Comment(models.Model):
     '''
@@ -53,6 +53,7 @@ class Comment(models.Model):
     )
     news = models.ForeignKey(News, on_delete=CASCADE)
     creator = models.ForeignKey(User, on_delete=CASCADE)
+
     # created = models.DateTimeField(auto_now_add=True)
     # updated = models.DateTimeField(auto_now=True)
 
@@ -91,7 +92,6 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
 
 
-
 class Brand(models.Model):
     '''
     Один ко многим
@@ -115,12 +115,12 @@ class Card_Product(models.Model):
     '''
     product_public_ID = models.IntegerField(blank=False, primary_key=False, default=100000, unique=True)
     # public_ID = models.AutoField(
-        # auto_created=True,
-        # primary_key=False,
-        # blank=False,
-        # default=100000,
-        # unique=True,
-        # null=False,
+    # auto_created=True,
+    # primary_key=False,
+    # blank=False,
+    # default=100000,
+    # unique=True,
+    # null=False,
     # )
     name = CharField(max_length=300)
     description = TextField(max_length=5000)
@@ -161,8 +161,6 @@ class Card_Product(models.Model):
     # def save(self, *args, **kwargs):
     #     self.product_public_ID = self.product_public_ID + 1
     #     super().save(*args, **kwargs) # Call the "real" save() method.
-
-
 
 
 class ProductImage(models.Model):
@@ -211,6 +209,7 @@ class Rating(models.Model):
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
 
+
 # step 3
 
 class CartProduct(models.Model):
@@ -228,7 +227,6 @@ class CartProduct(models.Model):
         verbose_name_plural = "Выбранные пользователем товары"
 
 
-
 class Cart(models.Model):
     '''
     Корзина пользователя
@@ -240,10 +238,10 @@ class Cart(models.Model):
 
     def __str__(self):
         return (self.products)
+
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
-
 
 
 class Favorites(models.Model):
@@ -263,7 +261,7 @@ class Order(models.Model):
     Заказ
     '''
     user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True,)
+    cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True, )
 
     first_name = models.CharField(max_length=350, verbose_name='Имя')
     last_name = models.CharField(max_length=350, verbose_name='Фамилия')
@@ -286,15 +284,14 @@ class Order(models.Model):
     )
     status = models.CharField(max_length=22, verbose_name='Статус заказа', choices=STATUS_CHOICES, default=STATUS_1)
 
-
     BUYING_SELF = 'self'
     BUYING_DELIVERY = 'delivery'
     BUYING_CHOICES = (
         (BUYING_SELF, 'Самовывоз'),
         (BUYING_DELIVERY, 'Доставка')
     )
-    buying_type = models.CharField(max_length=22, verbose_name='Тип заказа', choices=BUYING_CHOICES, default=BUYING_SELF)
-
+    buying_type = models.CharField(max_length=22, verbose_name='Тип заказа', choices=BUYING_CHOICES,
+                                   default=BUYING_SELF)
 
     def __str__(self):
         return f'{self.user}, {self.cart}'
@@ -302,9 +299,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-
-
-
 
 # # step 4
 # class Promo(models.Model):
