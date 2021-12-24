@@ -330,8 +330,32 @@ class Order(models.Model):
 # # step 5
 class Delivery(models.Model):
     '''
-    Поставщик товара, заполняется зарегистрированным пользователем
+    Адрес поставки, заполняется зарегистрированным пользователем
     '''
+    user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=SET_NULL, null=True)
+    address_header = CharField(verbose_name='односложный заголовок адреса доставки', max_length=500, blank=True)
+    email = models.EmailField(max_length=254, blank=True, default='User.email')
+    notification_on_email = BooleanField(default=True)
+
+    name_first = CharField(default='User.first_name', max_length=500, verbose_name='Имя', blank=True)
+    name_last = CharField(default='User.last_name', max_length=500, verbose_name='Фамилия', blank=True)
+
+    address = CharField(max_length=500)
+    country = CharField(max_length=500)
+    state = CharField(max_length=500)
+
+    zip = models.CharField(max_length=10)
+    phone = CharField(max_length=20)
+    sub_phone = CharField(max_length=20)
+    fax = CharField(max_length=20)
+    comment = TextField()
+
+    def __str__(self):
+        return self.address_header
+
+    class Meta:
+        verbose_name = 'Адрес доставки'
+        verbose_name_plural = 'Адреса доставки'
 
 #
 # class Cart_Supplier(models.Model):
