@@ -49,9 +49,9 @@ class CartView(View):
         return render(request, 'pages/cart.html', {})
 
 
-class CheckoutView(View):
+class DeliveryView(View):
     def get(self, request):
-        return render(request, 'pages/checkout.html', {})
+        return render(request, 'pages/delivery.html', {})
 
 
 class ContactView(View):

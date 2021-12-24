@@ -328,10 +328,11 @@ class Order(models.Model):
 
 #
 # # step 5
-# class Supplier(models.Model):
-#     '''
-#     Поставщик товара, заполняется зарегистрированным пользователем
-#     '''
+class Delivery(models.Model):
+    '''
+    Поставщик товара, заполняется зарегистрированным пользователем
+    '''
+
 #
 # class Cart_Supplier(models.Model):
 #     '''
