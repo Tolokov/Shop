@@ -17,8 +17,8 @@ class GetImage:
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.image.url} width="100" height="80"')
 
-    get_image.short_description = "Логотип"
-    get_icon.short_description = "Изображение"
+    get_image.short_description = 'Логотип'
+    get_icon.short_description = 'Изображение'
 
 
 @admin.register(News)
@@ -58,7 +58,7 @@ class ProductImages(admin.ModelAdmin, GetImage):
     list_filter = ('product',)
 
     def show_product(self, obj):
-        return "\n".join([cat.name for cat in obj.product.all()])
+        return '\n'.join([cat.name for cat in obj.product.all()])
 
 
 class ProductImagesInline(admin.TabularInline, GetImage):
@@ -112,14 +112,14 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
 
     # поле обратной видимости в случае ManyToMany
     def show_category(self, obj):
-        return "\n".join([cat.name for cat in obj.category.all()])
+        return '\n'.join([cat.name for cat in obj.category.all()])
 
 
 # \\\\\\\
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("creator", "text", "parent", "news")
-    readonly_fields = ("creator",)
+    list_display = ('creator', 'text', 'parent', 'news')
+    readonly_fields = ('creator',)
 
 
 @admin.register(Appeal_to_support)
@@ -127,27 +127,27 @@ class AppealAdmin(admin.ModelAdmin):
     '''
     Сообщение для последующей обработки
     '''
-    list_display = ("creator", "text", "date")
+    list_display = ('creator', 'text', 'date')
 
 
 @admin.register(RatingGrade)
 class RatingAdmin(admin.ModelAdmin):
     '''Итоговый рейтинг'''
-    list_display = ("value",)
+    list_display = ('value',)
 
 
 @admin.register(Rating)
 class RatingGradeAdmin(admin.ModelAdmin):
     '''Все оценки продукту'''
-    list_display = ("creator", "grade", "product")
+    list_display = ('creator', 'grade', 'product')
 
 
 @admin.register(Cart)
 class CartGradeAdmin(admin.ModelAdmin):
     '''Корзина покупателя'''
-    list_display = ('user', "total_product", 'total_price', "products")
+    list_display = ('user', 'total_product', 'total_price', 'products')
     # def show_products(self, obj):
-    #     return "\n".join([cat.name for cat in obj.products.all()])
+    #     return '\n'.join([cat.name for cat in obj.products.all()])
 
 
 @admin.register(Favorites)
@@ -156,31 +156,31 @@ class FavoritesAdmin(admin.ModelAdmin):
     list_display = ('user', 'show_products')
 
     def show_products(self, obj):
-        return "\n".join([cat.name for cat in obj.products.all()])
+        return '\n'.join([cat.name for cat in obj.products.all()])
 
 
 @admin.register(CartProduct)
 class CartProductAdmin(admin.ModelAdmin):
-    list_display = ('id', "user", 'show_products')
+    list_display = ('id', 'user', 'show_products')
 
     def show_products(self, obj):
-        return ", ".join([cat.name for cat in obj.products.all()])
+        return ', '.join([cat.name for cat in obj.products.all()])
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        "user",
-        "cart",
-        "first_name",
-        "last_name",
-        "phone",
-        "address",
-        "message",
-        "order_start",
-        "order_finish",
-        "status",
-        "buying_type",
+        'user',
+        'cart',
+        'first_name',
+        'last_name',
+        'phone',
+        'address',
+        'message',
+        'order_start',
+        'order_finish',
+        'status',
+        'buying_type',
     )
 
 
