@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import News, Card_Product, Category
-
+from .forms import *
 
 
 class SignUpView(generic.CreateView):
@@ -49,17 +49,20 @@ class SinglePostVies(View):
         else:
             return render(request, 'pages/blog-single.html', {'single_post': single_post})
 
+class DeliveryView(View):
+    def get(self, request):
+        form = AddNewAddressDeliveryForm()
+        print('TUT ----------->', dir(form))
+        return render(request, 'pages/delivery.html', {'form': form})
+
+
+
 
 # /////////////////////////////
 
 class CartView(View):
     def get(self, request):
         return render(request, 'pages/cart.html', {})
-
-
-class DeliveryView(View):
-    def get(self, request):
-        return render(request, 'pages/delivery.html', {})
 
 
 class ContactView(View):
