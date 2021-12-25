@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from Shop import views
+from .views import SignUpView
 
 
 urlpatterns = [
@@ -10,7 +11,7 @@ urlpatterns = [
     path('blog/', views.BlogListView.as_view(), name='blog'),
     path('<int:post_id>/', views.SinglePostVies.as_view(), name='single_post'),
     path('<int:product_public_ID>', views.ProductDetailView.as_view(), name='product_detail'),
-
+    path('signup/', SignUpView.as_view(), name='signup'),
 
     path('cart/', views.CartView.as_view(), name='cart'),
     path('delivery/', views.DeliveryView.as_view(), name='delivery'),

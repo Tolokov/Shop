@@ -1,8 +1,16 @@
 from django.shortcuts import render
 from django.views.generic import View
-
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views import generic
 from .models import News, Card_Product, Category
 
+
+
+class SignUpView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
 
 def ex404(request, exception):
     context = {'errorMessage': 'We Couldn’t Find this Page'}
