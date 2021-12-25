@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View
+from django.views.generic import View, ListView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -21,12 +21,22 @@ def ex404(request, exception):
     return request
 
 
-class HomeView(View):
-    def get(self, request):
-        products = Card_Product.objects.filter(availability=False)
-        return render(request, 'pages/index.html', {
-            'products': products,
-        })
+class HomeView(ListView):
+    model = Card_Product
+    template_name = 'pages/index.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        context['home_selected'] = 'active'
+        return context
+
+    def get_queryset(self):
+        return Card_Product.objects.filter(availability=False)
+
+
+
 
 
 class ProductDetailView(View):
