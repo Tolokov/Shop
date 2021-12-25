@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -53,6 +53,18 @@ class DeliveryView(View):
     def get(self, request):
         form = AddNewAddressDeliveryForm()
         print('TUT ----------->', dir(form))
+        return render(request, 'pages/delivery.html', {'form': form})
+
+    def post(self, request):
+        form = AddNewAddressDeliveryForm(request.POST)
+        if form.is_valid():
+            try:
+                Delivery.objects.create(**form.cleaned_data)
+                return redirect('/')
+            except:
+                form.add_error(None, 'Ошибка добавления адреса')
+        else:
+            form = AddNewAddressDeliveryForm()
         return render(request, 'pages/delivery.html', {'form': form})
 
 
