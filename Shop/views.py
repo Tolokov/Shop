@@ -1,16 +1,10 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, ListView
+from django.views.generic import View, ListView, DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from .models import News, Card_Product, Category
 from .forms import *
-
-
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/signup.html'
 
 
 def ex404(request, exception):
@@ -20,6 +14,38 @@ def ex404(request, exception):
         context['errorMessage'] = 'Новость не существует'
     request = render(request, 'exception/404.html', status=404, context=context)
     return request
+
+
+class SignUpView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
+
+class BlogListView(ListView):
+    model = News
+    template_name = 'pages/blog.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        return News.objects.filter(draft=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Новостной блог'
+        context['blog_selected'] = 'active'
+        return context
+
+
+class BlogDetailView(DetailView):
+    model = News
+    template_name = 'pages/blog-single.html'
+    pk_url_kwarg = 'post_id'
+    context_object_name = 'single_post'
+    # queryset = News.objects.filter(draft=False)
+
+    def get_queryset(self):
+        return News.objects.filter(draft=False)
+
 
 
 class HomeListView(ListView):
@@ -37,13 +63,6 @@ class HomeListView(ListView):
         return Card_Product.objects.filter(availability=False)
 
 
-class BlogListView(ListView):
-    model = News
-    template_name = 'pages/blog.html'
-    context_object_name = 'posts'
-
-    def get_queryset(self):
-        return News.objects.filter(draft=False)
 
 
 class ProductDetailView(View):
@@ -52,13 +71,7 @@ class ProductDetailView(View):
         return render(request, 'pages/product-detail.html', {'product_detail': product_detail})
 
 
-class SinglePostVies(View):
-    def get(self, request, post_id):
-        single_post = News.objects.get(id=post_id)
-        if single_post.draft:
-            return ex404(request, exception=post_id)
-        else:
-            return render(request, 'pages/blog-single.html', {'single_post': single_post})
+
 
 
 class DeliveryView(View):

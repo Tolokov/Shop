@@ -108,14 +108,14 @@
                             <li><a href="{% url 'home' %}" class="{{ home_selected }}">Главная</a></li>
                             <li>
                             <!--header-column 2-->
-                            <a href="{% url 'shop' %}">Каталог</a>
+                            <a href="{% url 'shop' %}" class="">Каталог</a>
                             </li>
                             <!--header-column 3-->
-                            <li><a href="{% url 'blog' %}">Новостной блог</a></li>
+                            <li><a href="{% url 'blog' %}" class="{{ blog_selected }}">Новостной блог</a></li>
                             </li>
                             <!--header-column 4-->
                             <li>
-                                <a href="{% url 'contact' %}">Контакты</a>
+                                <a href="{% url 'contact' %}" class="">Контакты</a>
 
                             </li>
                         </ul>
