@@ -65,19 +65,11 @@ class HomeListView(ListView):
 class ProductDetailView(DetailView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
-    pk_url_kwarg = 'product_ID'
     context_object_name = 'product_detail'
-    # queryset = Card_Product.objects.filter(availability=False)
+    queryset = Card_Product.objects.filter(availability=False)
 
-    def get_queryset(self):
-        return Card_Product.objects.filter(availability=False)
-
-
-
-# class ProductDetailView(View):
-#     def get(self, request, product_public_ID):
-#         product_detail = Card_Product.objects.get(product_public_ID=product_public_ID)
-#         return render(request, 'pages/product-detail.html', {'product_detail': product_detail})
+    def get_object(self, queryset=None):
+        return self.model.product_public_ID
 
 
 
