@@ -62,6 +62,21 @@ class HomeListView(ListView):
         return Card_Product.objects.filter(availability=False)
 
 
+class ShopListView(HomeListView):
+    template_name = 'pages/shop.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Каталог'
+        context['shop_selected'] = 'active'
+        context.pop('home_selected')
+        return context
+
+
+
+
+
+
 class ProductDetailView(DetailView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
@@ -75,10 +90,14 @@ class ProductDetailView(DetailView):
         return context
 
 
+
+
+
+# /////////////////////////////
+
 class DeliveryView(View):
     def get(self, request):
         form = AddNewAddressDeliveryForm()
-        print('TUT ----------->', dir(form))
         return render(request, 'pages/delivery.html', {'form': form})
 
     def post(self, request):
@@ -94,8 +113,6 @@ class DeliveryView(View):
         return render(request, 'pages/delivery.html', {'form': form})
 
 
-# /////////////////////////////
-
 class CartView(View):
     def get(self, request):
         return render(request, 'pages/cart.html', {})
@@ -106,9 +123,7 @@ class ContactView(View):
         return render(request, 'pages/contact-us.html', {})
 
 
-class ShopView(View):
-    def get(self, request):
-        return render(request, 'pages/shop.html', {})
+
 
 
 class FavoritesView(View):

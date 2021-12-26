@@ -11,7 +11,7 @@ urlpatterns = [
     path('blog/', views.BlogListView.as_view(), name='blog'),
     path('blog/<int:post_id>/', views.BlogDetailView.as_view(), name='single_post'),
     path('products/<int:product_ID>/', views.ProductDetailView.as_view(), name='product_detail'),
-
+    path('shop/', views.ShopListView.as_view(), name='shop'),
 
 
     path('signup/', SignUpView.as_view(), name='signup'),
@@ -20,7 +20,7 @@ urlpatterns = [
     path('cart/', views.CartView.as_view(), name='cart'),
 
     path('contact/', views.ContactView.as_view(), name='contact'),
-    path('shop/', views.ShopView.as_view(), name='shop'),
+
     path('product-detail/', views.ProductDetailView.as_view(), name='product_detail'),
     path('favorites/', views.ProductDetailView.as_view(), name='favorites'),
 ]
