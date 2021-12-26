@@ -77,6 +77,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
     readonly_fields = ('get_icon',)
     search_fields = ('product_public_ID', 'name', 'description')
     list_filter = ('availability', 'condition', 'category', 'brand',)
+    save_on_top = True
 
     inlines = [ProductImagesInline]
     list_display = (
@@ -107,6 +108,10 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         (None,
          {
              'fields': (('get_icon',),)
+         }),
+        (None,
+         {
+             'fields': (('description',),)
          })
     )
 
