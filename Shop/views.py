@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, ListView, DetailView
+from django.views.generic import View, ListView, DetailView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -73,10 +73,6 @@ class ShopListView(HomeListView):
         return context
 
 
-
-
-
-
 class ProductDetailView(DetailView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
@@ -90,6 +86,32 @@ class ProductDetailView(DetailView):
         return context
 
 
+
+class ContactFormView(FormView):
+    template_name = 'pages/contact-us.html'
+    form_class = ContactForm
+    # success_url = reverse_lazy(template_name)
+    # success_url = "/thanks/"
+
+
+    def get(self, request, *args, **kwargs):
+        contact_info = (
+            'E-Shopper Inc.',
+            '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
+            'Newyork USA',
+            'Mobile: +2346 17 38 93',
+            'Fax: 1-714-252-0026',
+            'Email: info@e-shopper.com',
+        )
+
+        context = {
+            'contact_selected': 'active',
+            'contact_info': contact_info,
+            'title': 'CONTACT US',
+
+        }
+
+        return render(request, 'pages/contact-us.html', context=context)
 
 
 
@@ -112,19 +134,9 @@ class DeliveryView(View):
             form = AddNewAddressDeliveryForm()
         return render(request, 'pages/delivery.html', {'form': form})
 
-
 class CartView(View):
     def get(self, request):
         return render(request, 'pages/cart.html', {})
-
-
-class ContactView(View):
-    def get(self, request):
-        return render(request, 'pages/contact-us.html', {})
-
-
-
-
 
 class FavoritesView(View):
     def get(self, request):

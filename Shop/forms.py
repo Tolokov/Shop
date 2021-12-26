@@ -1,4 +1,4 @@
-from django.forms import CharField, EmailField, BooleanField, Form, ModelChoiceField
+from django.forms import CharField, EmailField, BooleanField, Form, ModelChoiceField, Textarea
 from .models import Delivery, User
 
 
@@ -21,3 +21,10 @@ class AddNewAddressDeliveryForm(Form):
     sub_phone = CharField(max_length=20)
     fax = CharField(max_length=20)
     comment = CharField()
+
+class ContactForm(Form):
+    name = CharField()
+    email = CharField()
+    text = CharField(widget=Textarea)
+
+
