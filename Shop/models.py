@@ -153,18 +153,12 @@ class Card_Product(models.Model):
         return f'ID: {self.product_public_ID} NAME: {self.name}'
 
     def get_absolute_url(self):
-        return reverse('product_detail', kwargs={'product_public_ID': self.product_public_ID})
+        return reverse('product_detail', kwargs={'product_ID': self.id})
 
     class Meta:
         verbose_name = 'Карточка продукта'
         verbose_name_plural = 'Карточки продуктов'
         ordering = ['product_public_ID']
-
-    # Увеличивает счетчик product_public_ID на единицу, после сохраниния
-    # def save(self, *args, **kwargs):
-    #     self.product_public_ID = self.product_public_ID + 1
-    #     super().save(*args, **kwargs) # Call the "real" save() method.
-
 
 class ProductImage(models.Model):
     '''

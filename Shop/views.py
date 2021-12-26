@@ -21,6 +21,7 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
+
 class BlogListView(ListView):
     model = News
     template_name = 'pages/blog.html'
@@ -41,7 +42,6 @@ class BlogDetailView(DetailView):
     template_name = 'pages/blog-single.html'
     pk_url_kwarg = 'post_id'
     context_object_name = 'single_post'
-    # queryset = News.objects.filter(draft=False)
 
     def get_queryset(self):
         return News.objects.filter(draft=False)
@@ -66,12 +66,13 @@ class ProductDetailView(DetailView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
     context_object_name = 'product_detail'
+    pk_url_kwarg = 'product_ID'
     queryset = Card_Product.objects.filter(availability=False)
 
-    def get_object(self, queryset=None):
-        return self.model.product_public_ID
-
-
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.object.name
+        return context
 
 
 class DeliveryView(View):
