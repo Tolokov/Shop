@@ -12,6 +12,7 @@ class SignUpView(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
+
 def ex404(request, exception):
     context = {'errorMessage': 'We Couldn’t Find this Page'}
     print(exception)
@@ -21,7 +22,7 @@ def ex404(request, exception):
     return request
 
 
-class HomeView(ListView):
+class HomeListView(ListView):
     model = Card_Product
     template_name = 'pages/index.html'
     context_object_name = 'products'
@@ -36,19 +37,19 @@ class HomeView(ListView):
         return Card_Product.objects.filter(availability=False)
 
 
+class BlogListView(ListView):
+    model = News
+    template_name = 'pages/blog.html'
+    context_object_name = 'posts'
 
+    def get_queryset(self):
+        return News.objects.filter(draft=False)
 
 
 class ProductDetailView(View):
     def get(self, request, product_public_ID):
         product_detail = Card_Product.objects.get(product_public_ID=product_public_ID)
         return render(request, 'pages/product-detail.html', {'product_detail': product_detail})
-
-
-class BlogListView(View):
-    def get(self, request):
-        posts = News.objects.filter(draft=False)
-        return render(request, 'pages/blog.html', {'posts': posts})
 
 
 class SinglePostVies(View):
@@ -58,6 +59,7 @@ class SinglePostVies(View):
             return ex404(request, exception=post_id)
         else:
             return render(request, 'pages/blog-single.html', {'single_post': single_post})
+
 
 class DeliveryView(View):
     def get(self, request):
@@ -76,8 +78,6 @@ class DeliveryView(View):
         else:
             form = AddNewAddressDeliveryForm()
         return render(request, 'pages/delivery.html', {'form': form})
-
-
 
 
 # /////////////////////////////

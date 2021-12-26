@@ -7,7 +7,7 @@ from .views import SignUpView
 
 
 urlpatterns = [
-    path('', views.HomeView.as_view(), name='home'),
+    path('', views.HomeListView.as_view(), name='home'),
     path('blog/', views.BlogListView.as_view(), name='blog'),
     path('<int:post_id>/', views.SinglePostVies.as_view(), name='single_post'),
     path('<int:product_public_ID>', views.ProductDetailView.as_view(), name='product_detail'),
