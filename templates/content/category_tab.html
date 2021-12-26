@@ -13,11 +13,10 @@
             {#class="active"#}
         </ul>
     </div>
-{% filter_categories as filter %}
+
         <div class="tab-content">
         <div class="tab-pane fade active in">
 
-            {% for product in filter %}
             <div class="col-sm-3"><div class="product-image-wrapper"><div class="single-products">
                 <div class="productinfo text-center">
                             <img src="{{ product.icon.url }}" alt=""/>
@@ -29,7 +28,8 @@
                 <i class="fa fa-shopping-cart"></i>Add to cart</a>
 
 </div></div></div></div>
-        {% endfor %}
+
+
 
         </div>
 
