@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.utils import timezone
 
+from random import randint
 
 class News(models.Model):
     '''
@@ -62,20 +63,6 @@ class Comment(models.Model):
         verbose_name_plural = 'Комментарии'
 
 
-class Appeal_to_support(models.Model):
-    '''
-    Сообщение пользователя в тех.поддержку(реализовать без моделей)
-    '''
-    text = TextField("Сообщение", max_length=1500)
-    date = DateField('Дата создания', default=date.today)
-    creator = models.ForeignKey(User, on_delete=SET_NULL, null=True)
-
-    class Meta:
-        verbose_name = "Обращение"
-        verbose_name_plural = "Обращения"
-
-
-# step 2
 class Category(models.Model):
     '''
     Многие ко многим
@@ -116,15 +103,7 @@ class Card_Product(models.Model):
     '''
     Карточка продукта
     '''
-    product_public_ID = models.IntegerField(blank=False, primary_key=False, default=100000, unique=True)
-    # public_ID = models.AutoField(
-    # auto_created=True,
-    # primary_key=False,
-    # blank=False,
-    # default=100000,
-    # unique=True,
-    # null=False,
-    # )
+    product_public_ID = models.IntegerField(primary_key=False, unique=True, null=False, default=randint(1000000, 9999999))
     name = CharField(max_length=300)
     description = TextField(max_length=5000)
     price = models.DecimalField(max_digits=12, decimal_places=2)
@@ -151,6 +130,7 @@ class Card_Product(models.Model):
 
     def __str__(self):
         return f'ID: {self.product_public_ID} NAME: {self.name}'
+
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'product_ID': self.id})

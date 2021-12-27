@@ -137,13 +137,6 @@ class CommentAdmin(admin.ModelAdmin):
     readonly_fields = ('creator',)
 
 
-@admin.register(Appeal_to_support)
-class AppealAdmin(admin.ModelAdmin):
-    '''
-    Сообщение для последующей обработки
-    '''
-    list_display = ('creator', 'text', 'date')
-
 
 @admin.register(RatingGrade)
 class RatingAdmin(admin.ModelAdmin):
