@@ -117,7 +117,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
          }),
         (None,
          {
-             'fields': (('get_icon',),)
+             'fields': (('get_icon', 'icon'),)
          }),
         (None,
          {
