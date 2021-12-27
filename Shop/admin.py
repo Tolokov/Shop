@@ -39,15 +39,24 @@ class NewsAdmin(admin.ModelAdmin):
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin, GetImage):
-    list_display = ('name', 'description', 'get_logo')
+    list_display = ('name', 'get_count_brand_products', 'description', 'get_logo')
     prepopulated_fields = {'slug': ('name',)}
 
+    def get_count_brand_products(self, obj):
+        return Card_Product.objects.filter(brand=obj).count()
+
+    get_count_brand_products.short_description = 'Продуктов представлено брендом'
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
+    list_display = ('name', 'get_count_category_products', 'description')
     prepopulated_fields = {'slug': ('name',)}
+
+    def get_count_category_products(self, obj):
+        return Card_Product.objects.filter(category=obj).count()
+
+    get_count_category_products.short_description = 'Продуктов в категории'
 
 @admin.register(ProductImage)
 class ProductImages(admin.ModelAdmin, GetImage):
