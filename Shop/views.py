@@ -90,29 +90,32 @@ class ProductDetailView(DetailView):
 class ContactFormView(FormView):
     template_name = 'pages/contact-us.html'
     form_class = ContactForm
-    # success_url = reverse_lazy(template_name)
-    # success_url = "/thanks/"
+    success_url = '/contact/'
 
-
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'CONTACT US'
         contact_info = (
-            'E-Shopper Inc.',
-            '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
-            'Newyork USA',
-            'Mobile: +2346 17 38 93',
-            'Fax: 1-714-252-0026',
-            'Email: info@e-shopper.com',
-        )
+                'E-Shopper Inc.',
+                '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
+                'Newyork USA',
+                'Mobile: +2346 17 38 93',
+                'Fax: 1-714-252-0026',
+                'Email: info@e-shopper.com',
+            )
+        context['contact_info'] = contact_info
+        context['contact_selected'] = 'active'
+        return context
 
-        context = {
-            'contact_selected': 'active',
-            'contact_info': contact_info,
-            'title': 'CONTACT US',
 
-        }
 
-        return render(request, 'pages/contact-us.html', context=context)
+    def form_valid(self, form):
+        self.send_masage(form.cleaned_data)
+        return super(ContactFormView, self).form_valid(form)
 
+    def send_masage(self, void_valid):
+        print(void_valid)
+        pass
 
 
 # /////////////////////////////
