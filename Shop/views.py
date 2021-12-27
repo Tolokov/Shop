@@ -34,6 +34,9 @@ class BlogListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Новостной блог'
         context['blog_selected'] = 'active'
+        context['headline'] = (
+            'Latest From our Blog', 'Читать дальше...'
+        )
         return context
 
 

@@ -5,11 +5,11 @@
 
 {% block content %}
     <!-- blog -->
-    <section>
-        <div class="container">
-            <div class="col-sm-9">
+    <section >
+        <div class="container" >
+            <div class="col-sm-9" style="width:100%; height: 70% ;left: 20px; ">
                 <div class="blog-post-area">
-                    <h2 class="title text-center">Latest From our Blog</h2>
+                    <h2 class="title text-center">{{ headline.0|upper }}</h2>
                     <!-- posts -->
                     {% for post in posts %}
                         <div class="single-blog-post">
@@ -21,15 +21,18 @@
                                     <li><i class="fa fa-calendar"></i> {{ post.date }}</li>
                                 </ul>
                             </div>
+                            <div>
                             <a href="{{ post.get_absolute_url }}">
-                                <img src="{{ post.poster.url }}" alt="Читать дальше">
+                                <img src="{{ post.poster.url }}" alt="{{ headline.1|upper }}">
                             </a>
+                            </div>
                             <p>{{ post.description|truncatewords:30 }}</p>
-                            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">Читать дальше</a>
+                            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{{ headline.1|lower }}</a>
                         </div>
                     {% endfor %}
 
                     <!-- pagination -->
+
                     <div class="pagination-area">
                         <ul class="pagination">
                             <li><a href="" class="active">1</a></li>
@@ -42,4 +45,5 @@
             </div>
         </div>
     </section>
+
 {% endblock content %}

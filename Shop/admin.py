@@ -33,6 +33,7 @@ class NewsAdmin(admin.ModelAdmin):
     save_as_continue = False
     list_per_page = 30
     actions_on_bottom = True
+    save_on_top = True
     list_editable = ('draft',)
 
 
