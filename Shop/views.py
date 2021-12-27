@@ -86,7 +86,6 @@ class ProductDetailView(DetailView):
         return context
 
 
-
 class ContactFormView(FormView):
     template_name = 'pages/contact-us.html'
     form_class = ContactForm
@@ -95,19 +94,27 @@ class ContactFormView(FormView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'CONTACT US'
-        contact_info = (
-                'E-Shopper Inc.',
-                '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
-                'Newyork USA',
-                'Mobile: +2346 17 38 93',
-                'Fax: 1-714-252-0026',
-                'Email: info@e-shopper.com',
-            )
-        context['contact_info'] = contact_info
         context['contact_selected'] = 'active'
+        contact_info = (
+            'E-Shopper Inc.',
+            '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
+            'Newyork USA',
+            'Mobile: +2346 17 38 93',
+            'Fax: 1-714-252-0026',
+            'Email: info@e-shopper.com',
+        )
+        context['contact_info'] = contact_info
+
+        context['headline'] = (
+            'Contact US', 'get in touch', 'contact info', 'SOCIAL NETWORKING'
+        )
+        context['social_networking'] = (
+            ('fa-facebook', '#'),
+            ('fa-twitter', '#'),
+            ('fa-google-plus', '#'),
+            ('fa-youtube', '#')
+        )
         return context
-
-
 
     def form_valid(self, form):
         self.send_masage(form.cleaned_data)
@@ -137,9 +144,11 @@ class DeliveryView(View):
             form = AddNewAddressDeliveryForm()
         return render(request, 'pages/delivery.html', {'form': form})
 
+
 class CartView(View):
     def get(self, request):
         return render(request, 'pages/cart.html', {})
+
 
 class FavoritesView(View):
     def get(self, request):
