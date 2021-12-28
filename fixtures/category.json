@@ -1,0 +1,56 @@
+[
+  {
+    "model": "Shop.Category",
+    "pk": 1,
+    "fields": {
+      "name": "Престижные",
+      "description": "Престижные",
+      "slug": "VIP"
+    }
+  },
+  {
+    "model": "Shop.Category",
+    "pk": 2,
+    "fields": {
+      "name": "Стальные",
+      "description": "Стальные",
+      "slug": "steel"
+    }
+  },
+  {
+    "model": "Shop.Category",
+    "pk": 3,
+    "fields": {
+      "name": "Женские",
+      "description": "Женские",
+      "slug": "women"
+    }
+  },
+  {
+    "model": "Shop.Category",
+    "pk": 4,
+    "fields": {
+      "name": "Мужские",
+      "description": "Мужские",
+      "slug": "men"
+    }
+  },
+  {
+    "model": "Shop.Category",
+    "pk": 5,
+    "fields": {
+      "name": "Классические",
+      "description": "Классические",
+      "slug": "classic"
+    }
+  },
+  {
+    "model": "Shop.Category",
+    "pk": 6,
+    "fields": {
+      "name": "Спортивные",
+      "description": "Спортивные",
+      "slug": "sports"
+    }
+  }
+]
