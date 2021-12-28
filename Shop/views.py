@@ -26,6 +26,7 @@ class BlogListView(ListView):
     model = News
     template_name = 'pages/blog.html'
     context_object_name = 'posts'
+    paginate_by = 3
 
     def get_queryset(self):
         return News.objects.filter(draft=False)

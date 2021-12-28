@@ -41,7 +41,7 @@ class News(models.Model):
     class Meta:
         verbose_name = 'Новость или событие'
         verbose_name_plural = 'Новости и события'
-        ordering = ['-date']
+        ordering = ['-id']
 
 
 class Comment(models.Model):
