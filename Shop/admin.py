@@ -82,12 +82,14 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
     '''
     Карточка продукта
     '''
-    list_per_page = 50
+    list_per_page = 20
     save_as = True
     readonly_fields = ('get_icon',)
     search_fields = ('product_public_ID', 'name', 'description')
     list_filter = ('availability', 'condition', 'category', 'brand',)
     save_on_top = True
+
+
 
     inlines = [ProductImagesInline]
     list_display = (
