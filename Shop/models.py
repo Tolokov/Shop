@@ -22,7 +22,7 @@ class News(models.Model):
     time = TimeField('Время создания', auto_now=True, null=True)
     draft = BooleanField('Черновик', default=False)
     poster = ImageField('Постер', upload_to='media/poster/')
-    creator = CharField('Создатель', max_length=150, null=True)
+    creator = models.ForeignKey(User, verbose_name='Создатель', on_delete=SET_NULL, null=True)
 
     def __str__(self):
         return self.title
