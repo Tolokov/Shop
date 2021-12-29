@@ -3,7 +3,7 @@ from django.views.generic import View, ListView, DetailView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import News, Card_Product, Category
+from .models import News, Card_Product, Category, Comment
 from .forms import *
 
 
@@ -49,6 +49,23 @@ class BlogDetailView(DetailView):
 
     def get_queryset(self):
         return News.objects.filter(draft=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(context.items())
+        # print(context['object'])
+        # print(context['post_id'])
+        context['comments'] = Comment.objects.filter(news=self.object)
+
+        # print(context['comments'][0].created.strftime('%Y%B%d'))
+        # print(dir(context['comments'][0].created.__repr__()))
+        # print('----------------')
+
+
+# day', 'toordinal', 'tzinfo', 'tzname', 'utcfromtimestamp', 'utcnow', 'utcoffset', 'utctimetuple', 'weekday', 'year''
+
+
+        return context
 
 
 class HomeListView(ListView):

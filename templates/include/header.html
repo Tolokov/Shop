@@ -106,18 +106,9 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <!--header-column 1-->
                             <li><a href="{% url 'home' %}" class="{{ home_selected }}">Главная</a></li>
-                            <li>
-                            <!--header-column 2-->
-                            <a href="{% url 'shop' %}" class="{{ shop_selected }}">Каталог</a>
-                            </li>
-                            <!--header-column 3-->
+                            <li><a href="{% url 'shop' %}" class="{{ shop_selected }}">Каталог</a></li>
                             <li><a href="{% url 'blog' %}" class="{{ blog_selected }}">Новостной блог</a></li>
-                            </li>
-                            <!--header-column 4-->
-                            <li>
-                                <a href="{% url 'contact' %}" class="{{ contact_selected }}">Контакты</a>
-
-                            </li>
+                            <li><a href="{% url 'contact' %}" class="{{ contact_selected }}">Контакты</a></li>
                         </ul>
                     </div>
                 </div>

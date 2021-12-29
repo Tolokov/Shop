@@ -71,6 +71,7 @@ class Comment(MPTTModel):
         verbose_name_plural = 'Комментарии'
 
 
+
 class Category(models.Model):
     '''
     Многие ко многим
