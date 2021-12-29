@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import *
+from mptt.admin import MPTTModelAdmin
+
 
 admin.site.site_title = 'Панель администрирования интернет магазина'
 admin.site.site_header = 'Панель администрирования интернет магазина'
@@ -133,11 +135,12 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
 
 
 # \\\\\\\
-@admin.register(Comment)
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('creator', 'text', 'parent', 'news')
-    readonly_fields = ('creator',)
 
+# admin.site.register(Comment, MPTTModelAdmin)
+
+@admin.register(Comment)
+class CommentAdmin(MPTTModelAdmin):
+    list_display = ('creator', 'text', 'parent', 'news')
 
 
 @admin.register(RatingGrade)

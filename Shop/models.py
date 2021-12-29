@@ -11,6 +11,8 @@ from datetime import date
 from django.utils import timezone
 
 from random import randint
+from mptt.models import TreeForeignKey, MPTTModel
+
 
 class News(models.Model):
     '''
@@ -44,19 +46,24 @@ class News(models.Model):
         ordering = ['-id']
 
 
-class Comment(models.Model):
+class Comment(MPTTModel):
     '''
     Комментарии к ивентам, новостям и другим комментариям, реализовать связь.
     '''
-    text = models.TextField("Сообщение", max_length=1500)
-    parent = models.ForeignKey(
-        'self', verbose_name="Ответ на сообщение", on_delete=SET_NULL, blank=True, null=True
+    text = models.TextField('Коментарий', max_length=1500, blank=True)
+    parent = TreeForeignKey(
+        'self',
+        on_delete=SET_NULL,
+        blank=True,
+        null=True,
+        related_name='children',
+        verbose_name='Ответ'
     )
-    news = models.ForeignKey(News, on_delete=CASCADE)
-    creator = models.ForeignKey(User, on_delete=CASCADE)
+    news = models.ForeignKey(News, on_delete=CASCADE, blank=True)
+    creator = models.ForeignKey(User, on_delete=CASCADE, blank=True, verbose_name='Автор')
 
-    # created = models.DateTimeField(auto_now_add=True)
-    # updated = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f'{self.news.id} {self.creator}'
 
     class Meta:
         verbose_name = 'Комментарий'
@@ -103,7 +110,8 @@ class Card_Product(models.Model):
     '''
     Карточка продукта
     '''
-    product_public_ID = models.IntegerField(primary_key=False, unique=True, null=False, default=randint(1000000, 9999999))
+    product_public_ID = models.IntegerField(primary_key=False, unique=True, null=False,
+                                            default=randint(1000000, 9999999))
     name = CharField(max_length=300)
     description = TextField(max_length=5000)
     price = models.DecimalField(max_digits=12, decimal_places=2)
@@ -131,7 +139,6 @@ class Card_Product(models.Model):
     def __str__(self):
         return f'ID: {self.product_public_ID} NAME: {self.name}'
 
-
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'product_ID': self.id})
 
@@ -139,6 +146,7 @@ class Card_Product(models.Model):
         verbose_name = 'Карточка продукта'
         verbose_name_plural = 'Карточки продуктов'
         ordering = ['product_public_ID']
+
 
 class ProductImage(models.Model):
     '''
@@ -214,7 +222,7 @@ class Cart(models.Model):
     total_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return (self.products)
+        return self.products
 
     class Meta:
         verbose_name = 'Корзина'
@@ -276,6 +284,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
 
 # # step 4
 # class Promo(models.Model):
