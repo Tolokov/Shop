@@ -61,6 +61,7 @@ class Comment(MPTTModel):
     )
     news = models.ForeignKey(News, on_delete=CASCADE, blank=True)
     creator = models.ForeignKey(User, on_delete=CASCADE, blank=True, verbose_name='Автор')
+    created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
         return f'{self.news.id} {self.creator}'

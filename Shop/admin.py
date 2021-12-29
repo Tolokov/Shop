@@ -28,7 +28,7 @@ class NewsAdmin(admin.ModelAdmin):
     '''
     Новости и события
     '''
-    list_display = ('title', 'date', 'time', 'draft', 'poster', 'creator',)
+    list_display = ('id', 'title', 'date', 'time', 'draft', 'poster', 'creator',)
     list_filter = ('creator', 'draft',)
     search_fields = ('title', 'description')
     save_as = True
@@ -134,13 +134,9 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         return '\n'.join([cat.name for cat in obj.category.all()])
 
 
-# \\\\\\\
-
-# admin.site.register(Comment, MPTTModelAdmin)
-
 @admin.register(Comment)
 class CommentAdmin(MPTTModelAdmin):
-    list_display = ('creator', 'text', 'parent', 'news')
+    list_display = ('creator', 'text', 'parent', 'news', 'created')
 
 
 @admin.register(RatingGrade)
