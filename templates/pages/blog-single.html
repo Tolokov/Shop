@@ -4,8 +4,8 @@
 
 {% block content %}
     <section>
-        <div class="container" >
-            <div class="row" >
+        <div class="container">
+            <div class="row">
 
                 <div class="col-sm-9">
 
@@ -25,7 +25,6 @@
                             <p>
                                 {{ single_post.description }}
                             </p>
-
                             <div class="pager-area">
                                 <ul class="pager pull-right">
                                     <li><a href="{{ single_post.get_prev_absolute_url }}">Pre</a></li>
@@ -38,54 +37,55 @@
                     <!--/blog-post-area-->
 
                     <!--Comments-->
-    <div class="response-area">
-        <h2>3 RESPONSES</h2>
-        <ul class="media-list">
+                    <div class="response-area">
+                        <h2>3 RESPONSES</h2>
+                        <ul class="media-list">
 
-            <!-- parent comment -->
-            {% for comment in comments %}
-            <li class="media">
-                <a class="pull-left" href="#">
-                    <img class="media-object" src="images/blog/man-two.jpg" alt="">
-                </a>
-                <div class="media-body">
-                    <ul class="sinlge-post-meta">
-                        <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
-                        <li><i class="fa fa-clock-o"></i>{{ comment.created|date:"G:i" }}</li>
-                        <li><i class="fa fa-calendar"></i>
-                            {{ comment.created|date:"d-F-Y" }}</li>
+                            <!-- parent-comment -->
+                            {% for comment in comments %}
+                                <li class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object" src="images/blog/man-two.jpg" alt="">
+                                    </a>
+                                    <div class="media-body">
+                                        <ul class="sinlge-post-meta">
+                                            <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
+                                            <li><i class="fa fa-clock-o"></i>{{ comment.created|date:"G:i" }}</li>
+                                            <li><i class="fa fa-calendar"></i>
+                                                {{ comment.created|date:"d-F-Y" }}</li>
 
-                    </ul>
-                    <p>{{ comment.text }}</p>
-                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                </div>
-            </li>
-            {% endfor %}
-            <!--/parent comment -->
+                                        </ul>
+                                        <p>{{ comment.text }}</p>
+                                        <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                            <!--/parent-comment -->
 
 
-            <!-- child comment -->
-{#            <li class="media second-media">#}
-{#                <a class="pull-left" href="#">#}
-{#                    <img class="media-object" src="images/blog/man-three.jpg" alt="">#}
-{#                </a>#}
-{#                <div class="media-body">#}
-{#                    <ul class="sinlge-post-meta">#}
-{#                        <li><i class="fa fa-user"></i>Janis Gallagher</li>#}
-{#                        <li><i class="fa fa-clock-o"></i> 1:33 pm</li>#}
-{#                        <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>#}
-{#                    </ul>#}
-{#                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor#}
-{#                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis#}
-{#                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo#}
-{#                        consequat.</p>#}
-{#                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>#}
-{#                </div>#}
-{#            </li>#}
-            <!-- child comment -->
-        </ul>
-    </div>
-                    <!--Repaly Box-->
+                            <!-- child comment -->
+                            {#            <li class="media second-media">#}
+                            {#                <a class="pull-left" href="#">#}
+                            {#                    <img class="media-object" src="images/blog/man-three.jpg" alt="">#}
+                            {#                </a>#}
+                            {#                <div class="media-body">#}
+                            {#                    <ul class="sinlge-post-meta">#}
+                            {#                        <li><i class="fa fa-user"></i>Janis Gallagher</li>#}
+                            {#                        <li><i class="fa fa-clock-o"></i> 1:33 pm</li>#}
+                            {#                        <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>#}
+                            {#                    </ul>#}
+                            {#                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor#}
+                            {#                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis#}
+                            {#                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo#}
+                            {#                        consequat.</p>#}
+                            {#                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>#}
+                            {#                </div>#}
+                            {#            </li>#}
+                            <!-- child comment -->
+                        </ul>
+                    </div>
+
+                    <!--replay-Box-->
                     <div class="replay-box">
                         <div class="row">
                             <div class="col-sm-4">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--/Repaly Box-->
+                    <!--/replay-Box-->
 
                 </div>
             </div>

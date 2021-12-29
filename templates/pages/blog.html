@@ -4,12 +4,13 @@
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
-    <!-- blog -->
+
     <section>
         <div class="container">
             <div class="col-sm-9" style="width:100%; height: 70% ;left: 20px; ">
                 <div class="blog-post-area">
                     <h2 class="title text-center">{{ headline.0|upper }}</h2>
+
                     <!-- posts -->
                     {% for post in posts %}
                         <div class="single-blog-post">
@@ -30,31 +31,28 @@
                             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{{ headline.1|lower }}</a>
                         </div>
                     {% endfor %}
+                    <!-- /posts -->
 
                     <!-- pagination -->
-
                     <div class="pagination-area">
                         <ul class="pagination">
                             {% for num_page in paginator.page_range %}
                                 {% if page_obj.number == num_page %}
                                     <li><a href="?page={{ num_page }}" class="active">{{ num_page }}</a></li>
-
                                 {% elif num_page|add:"2" >= page_obj.number and num_page|add:"-2" <= page_obj.number %}
                                     <li><a href="?page={{ num_page }}">{{ num_page }}</a></li>
-
                                 {% elif num_page|add:"-3" == page_obj.number %}
                                     <li><a href="?page={{ paginator.num_pages }}"><i
                                             class="fa fa-angle-double-right"></i></a></li>
-
                                 {% elif num_page|add:"3" == page_obj.number %}
                                     <li><a href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
                                 {% else %}
                                 {% endif %}
-
                             {% endfor %}
-
                         </ul>
                     </div>
+                    <!-- /pagination -->
+
                 </div>
             </div>
         </div>

@@ -52,19 +52,7 @@ class BlogDetailView(DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        # print(context.items())
-        # print(context['object'])
-        # print(context['post_id'])
         context['comments'] = Comment.objects.filter(news=self.object)
-
-        # print(context['comments'][0].created.strftime('%Y%B%d'))
-        # print(dir(context['comments'][0].created.__repr__()))
-        # print('----------------')
-
-
-# day', 'toordinal', 'tzinfo', 'tzname', 'utcfromtimestamp', 'utcnow', 'utcoffset', 'utctimetuple', 'weekday', 'year''
-
-
         return context
 
 

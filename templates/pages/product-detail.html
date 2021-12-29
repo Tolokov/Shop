@@ -14,7 +14,7 @@
                                 <img src="{{ product_detail.icon.url }}" alt="Главное изображение"/>
                             </div>
                             <div id="similar-product" class="carousel slide" data-ride="carousel">
-{#                              <!-- wrapper for slides -->#}
+{#                              <!-- wrapper-for-slides -->#}
                                 <div class="carousel-inner">
                                     <div class="item active">
 {#                                        {% for image in product_detail.image %}#}
@@ -34,7 +34,7 @@
                                         <a href=""><img src="{% static 'images/product-details/similar3.jpg' %}" alt=""></a>
                                     </div>
                                 </div>
-{#                                <!-- /wrapper for slides -->#}
+{#                                <!-- /wrapper-for-slides--->#}
 
                                 <!-- Controls -->
                                 <a class="left item-control" href="#similar-product" data-slide="prev">
@@ -66,9 +66,6 @@
                                     {% for cat in product_detail.category.all %}
                                     {{  cat  }},
                                     {% endfor %}
-
-
-
                                 </p>
                                 <p><b>Condition:</b> {{ product_detail.condition }}</p>
                                 <p><b>Brand:</b> {{ product_detail.brand }}</p>

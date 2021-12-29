@@ -3,7 +3,7 @@
 <!--header-->
 <header id="header">
 
-    <!--header_top-->
+    <!--header-top-->
     <div class="header_top">
         <div class="container">
             <div class="row">
@@ -29,10 +29,10 @@
             </div>
         </div>
     </div>
-    <!--/header_top-->
+    <!--/header-top-->
 
+    <!--header-middle-->
     <div class="header-middle">
-        <!--header-middle-->
         <div class="container">
             <div class="row">
                 <div class="col-sm-4">
@@ -68,16 +68,16 @@
                         <ul class="nav navbar-nav">
 
                             {% if user.is_authenticated %}
-                                <li><a href="#" alt="Профиль" ><i class="fa fa-user"></i>{{ user.username }}</a></li>
+                                <li><a href="#" alt="Профиль"><i class="fa fa-user"></i>{{ user.username }}</a></li>
                                 <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
                                 <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
                                 <li><a href="{% url 'delivery' %}"><i class="fa fa-crosshairs"></i> Доставка</a></li>
                                 <li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Выйти</a></li>
 
                             {% else %}
-                            <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
-                            <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Войти</a></li>
-                            <li><a href="{% url 'signup' %}"><i class="fa fa-lock"></i> Регистрация</a></li>
+                                <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
+                                <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Войти</a></li>
+                                <li><a href="{% url 'signup' %}"><i class="fa fa-lock"></i> Регистрация</a></li>
                             {% endif %}
 
                         </ul>
@@ -88,8 +88,8 @@
     </div>
     <!--/header-middle-->
 
+    <!--header-bottom-->
     <div class="header-bottom">
-        <!--header-bottom-->
         <div class="container">
             <div class="row">
                 <div class="col-sm-9">
@@ -104,7 +104,6 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <!--header-column 1-->
                             <li><a href="{% url 'home' %}" class="{{ home_selected }}">Главная</a></li>
                             <li><a href="{% url 'shop' %}" class="{{ shop_selected }}">Каталог</a></li>
                             <li><a href="{% url 'blog' %}" class="{{ blog_selected }}">Новостной блог</a></li>
@@ -112,9 +111,9 @@
                         </ul>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
     <!--/header-bottom-->
 </header>
