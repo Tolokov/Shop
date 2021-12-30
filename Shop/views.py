@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views.generic import View, ListView, DetailView, FormView, UpdateView
+from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -57,7 +58,6 @@ class BlogDetailView(DetailView):
         context['responses'] = 'Отзывов'
         return context
 
-
 class HomeListView(ListView):
     model = Card_Product
     template_name = 'pages/index.html'
@@ -72,7 +72,6 @@ class HomeListView(ListView):
     def get_queryset(self):
         return Card_Product.objects.filter(availability=False)
 
-
 class ShopListView(ListView):
     model = Card_Product
     template_name = 'pages/shop.html'
@@ -85,22 +84,33 @@ class ShopListView(ListView):
         context['shop_selected'] = 'active'
         return context
 
-
-class ProductDetailView(DetailView, FormView):
+class ProductDetailView(FormView, DetailView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
     context_object_name = 'product_detail'
     pk_url_kwarg = 'product_ID'
     queryset = Card_Product.objects.filter(availability=False)
-
     form_class = ReviewForm
+    # success_url =
 
+    def get_success_url(self):
+        return reverse()
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
         context['reviews'] = Review.objects.filter(product=self.object)
         return context
+
+    def post(self, request, *args, **kwargs):
+        print(kwargs)
+        return FormView.post(self, request, *args, **kwargs)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super(ProductDetailView, self).form_valid(form)
+
+
 
 
 class ContactFormView(FormView):
@@ -115,7 +125,7 @@ class ContactFormView(FormView):
         contact_info = (
             'E-Shopper Inc.',
             '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
-            'Newyork USA',
+            'New York USA',
             'Mobile: +2346 17 38 93',
             'Fax: 1-714-252-0026',
             'Email: info@e-shopper.com',
@@ -134,12 +144,8 @@ class ContactFormView(FormView):
         return context
 
     def form_valid(self, form):
-        self.send_masage(form.cleaned_data)
+        print(form.cleaned_data)
         return super(ContactFormView, self).form_valid(form)
-
-    def send_masage(self, void_valid):
-        print(void_valid)
-        pass
 
 
 # /////////////////////////////

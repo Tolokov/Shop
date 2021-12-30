@@ -107,21 +107,21 @@
         <div>
             <div><p><b>Write Your Review</b></p>
 
-                <form
-                      method="post">
+                <form method="post">
                     {% csrf_token %}
        <span>{{ form.name }}{{ form.email }}</span>
        <span>{{ form.text }}</span>
        <span>{{ form.grade }}</span>
 
-       <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
-                <button type="button" class="btn btn-default pull-right">
+       <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}" alt="Review from"/>
+                <button class="btn btn-default pull-right" type="submit" name="submit">
                     Submit
                 </button>
-            </form>
 
+            </form></div>
             </div>
-        </div>
+       <br><br><br>
+       </div>
                         <!--/contact-form-->
                             <br>
                             <br>
