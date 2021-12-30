@@ -71,14 +71,16 @@ class HomeListView(ListView):
         return Card_Product.objects.filter(availability=False)
 
 
-class ShopListView(HomeListView):
+class ShopListView(ListView):
+    model = Card_Product
     template_name = 'pages/shop.html'
+    context_object_name = 'products'
+    queryset = Card_Product.objects.filter(availability=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Каталог'
         context['shop_selected'] = 'active'
-        context.pop('home_selected')
         return context
 
 
