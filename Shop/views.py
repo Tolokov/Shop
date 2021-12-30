@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import View, ListView, DetailView, FormView
+from django.views.generic import View, ListView, DetailView, FormView, UpdateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -86,12 +86,15 @@ class ShopListView(ListView):
         return context
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(DetailView, FormView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
     context_object_name = 'product_detail'
     pk_url_kwarg = 'product_ID'
     queryset = Card_Product.objects.filter(availability=False)
+
+    form_class = ReviewForm
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
