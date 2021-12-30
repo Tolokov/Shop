@@ -70,6 +70,9 @@ class Comment(MPTTModel):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
 
+    class MPTTMeta:
+        order_insertion_by = ['created']
+
 
 
 class Category(models.Model):
