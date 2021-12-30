@@ -43,6 +43,7 @@
 
                             <!-- parent-comment -->
                             {% for comment in comments %}
+                                {% if comment.parent is None %}
                                 <li class="media">
                                     <a class="pull-left" href="#">
                                         <img class="media-object" src="images/blog/man-two.jpg" alt="">
@@ -59,29 +60,30 @@
                                         <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
                                     </div>
                                 </li>
-                            {% endfor %}
+                                {% else %}
+                                <hr>
                             <!--/parent-comment -->
 
+                    <!-- child comment -->
+                                <li class="media second-media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object" src="images/blog/man-three.jpg" alt="">
+                                    </a>
+                                    <div class="media-body">
+                                        <ul class="sinlge-post-meta">
+                                            <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
+                                            <li><i class="fa fa-clock-o"></i>{{ comment.created|date:"G:i" }}</li>
+                                            <li><i class="fa fa-calendar"></i>{{ comment.created|date:"d-F-Y" }}</li>
+                                        </ul>
+                                        <p>{{ comment.text }}</p>
+                                        <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
+                                    </div>
+                                </li>
+                    <!-- child comment -->
+                            {% endif %}
 
-                            <!-- child comment -->
-                            {#            <li class="media second-media">#}
-                            {#                <a class="pull-left" href="#">#}
-                            {#                    <img class="media-object" src="images/blog/man-three.jpg" alt="">#}
-                            {#                </a>#}
-                            {#                <div class="media-body">#}
-                            {#                    <ul class="sinlge-post-meta">#}
-                            {#                        <li><i class="fa fa-user"></i>Janis Gallagher</li>#}
-                            {#                        <li><i class="fa fa-clock-o"></i> 1:33 pm</li>#}
-                            {#                        <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>#}
-                            {#                    </ul>#}
-                            {#                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor#}
-                            {#                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis#}
-                            {#                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo#}
-                            {#                        consequat.</p>#}
-                            {#                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>#}
-                            {#                </div>#}
-                            {#            </li>#}
-                            <!-- child comment -->
+                            {% endfor %}
+
                         </ul>
                     </div>
 
