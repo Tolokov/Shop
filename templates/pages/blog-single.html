@@ -38,44 +38,41 @@
 
                     <!--Comments-->
                     <div class="response-area">
-                        <h2>3 RESPONSES</h2>
+                        <h2>{{ count }} {{ responses|upper }}</h2>
                         <ul class="media-list">
-
-
                             {% for comment in comments %}
-                                <!-- parent-comment -->
                                 {% if comment.parent is None %}
                                     <li class="media">
                                         {% else %}
-                                    {% if comment.parent.level == 0  %}
-                                        <li class="media"  style="margin-left: 4%;">
-
-                                    {% elif comment.parent.level == 1 %}
-                                        <li class="media" style="margin-left: 6%;">
-                                    {% else %}
-                                        <li class="media" style="margin-left: {{ comment.parent.level|add:8 }}%;">
-                                    {% endif %}
-
-                                            {% endif %}
-                                        <a class="pull-left" href="#">
-                                            <img class="media-object" src="images/blog/man-two.jpg" alt="">
-                                        </a>
-                                        <div class="media-body">
-                                            <ul class="sinlge-post-meta">
-                                                <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
-                                                <li><i class="fa fa-clock-o"></i>{{ comment.created|date:"G:i" }}</li>
-                                                <li><i class="fa fa-calendar"></i>
-                                                    {{ comment.created|date:"d-F-Y" }}</li>
-
-                                            </ul>
-                                            <p>{{ comment.text }}</p>
-                                            <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
-                                        </div>
-                                    </li>
-                                    <!--/parent-comment -->
+                                        {% if comment.parent.level == 0 %}
+                                            <li class="media" style="margin-left: 4%;">
+                                        {% elif comment.parent.level == 1 %}
+                                            <li class="media" style="margin-left: 6%;">
+                                        {% else %}
+                                            <li class="media" style="margin-left: {{ comment.parent.level|add:8 }}%;">
+                                        {% endif %}
+                                {% endif %}
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src="images/blog/man-two.jpg" alt="">
+                            </a>
+                            <div class="media-body">
+                                <ul class="sinlge-post-meta">
+                                    <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
+                                    <li><i class="fa fa-clock-o"></i>{{ comment.created|date:"G:i" }} PM</li>
+                                    <li><i class="fa fa-calendar"></i>
+                                        {{ comment.created|date:"d-F-Y" }}</li>
+                                </ul>
+                                <p>{{ comment.text }}</p>
+                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
+                            </div>
+                            </li>
                             {% endfor %}
+
                         </ul>
                     </div>
+                    <!--/Comments-->
+
+
                     <!--replay-Box-->
                     <div class="replay-box">
                         <div class="row">
