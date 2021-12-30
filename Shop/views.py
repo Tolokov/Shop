@@ -58,6 +58,7 @@ class BlogDetailView(DetailView):
         context['responses'] = 'Отзывов'
         return context
 
+
 class HomeListView(ListView):
     model = Card_Product
     template_name = 'pages/index.html'
@@ -72,6 +73,7 @@ class HomeListView(ListView):
     def get_queryset(self):
         return Card_Product.objects.filter(availability=False)
 
+
 class ShopListView(ListView):
     model = Card_Product
     template_name = 'pages/shop.html'
@@ -84,6 +86,7 @@ class ShopListView(ListView):
         context['shop_selected'] = 'active'
         return context
 
+
 class ProductDetailView(FormView, DetailView):
     model = Card_Product
     template_name = 'pages/product-detail.html'
@@ -91,26 +94,33 @@ class ProductDetailView(FormView, DetailView):
     pk_url_kwarg = 'product_ID'
     queryset = Card_Product.objects.filter(availability=False)
     form_class = ReviewForm
-    # success_url =
 
     def get_success_url(self):
-        return reverse()
+        return self.request.path
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
         context['reviews'] = Review.objects.filter(product=self.object)
+        context['count'] = context['reviews'].count()
         return context
 
-    def post(self, request, *args, **kwargs):
-        print(kwargs)
-        return FormView.post(self, request, *args, **kwargs)
-
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super(ProductDetailView, self).form_valid(form)
-
-
+    def post(self, request, pk, *args, **kwargs):
+        form = ReviewForm(request.POST)
+        product = Card_Product.objects.get(id=pk)
+        if form.is_valid():
+            form = form.cleaned_data
+            # print([type(i) for i in form])
+            review = Review(
+                name=form['name'],
+                ipaddress='127.0.0.1',
+                email=form['email'],
+                text=form['text'],
+                product=product,
+                g=int(form['grade']),
+            )
+            review.save()
+        return redirect(product.get_absolute_url())
 
 
 class ContactFormView(FormView):

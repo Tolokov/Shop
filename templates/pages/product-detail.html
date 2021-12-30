@@ -81,7 +81,11 @@
                     </div>
                     <!--/product-details-->
 
-
+                    {% if count == 0 %}
+                        <div><p><b>Рецензий ещё нет!</b></p>
+                    {% else %}
+                        <div><p><b>{{ count }} Рецензий </b></p>
+                    {% endif %}
                     <!--reviews-->
                     <hr>
                     <div class="tab-pane fade active in" id="reviews">
@@ -95,7 +99,7 @@
                                     <li><a href=""><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}</a>
                                     </li>
                                 </ul>
-                                <p>{{ product_detail.description }}</p>
+                                <p>{{ review.text }}</p>
                                 <br>
                                 <b>Rating: {{ review.grade }}</b>
                                 <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
@@ -104,36 +108,39 @@
                             <!--/review-detail-->
 
                             <!--contact-form-->
-        <div>
-            <div><p><b>Write Your Review</b></p>
+                            <div>
 
-                <form method="post">
-                    {% csrf_token %}
-       <span>{{ form.name }}{{ form.email }}</span>
-       <span>{{ form.text }}</span>
-       <span>{{ form.grade }}</span>
+                                <div><p><b>Write Your Review</b></p>
 
-       <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}" alt="Review from"/>
-                <button class="btn btn-default pull-right" type="submit" name="submit">
-                    Submit
-                </button>
+                                    <form action="{% url 'product_detail' product_detail.id %}" method="post">
+                                        {% csrf_token %}
+                                        <span>{{ form.name }}{{ form.email }}</span>
+                                        <span>{{ form.text }}</span>
+                                        <span>{{ form.grade }}</span>
 
-            </form></div>
-            </div>
-       <br><br><br>
-       </div>
-                        <!--/contact-form-->
-                            <br>
-                            <br>
-                            <br>
+                                        <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}"
+                                                             alt="Review from"/>
+                                        <button class="btn btn-default pull-right" type="submit" name="submit">
+                                            Submit
+                                        </button>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <br><br><br>
                         </div>
+                        <!--/contact-form-->
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    </div>
                     </div>
                 </div>
+
+
+                <!--/reviews-->
             </div>
-
-
-            <!--/reviews-->
-        </div>
         </div>
         </div>
     </section>

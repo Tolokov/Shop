@@ -139,16 +139,19 @@ class CommentAdmin(MPTTModelAdmin):
     list_display = ('creator', 'text', 'parent', 'news', 'created')
 
 
-@admin.register(RatingGrade)
-class RatingAdmin(admin.ModelAdmin):
-    '''Итоговый рейтинг'''
-    list_display = ('value',)
+# @admin.register(RatingGrade)
+# class RatingAdmin(admin.ModelAdmin):
+#     '''Итоговый рейтинг'''
+#     list_display = ('value', 'show_product')
+#
+#     def show_product(self, obj):
+#         return '\n'.join([cat.name for cat in obj.Card_Product.all()])
 
 
 @admin.register(Review)
 class RatingGradeAdmin(admin.ModelAdmin):
     '''Все оценки продукту'''
-    list_display = ('name', 'ipaddress', 'email', 'text', 'created', 'product', 'grade', 'update')
+    list_display = ('name', 'ipaddress', 'email', 'created', 'product', 'update')
 
 
 @admin.register(Cart)
