@@ -7,21 +7,23 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-9 padding-right">
+
+                    <!--product-details-->
                     <div class="product-details">
-                        <!--product-details-->
                         <div class="col-sm-5">
                             <div class="view-product">
                                 <img src="{{ product_detail.icon.url }}" alt="Главное изображение"/>
                             </div>
                             <div id="similar-product" class="carousel slide" data-ride="carousel">
-{#                              <!-- wrapper-for-slides -->#}
+
+                                {#                              <!-- wrapper-for-slides -->#}
                                 <div class="carousel-inner">
                                     <div class="item active">
-{#                                        {% for image in product_detail.image %}#}
-                                        <a href=""><img src="'images/product-details/similar2.jpg'" alt=""></a>
+                                        {#                                        {% for image in product_detail.image %}#}
+                                        <a href=""><img src="{% static 'images/product-details/similar2.jpg' %}" alt=""></a>
                                         <a href=""><img src="{% static 'images/product-details/similar2.jpg' %}" alt=""></a>
                                         <a href=""><img src="{% static 'images/product-details/similar3.jpg' %}" alt=""></a>
-{#                                        {% endfor %}#}
+                                        {#                                        {% endfor %}#}
                                     </div>
                                     <div class="item">
                                         <a href=""><img src="{% static 'images/product-details/similar1.jpg' %}" alt=""></a>
@@ -34,7 +36,7 @@
                                         <a href=""><img src="{% static 'images/product-details/similar3.jpg' %}" alt=""></a>
                                     </div>
                                 </div>
-{#                                <!-- /wrapper-for-slides--->#}
+                                {#                                <!-- /wrapper-for-slides--->#}
 
                                 <!-- Controls -->
                                 <a class="left item-control" href="#similar-product" data-slide="prev">
@@ -43,9 +45,10 @@
                                 <a class="right item-control" href="#similar-product" data-slide="next">
                                     <i class="fa fa-angle-right"></i>
                                 </a>
+                                <!--/Controls -->
+
                             </div>
                         </div>
-
                         <div class="col-sm-7">
                             <!--/product-information-->
                             <div class="product-information">
@@ -64,54 +67,66 @@
 								</span>
                                 <p><b>Category:</b>
                                     {% for cat in product_detail.category.all %}
-                                    {{  cat  }},
+                                        {{ cat }},
                                     {% endfor %}
                                 </p>
                                 <p><b>Condition:</b> {{ product_detail.condition }}</p>
                                 <p><b>Brand:</b> {{ product_detail.brand }}</p>
-                                <a href=""><img src="{% static 'images/product-details/share.png" class="share img-responsive' %}" alt=""/></a>
+                                <a href=""><img
+                                        src="{% static 'images/product-details/share.png" class="share img-responsive' %}"
+                                        alt=""/></a>
                             </div>
                             <!--/product-information-->
                         </div>
                     </div>
                     <!--/product-details-->
+
+
+                    <!--reviews-->
                     <hr>
-                            <!-- review -->
-                            <div class="tab-pane fade active in" id="reviews">
-                                <div class="col-sm-12">
-                                    <ul>
-                                        <li><a href=""><i class="fa fa-user"></i>EUGEN</a></li>
-                                        <li><a href=""><i class="fa fa-clock-o"></i>12:41 PM</a></li>
-                                        <li><a href=""><i class="fa fa-calendar-o"></i>31 DEC 2014</a></li>
-                                    </ul>
-                                    <p>{{ product_detail.description }}</p>
-                                    <br>
+                    <div class="tab-pane fade active in" id="reviews">
+                        <div class="col-sm-12">
+                            <!--review-detail-->
+                            {% for review in reviews %}
+                                <ul>
+                                    <li><a href=""><i class="fa fa-user"></i>{{ review.name }}</a></li>
+                                    <li><a href=""><i class="fa fa-clock-o"></i>{{ review.update|date:"G:i" }} PM</a>
+                                    </li>
+                                    <li><a href=""><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}</a>
+                                    </li>
+                                </ul>
+                                <p>{{ product_detail.description }}</p>
+                                <br>
+                                <b>Rating: {{ review.grade }}</b>
+                                <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
+                                <hr>
+                            {% endfor %}
+                            <!--/review-detail-->
+
+                            <div>
+                                <p><b>Write Your Review</b></p>
+                                <form action="#">
+                                <span>
+                                    <input type="text" placeholder="Your Name"/>
+                                    <input type="email" placeholder="Email Address"/>
+                                </span>
+                                    <textarea name=""></textarea>
                                     <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
-                    <hr>
-                    <div>
-                                    <p><b>Write Your Review</b></p>
-                                    <form action="#">
-										<span>
-											<input type="text" placeholder="Your Name"/>
-											<input type="email" placeholder="Email Address"/>
-										</span>
-                                        <textarea name=""></textarea>
-                                        <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
-                                        <button type="button" class="btn btn-default pull-right">
-                                            Submit
-                                        </button>
-                                    </form>
-                                </div>
-                                    <br><br><br><br>
+                                    <button type="button" class="btn btn-default pull-right">
+                                        Submit
+                                    </button>
+                                </form>
                             </div>
-</div>
+                            <br><br><br><br>
                         </div>
                     </div>
-                    <!--/category-tab-->
-
-
                 </div>
             </div>
+
+
+            <!--/reviews-->
+        </div>
+        </div>
         </div>
     </section>
 {% endblock content %}

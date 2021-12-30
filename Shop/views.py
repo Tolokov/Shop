@@ -3,7 +3,7 @@ from django.views.generic import View, ListView, DetailView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import News, Card_Product, Category, Comment
+from .models import News, Card_Product, Category, Comment, Review
 from .forms import *
 
 
@@ -96,6 +96,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
+        context['reviews'] = Review.objects.filter(product=self.object)
         return context
 
 

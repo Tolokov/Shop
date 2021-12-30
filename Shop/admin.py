@@ -148,7 +148,7 @@ class RatingAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class RatingGradeAdmin(admin.ModelAdmin):
     '''Все оценки продукту'''
-    list_display = ('name', 'ipaddress', 'email', 'text', 'created', 'product', 'grade')
+    list_display = ('name', 'ipaddress', 'email', 'text', 'created', 'product', 'grade', 'update')
 
 
 @admin.register(Cart)

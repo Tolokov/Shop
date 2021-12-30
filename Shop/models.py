@@ -200,6 +200,7 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзывы'
         verbose_name_plural = 'Отзывы'
+        ordering = ['created']
 
 # step 3
 
