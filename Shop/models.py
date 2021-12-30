@@ -174,31 +174,32 @@ class RatingGrade(models.Model):
     '''
     Отображаемые значения рейтинга
     '''
-    value = models.SmallIntegerField("Рейтинг", default=0)
+    value = models.PositiveSmallIntegerField("Рейтинг", default=0)
 
     def __str__(self):
-        return f' Текущая оценка продукта{self.value}'
+        return f'{self.value}'
 
     class Meta:
-        verbose_name = 'отображаемое значение рейтинга'
+        verbose_name = 'Отображаемое значение рейтинга'
         verbose_name_plural = 'Отображаемые значения рейтинга'
 
 
-class Rating(models.Model):
-    '''
-    Рейтинг выставленный продукту
-    '''
-    creator = models.ForeignKey(User, on_delete=CASCADE, verbose_name="создатель")
-    grade = models.ForeignKey(RatingGrade, on_delete=CASCADE, verbose_name="оценка")
-    product = models.ForeignKey(Card_Product, on_delete=CASCADE, verbose_name="продукт")
+class Review(models.Model):
+    name = CharField(max_length=150)
+    ipaddress = CharField('Ip адрес', max_length=15)
+    email = models.EmailField()
+    text = TextField()
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+    update = models.DateTimeField(auto_now=True, blank=True)
+    product = models.ForeignKey(Card_Product, verbose_name='Продукт', on_delete=CASCADE)
+    grade = models.ForeignKey(RatingGrade, on_delete=CASCADE, verbose_name="оценка", blank=True)
 
     def __str__(self):
-        return f'{self.product}, {self.grade}, {self.creator}'
+        return f'{self.product}, {self.name}, {self.ipaddress}'
 
     class Meta:
-        verbose_name = "Рейтинг"
-        verbose_name_plural = "Рейтинги"
-
+        verbose_name = 'Отзывы'
+        verbose_name_plural = 'Отзывы'
 
 # step 3
 

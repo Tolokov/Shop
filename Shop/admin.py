@@ -145,10 +145,10 @@ class RatingAdmin(admin.ModelAdmin):
     list_display = ('value',)
 
 
-@admin.register(Rating)
+@admin.register(Review)
 class RatingGradeAdmin(admin.ModelAdmin):
     '''Все оценки продукту'''
-    list_display = ('creator', 'grade', 'product')
+    list_display = ('name', 'ipaddress', 'email', 'text', 'created', 'product', 'grade')
 
 
 @admin.register(Cart)
