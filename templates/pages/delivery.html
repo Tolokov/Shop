@@ -3,15 +3,25 @@
 {% block title %} checkout {% endblock title %}
 
 {% block content %}
-    <section id="cart_items">
-        <div class="container">
+    {% include 'include/cart.html' %}
 
-            <!--register-req-->
-            <div class="register-req">
-                <p> Пожалуйста, используйте "Регистрация и оформление заказа",
-                    чтобы легко получить доступ к истории ваших заказов.</p>
+
+
+
+    <section id="cart_items">
+
+
+        <div class="container">
+            <div>
+            <b>Выбрать ранее записанный адресс доставки:</b>
+            <select id="last_addresses" class="register-req">
+{#                {% for address in addresses %}#}
+                <option value=”GR”>None</option>
+{#                {% endfor %}#}
+                </select>
             </div>
-            <!--/register-req-->
+            <div></div>
+            <p><b>Создать новый адресс: </b></p>
 
             <!--form-delivery-->
             <div class="shopper-informations">
@@ -62,6 +72,6 @@
             <!--/cart-title -->
         </div>
     </section>
-{% include 'include/cart.html' %}
+
 
 {% endblock content %}
