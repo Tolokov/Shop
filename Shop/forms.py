@@ -1,5 +1,5 @@
 from django.forms import *
-from .models import Delivery, User
+from .models import Delivery, User, Comment
 
 
 class AddNewAddressDeliveryForm(ModelForm):
@@ -77,4 +77,10 @@ class ReviewForm(Form):
     text = CharField(widget=Textarea())
     text.widget.attrs.update(text_attrs)
     grade = IntegerField(max_value=10, min_value=0)
+
+
+class AddCommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = '__all__'
 

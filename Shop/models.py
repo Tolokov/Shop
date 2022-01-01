@@ -203,11 +203,6 @@ class Review(models.Model):
         verbose_name_plural = 'Отзывы'
         ordering = ['created']
 
-
-
-
-
-
 # step 3
 
 class CartProduct(models.Model):

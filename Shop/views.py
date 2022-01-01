@@ -42,14 +42,16 @@ class BlogListView(ListView):
         return context
 
 
-class BlogDetailView(DetailView):
+class BlogDetailView(FormView, DetailView):
     model = News
     template_name = 'pages/blog-single.html'
     pk_url_kwarg = 'post_id'
     context_object_name = 'single_post'
+    form_class = AddCommentForm
+    queryset = News.objects.filter(draft=False)
 
-    def get_queryset(self):
-        return News.objects.filter(draft=False)
+    def get_success_url(self):
+        return self.request.path
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -57,6 +59,18 @@ class BlogDetailView(DetailView):
         context['count'] = context['comments'].count()
         context['responses'] = 'Отзывов'
         return context
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super(BlogDetailView, self).form_valid(form)
+
+    # def post(self, request, *args, **kwargs):
+    #     form = ReviewForm(request.POST)
+    #     if form.is_valid():
+    #         form = form.cleaned_data
+    #
+    #     return redirect(self.request.path)
+
 
 
 class HomeListView(ListView):
