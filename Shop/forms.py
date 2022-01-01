@@ -6,7 +6,17 @@ class AddNewAddressDeliveryForm(ModelForm):
     class Meta:
         model = Delivery
         fields = '__all__'
-
+        widgets = {
+            'address_header': TextInput(attrs={"placeholder": "header"}),
+            'name_first': TextInput(attrs={"placeholder": "name_first"}),
+            'name_last': TextInput(attrs={"placeholder": "name_last"}),
+            'address': TextInput(attrs={"placeholder": "address"}),
+            'country': TextInput(attrs={"placeholder": "country"}),
+            'state': TextInput(attrs={"placeholder": "state"}),
+            'phone': TextInput(attrs={"placeholder": "phone"}),
+            'sub_phone': TextInput(attrs={"placeholder": "sub_phone"}),
+            'zip': TextInput(attrs={"placeholder": "zip"}),
+        }
 
 class ContactForm(Form):
     required = {"required": "required"}

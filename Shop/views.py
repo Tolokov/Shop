@@ -160,28 +160,17 @@ class ContactFormView(FormView):
 
 # /////////////////////////////
 
-class DeliveryView(FormView):
+class DeliveryFormView(FormView):
     template_name = 'pages/delivery.html'
     form_class = AddNewAddressDeliveryForm
 
     def get_success_url(self):
         return self.request.path
 
-    # def get(self, request):
-    #     form = AddNewAddressDeliveryForm()
-    #     return render(request, 'pages/delivery.html', {'form': form})
-    #
-    # def post(self, request):
-    #     form = AddNewAddressDeliveryForm(request.POST)
-    #     if form.is_valid():
-    #         try:
-    #             Delivery.objects.create(**form.cleaned_data)
-    #             return redirect('/')
-    #         except:
-    #             form.add_error(None, 'Ошибка добавления адреса')
-    #     else:
-    #         form = AddNewAddressDeliveryForm()
-    #     return render(request, 'pages/delivery.html', {'form': form})
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        form.save(self)
+        return super(DeliveryFormView, self).form_valid(form)
 
 
 class CartView(View):

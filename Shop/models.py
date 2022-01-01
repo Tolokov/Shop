@@ -346,7 +346,7 @@ class Delivery(models.Model):
     zip = models.CharField(max_length=10)
     phone = CharField(max_length=20)
     sub_phone = CharField(max_length=20)
-    fax = CharField(max_length=20)
+    fax = CharField(max_length=20, blank=True)
     comment = TextField()
 
     def __str__(self):
