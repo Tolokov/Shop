@@ -36,9 +36,7 @@ class BlogListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Новостной блог'
         context['blog_selected'] = 'active'
-        context['headline'] = (
-            'Latest From our Blog', 'Читать дальше...'
-        )
+        context['headline'] = ('Latest From our Blog', 'Читать дальше...')
         return context
 
 
@@ -47,8 +45,8 @@ class BlogDetailView(FormView, DetailView):
     template_name = 'pages/blog-single.html'
     pk_url_kwarg = 'post_id'
     context_object_name = 'single_post'
-    form_class = AddCommentForm
     queryset = News.objects.filter(draft=False)
+    form_class = AddCommentForm
 
     def get_success_url(self):
         return self.request.path
@@ -64,13 +62,20 @@ class BlogDetailView(FormView, DetailView):
         print(form.cleaned_data)
         return super(BlogDetailView, self).form_valid(form)
 
-    # def post(self, request, *args, **kwargs):
-    #     form = ReviewForm(request.POST)
-    #     if form.is_valid():
-    #         form = form.cleaned_data
-    #
-    #     return redirect(self.request.path)
+    def post(self, request, pk, *args, **kwargs):
+        form = AddCommentForm(request.POST)
+        news = News.objects.get(id=pk)
+        if form.is_valid():
+            form = form.cleaned_data
+            comment = Comment(
+                text=form['text'],
+                parent=form['parent'],
+                news=news,
+                creator=form['creator'],
+            )
+            comment.save()
 
+        return redirect(news.get_absolute_url())
 
 
 class HomeListView(ListView):
@@ -126,13 +131,8 @@ class ProductDetailView(FormView, DetailView):
             form = form.cleaned_data
             # print([type(i) for i in form])
             review = Review(
-                name=form['name'],
-                ipaddress='127.0.0.1',
-                email=form['email'],
-                text=form['text'],
-                product=product,
-                g=int(form['grade']),
-            )
+                name=form['name'],ipaddress='127.0.0.1',email=form['email'],
+                text=form['text'],product=product,g=int(form['grade']),)
             review.save()
         return redirect(product.get_absolute_url())
 

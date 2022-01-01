@@ -83,4 +83,3 @@ class AddCommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = '__all__'
-
