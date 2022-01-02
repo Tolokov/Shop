@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .models import News, Card_Product, Category, Comment, Review
 from .forms import *
+from django.conf import settings
+from django.core.mail import send_mail
 
 
 def ex404(request, exception):
@@ -168,11 +170,16 @@ class ContactFormView(FormView):
         return context
 
     def form_valid(self, form):
-        print(form.cleaned_data)
+        form = form.cleaned_data
+        print(form)
+        send_mail(form['name'],
+                  ('Отправитель: {} \nТекст сообщеня:\n{}').format(form['email'], form['text']),
+                  settings.EMAIL_HOST_USER,
+                  [settings.EMAIL_HOST_USER],
+                  fail_silently=False)
+
         return super(ContactFormView, self).form_valid(form)
 
-
-# /////////////////////////////
 
 class DeliveryFormView(FormView):
     template_name = 'pages/delivery.html'

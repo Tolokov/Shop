@@ -1,5 +1,5 @@
 from pathlib import Path
-from .security_settings import project_SECRET_KEY
+from .security_settings import *
 
 from os import path
 
@@ -89,12 +89,23 @@ USE_I18N = True
 USE_TZ = True
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = mail_host
+EMAIL_PORT = mail_port
+EMAIL_HOST_USER = mail_host_user
+EMAIL_HOST_PASSWORD = mail_host_pass
+EMAIL_USE_TLS = mail_TLS
+EMAIL_USE_SSL = mail_SSL
+
+DEFAULT_FROM_EMAIL = mail_host_user
+SERVER_EMAIL = mail_host_user
+RECIPIENTS_EMAIL = [mail_host_user]
+
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 # LOGIN_URL = 'registration/login/'
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_URL = 'static/'
 STATIC_DIR = path.join(BASE_DIR, 'static')
