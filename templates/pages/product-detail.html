@@ -20,12 +20,14 @@
                                 <div class="carousel-inner">
                                     {% for page in slider %}
                                         {% if page.number > 1 %}
-                                            <div class="item">
+                                            <div class="item carousel-inner">
                                         {% else %}
-                                            <div class="item active">
+                                            <div class="item active carousel-inner">
                                         {% endif %}
                                     {% for image in page.object_list %}
-                                        <a href=""><img src="{{ image.image.url }}" alt=""></a>
+                                        <a href="{{ image.image.url }}" target="_blank">
+                                            <img src="{{ image.image.url }}" alt="" width="80" height="100">
+                                        </a>
                                     {% endfor %}
                                     </div>
                                     {% endfor %}
