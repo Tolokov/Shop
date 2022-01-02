@@ -16,47 +16,41 @@
                             </div>
                             <div id="similar-product" class="carousel slide" data-ride="carousel">
 
-                                {#                              <!-- wrapper-for-slides -->#}
+                                <!-- wrapper-for-slides -->
                                 <div class="carousel-inner">
-                                    <div class="item active">
-                                        {#                                        {% for image in product_detail.image %}#}
-                                        <a href=""><img src="{% static 'images/product-details/similar2.jpg' %}" alt=""></a>
-                                        <a href=""><img src="{% static 'images/product-details/similar2.jpg' %}" alt=""></a>
-                                        <a href=""><img src="{% static 'images/product-details/similar3.jpg' %}" alt=""></a>
-                                        {#                                        {% endfor %}#}
+                                    {% for page in slider %}
+                                        {% if page.number > 1 %}
+                                            <div class="item">
+                                        {% else %}
+                                            <div class="item active">
+                                        {% endif %}
+                                    {% for image in page.object_list %}
+                                        <a href=""><img src="{{ image.image.url }}" alt=""></a>
+                                    {% endfor %}
                                     </div>
-                                    <div class="item">
-                                        <a href=""><img src="{% static 'images/product-details/similar1.jpg' %}" alt=""></a>
-                                        <a href=""><img src="{% static 'images/product-details/similar2.jpg' %}" alt=""></a>
-                                        <a href=""><img src="{% static 'images/product-details/similar3.jpg' %}" alt=""></a>
+                                    {% endfor %}
                                     </div>
-                                    <div class="item">
-                                        <a href=""><img src="{% static 'images/product-details/similar1.jpg' %}" alt=""></a>
-                                        <a href=""><img src="{% static 'images/product-details/similar2.jpg' %}" alt=""></a>
-                                        <a href=""><img src="{% static 'images/product-details/similar3.jpg' %}" alt=""></a>
-                                    </div>
+                                    <!-- /wrapper-for-slides--->
+
+                                    <!-- Controls -->
+                                    <a class="left item-control" href="#similar-product" data-slide="prev">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <a class="right item-control" href="#similar-product" data-slide="next">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                    <!--/Controls -->
+
                                 </div>
-                                {#                                <!-- /wrapper-for-slides--->#}
-
-                                <!-- Controls -->
-                                <a class="left item-control" href="#similar-product" data-slide="prev">
-                                    <i class="fa fa-angle-left"></i>
-                                </a>
-                                <a class="right item-control" href="#similar-product" data-slide="next">
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                                <!--/Controls -->
-
                             </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <!--/product-information-->
-                            <div class="product-information">
-                                <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival" alt=""/>
-                                <h2>{{ product_detail.name }}</h2>
-                                <p>Web ID: {{ product_detail.product_public_ID }}</p>
-                                <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
-                                <span>
+                            <div class="col-sm-7">
+                                <!--/product-information-->
+                                <div class="product-information">
+                                    <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival" alt=""/>
+                                    <h2>{{ product_detail.name }}</h2>
+                                    <p>Web ID: {{ product_detail.product_public_ID }}</p>
+                                    <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
+                                    <span>
 									<span>US ${{ product_detail.price }}</span>
 									<label>Quantity:</label>
 									<input type="text" value="3"/>
@@ -65,83 +59,85 @@
 										Add to cart
 									</button>
 								</span>
-                                <p><b>Category:</b>
-                                    {% for cat in product_detail.category.all %}
-                                        {{ cat }},
-                                    {% endfor %}
-                                </p>
-                                <p><b>Condition:</b> {{ product_detail.condition }}</p>
-                                <p><b>Brand:</b> {{ product_detail.brand }}</p>
-                                <a href=""><img
-                                        src="{% static 'images/product-details/share.png" class="share img-responsive' %}"
-                                        alt=""/></a>
-                            </div>
-                            <!--/product-information-->
-                        </div>
-                    </div>
-                    <!--/product-details-->
-
-                    {% if count == 0 %}
-                        <div><p><b>Рецензий ещё нет!</b></p>
-                    {% else %}
-                        <div><p><b>{{ count }} Рецензий </b></p>
-                    {% endif %}
-                    <!--reviews-->
-                    <hr>
-                    <div class="tab-pane fade active in" id="reviews">
-                        <div class="col-sm-12">
-                            <!--review-detail-->
-                            {% for review in reviews %}
-                                <ul>
-                                    <li><a href=""><i class="fa fa-user"></i>{{ review.name }}</a></li>
-                                    <li><a href=""><i class="fa fa-clock-o"></i>{{ review.update|date:"G:i" }} PM</a>
-                                    </li>
-                                    <li><a href=""><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}</a>
-                                    </li>
-                                </ul>
-                                <p>{{ review.text }}</p>
-                                <br>
-                                <b>Rating: {{ review.grade }}</b>
-                                <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
-                                <hr>
-                            {% endfor %}
-                            <!--/review-detail-->
-
-                            <!--contact-form-->
-                            <div>
-
-                                <div><p><b>Write Your Review</b></p>
-
-                                    <form action="{% url 'product_detail' product_detail.id %}" method="post">
-                                        {% csrf_token %}
-                                        <span>{{ form.name }}{{ form.email }}</span>
-                                        <span>{{ form.text }}</span>
-                                        <span>{{ form.grade }}</span>
-
-                                        <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}"
-                                                             alt="Review from"/>
-                                        <button class="btn btn-default pull-right" type="submit" name="submit">
-                                            Submit
-                                        </button>
-
-                                    </form>
+                                    <p><b>Category:</b>
+                                        {% for cat in product_detail.category.all %}
+                                            {{ cat }},
+                                        {% endfor %}
+                                    </p>
+                                    <p><b>Condition:</b> {{ product_detail.condition }}</p>
+                                    <p><b>Brand:</b> {{ product_detail.brand }}</p>
+                                    <a href=""><img
+                                            src="{% static 'images/product-details/share.png" class="share img-responsive' %}"
+                                            alt=""/></a>
                                 </div>
+                                <!--/product-information-->
                             </div>
-                            <br><br><br>
                         </div>
-                        <!--/contact-form-->
-                        <br>
-                        <br>
-                        <br>
+                        <!--/product-details-->
+
+                        {% if count == 0 %}
+                            <div><p><b>Рецензий ещё нет!</b></p>
+                        {% else %}
+                            <div><p><b>{{ count }} Рецензий </b></p>
+                        {% endif %}
+                        <!--reviews-->
+                        <hr>
+                        <div class="tab-pane fade active in" id="reviews">
+                            <div class="col-sm-12">
+                                <!--review-detail-->
+                                {% for review in reviews %}
+                                    <ul>
+                                        <li><a href=""><i class="fa fa-user"></i>{{ review.name }}</a></li>
+                                        <li><a href=""><i class="fa fa-clock-o"></i>{{ review.update|date:"G:i" }}
+                                            PM</a>
+                                        </li>
+                                        <li><a href=""><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}
+                                        </a>
+                                        </li>
+                                    </ul>
+                                    <p>{{ review.text }}</p>
+                                    <br>
+                                    <b>Rating: {{ review.grade }}</b>
+                                    <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
+                                    <hr>
+                                {% endfor %}
+                                <!--/review-detail-->
+
+                                <!--contact-form-->
+                                <div>
+
+                                    <div><p><b>Write Your Review</b></p>
+
+                                        <form action="{% url 'product_detail' product_detail.id %}" method="post">
+                                            {% csrf_token %}
+                                            <span>{{ form.name }}{{ form.email }}</span>
+                                            <span>{{ form.text }}</span>
+                                            <span>{{ form.grade }}</span>
+
+                                            <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}"
+                                                                 alt="Review from"/>
+                                            <button class="btn btn-default pull-right" type="submit" name="submit">
+                                                Submit
+                                            </button>
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <br><br><br>
+                            </div>
+                            <!--/contact-form-->
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                        </div>
+                        </div>
                     </div>
-                    </div>
-                    </div>
+
+
+                    <!--/reviews-->
                 </div>
-
-
-                <!--/reviews-->
             </div>
-        </div>
         </div>
     </section>
 {% endblock content %}

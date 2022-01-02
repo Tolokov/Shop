@@ -4,10 +4,11 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import News, Card_Product, Category, Comment, Review
+from .models import News, Card_Product, Category, Comment, Review, ProductImage
 from .forms import *
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
 
 
 def ex404(request, exception):
@@ -124,6 +125,8 @@ class ProductDetailView(FormView, DetailView):
         context['title'] = self.object.name
         context['reviews'] = Review.objects.filter(product=self.object)
         context['count'] = context['reviews'].count()
+        objects = ProductImage.objects.filter(product=self.object)
+        context['slider'] = Paginator(objects, per_page=3)
         return context
 
     def post(self, request, pk, *args, **kwargs):
@@ -133,8 +136,9 @@ class ProductDetailView(FormView, DetailView):
             form = form.cleaned_data
             # print([type(i) for i in form])
             review = Review(
-                name=form['name'],ipaddress='127.0.0.1',email=form['email'],
-                text=form['text'],product=product,g=int(form['grade']),)
+                name=form['name'], ipaddress='127.0.0.1', email=form['email'],
+                text=form['text'], product=product, g=int(form['grade']),
+            )
             review.save()
         return redirect(product.get_absolute_url())
 
