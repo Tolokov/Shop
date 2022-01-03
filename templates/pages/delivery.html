@@ -16,44 +16,43 @@
 
         <!--address-->
         <div class="container">
-            <div class="bill-to"><p>Выбрать адресс доставки: </p></div>
+            <div class="bill-to"><p>Выбрать сохраненный адрес доставки: </p></div>
             <select id="last_addresses" class="register-req">
-                {#                {% for address in addresses %}#}
-                <option value=”GR”>None</option>
-                {#                {% endfor %}#}
+                {% for address in addresses %}
+                    <option value=”GR”>{{ address.address_header }}</option>
+                {% endfor %}
             </select>
         </div>
         <br>
         {% include 'include/cart.html' %}
+        <hr>
     </div>
     <!--/address-->
 
+        <!--form-delivery-->
+    <div class="container">
+        <div class="tab-pane fade active in" id="reviews">
+            <div class="bill-to"><p>Добавить новый адресс доставки:</p></div>
+            <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
+                {% csrf_token %}
+                <span>{{ form.user }}<br><br></span>
+                <span>{{ form.sub_phone }} {{ form.zip }}<br><br></span>
+                <span>{{ form.address_header }} {{ form.phone }}</span><br>
+                <span>{{ form.name_first }} {{ form.name_last }}</span><br>
+                <span> {{ form.email }} {{ form.address }} </span><br>
+                <span> {{ form.country }} {{ form.state }} </span><br>
+                <span> {{ form.fax }} </span><br>
+                <div>{{ form.comment }}
+                    Получать уведомления по почте: {{ form.notification_on_email }}</div>
 
-    <!--form-delivery-->
-    <div class="shopper-informations container">
-        <hr>
-        <div class="bill-to">
-            <p>Добавить новый адресс доставки:</p></div>
-        <br>
-        <div class="shopper-informations">
-            <div class="row">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button class="btn btn-default pull-right" type="submit" name="submit"> Добавить новый адрес
-                    </button>
-                </form>
-
-            </div>
+                <button class="btn btn-default pull-right" type="submit" name="submit">
+                    Submit
+                </button>
+            </form>
         </div>
-        <br>
-        <br>
-        <br>
     </div>
-    </div>
-    </div>
-    </div>
-    <!--/form-delivery-->
+    <br><br>
+<!--/form-delivery-->
 
 
 

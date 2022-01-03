@@ -3,6 +3,11 @@ from .models import Delivery, User, Comment
 
 
 class AddNewAddressDeliveryForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user'].empty_label = 'Это поле должно быть выбрано автоматически'
+
     class Meta:
         model = Delivery
         fields = '__all__'

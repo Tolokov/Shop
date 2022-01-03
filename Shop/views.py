@@ -188,13 +188,16 @@ class ContactFormView(FormView):
 class DeliveryFormView(FormView):
     template_name = 'pages/delivery.html'
     form_class = AddNewAddressDeliveryForm
+    success_url = '/delivery/'
 
-    def get_success_url(self):
-        return self.request.path
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['addresses'] = Delivery.objects.filter(user=self.request.user.id)
+        return context
 
     def form_valid(self, form):
+        form.save()
         print(form.cleaned_data)
-        form.save(self)
         return super(DeliveryFormView, self).form_valid(form)
 
 
