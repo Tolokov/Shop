@@ -70,11 +70,14 @@ class BlogDetailView(FormView, DetailView):
         news = News.objects.get(id=kwargs['pk'])
         creator = User.objects.get(id=self.request.user.id)
         if form.is_valid():
-            form.save(commit=False)
             form = form.cleaned_data
+            if request.POST.get('parent', None):
+                parent = Comment.objects.get(id=int(request.POST.get('parent')))
+            else:
+                parent = None
             comment = Comment(
                 text=form['text'],
-                parent=form['parent'],
+                parent=parent,
                 news=news,
                 creator=creator,
             )

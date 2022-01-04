@@ -88,3 +88,7 @@ class AddCommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = '__all__'
+        widgets = {'text': Textarea(attrs={
+            "required": "header",
+            "id": "commentator",
+        })}

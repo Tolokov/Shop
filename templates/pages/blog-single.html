@@ -37,7 +37,6 @@
                     <!--/blog-post-area-->
 
                     <!--Comments-->
-
                     <div class="response-area">
                         <h2>{{ count }} {{ responses|upper }}</h2>
                         <ul class="media-list">
@@ -64,7 +63,9 @@
                                         {{ comment.created|date:"d-F-Y" }}</li>
                                 </ul>
                                 <p>{{ comment.text }}</p>
-                                <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>Replay</a>
+                                <a class="btn btn-primary" href="#formComment"
+                                   onclick="addComment('{{ comment.creator }}', '{{ comment.id }}')">
+                                    <i class="fa fa-reply"></i>Replay</a>
                             </div>
                             </li>
                             {% endfor %}
@@ -73,22 +74,23 @@
                     </div>
                     <!--/Comments-->
 
-
-                    <!--Repaly Box-->
+                    <!--replay-box-->
                     {% if user.is_authenticated %}
                         <div class="replay-box">
-                            <div><hr>
-                    <form action="{% url 'single_post' single_post.id  %}" method="post" id="CommentForm">
-                        {% csrf_token %}
-                            <h2>Оставить комментарий:</h2>
                             <div>
-                                <span>*</span>
-                                {{ form.text }}
-                                <br>
-                                <br>
-                                <button class="btn btn-default btn-primary pull-right" href="#formComment" type="submit" name="submit">
-                                    Отправить
-                                </button >
+                                <hr>
+                                <form id="formComment" action="{% url 'single_post' single_post.id %}" method="post">
+                                    {% csrf_token %}
+                                    <h2>Оставить комментарий:</h2>
+                                    <input type="hidden" name="parent" id="contactparent" value="">
+                                    <div>
+                                        {{ form.text }}
+                                        <br>
+                                        <br>
+                                        <button class="btn btn-default btn-primary pull-right" href="#formComment"
+                                                type="submit" name="submit">
+                                            Отправить
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -108,13 +110,18 @@
                         </div>
                         <!--/login-signup-->
                     {% endif %}
-                    <!--/Repaly Box-->
+                    <!--/replay-box-->
 
 
                 </div>
             </div>
         </div>
     </section>
-
+    <script>
+        function addComment(name, id) {
+            document.getElementById("contactparent").value = id;
+            document.getElementById("commentator").innerText = `${name}, `
+        }
+    </script>
 
 {% endblock content %}
