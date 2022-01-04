@@ -65,16 +65,18 @@ class BlogDetailView(FormView, DetailView):
         print(form.cleaned_data)
         return super(BlogDetailView, self).form_valid(form)
 
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, **kwargs):
         form = AddCommentForm(request.POST)
-        news = News.objects.get(id=pk)
+        news = News.objects.get(id=kwargs['pk'])
+        creator = User.objects.get(id=self.request.user.id)
         if form.is_valid():
+            form.save(commit=False)
             form = form.cleaned_data
             comment = Comment(
                 text=form['text'],
                 parent=form['parent'],
                 news=news,
-                creator=form['creator'],
+                creator=creator,
             )
             comment.save()
 

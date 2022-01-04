@@ -77,40 +77,25 @@
                     <!--Repaly Box-->
                     {% if user.is_authenticated %}
                         <div class="replay-box">
-                            <div class="row">
-                                <form action="{% url 'single_post' single_post.id %}" method="post">
-                                    {% csrf_token %}
-                                    <div class="col-sm-4">
-                                        <h2>Leave a replay</h2>
-                                        <div class="blank-arrow">
-                                            <label>Your Name</label>
-                                        </div>
-                                        <span>*</span>
-                                        <div>{{ form.creator }}</div>
-                                        <br>
-                                        <div class="blank-arrow">
-                                            <label>Ответ или нет</label>
-                                        </div>
-                                        <span>*</span>
-                                        <div>{{ form.parent }}</div>
-                                        <br>
-
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <div class="text-area">
-                                            <div class="blank-arrow">
-                                                <label>Your Name</label>
-                                            </div>
-                                            <span>*</span>
-                                            {{ form.text }}
-                                            <button class="btn btn-primary" type="submit" name="submit">Отправить
-                                            </button>
-                                        </div>
+                            <div><hr>
+                    <form action="{% url 'single_post' single_post.id  %}" method="post" id="CommentForm">
+                        {% csrf_token %}
+                            <h2>Оставить комментарий:</h2>
+                            <div>
+                                <span>*</span>
+                                {{ form.text }}
+                                <br>
+                                <br>
+                                <button class="btn btn-default btn-primary pull-right" href="#formComment" type="submit" name="submit">
+                                    Отправить
+                                </button >
                                     </div>
                                 </form>
                             </div>
                         </div>
                     {% else %}
+
+                        <!--login-signup-->
                         <div class="replay-box">
                             <div class="row">
                                 <h2 class="title text-center">
@@ -121,7 +106,7 @@
                                 </h2>
                             </div>
                         </div>
-
+                        <!--/login-signup-->
                     {% endif %}
                     <!--/Repaly Box-->
 
