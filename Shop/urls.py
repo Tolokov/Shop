@@ -5,7 +5,6 @@ from django.conf.urls.static import static
 from Shop import views
 from .views import SignUpView
 
-
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
     path('blog/', views.BlogListView.as_view(), name='blog'),
@@ -15,10 +14,8 @@ urlpatterns = [
     path('products/<int:product_ID>/', views.ProductDetailView.as_view(), name='product_detail'),
     path('review/<int:pk>/', views.ProductDetailView.as_view(), name="product_detail"),
 
-
     path('contact/', views.ContactFormView.as_view(), name='contact'),
     path('delivery/', views.DeliveryFormView.as_view(), name='delivery'),
-
 
     path('shop/', views.ShopListView.as_view(), name='shop'),
     path('signup/', SignUpView.as_view(), name='signup'),
@@ -29,5 +26,3 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-

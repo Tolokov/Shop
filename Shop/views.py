@@ -4,11 +4,13 @@ from django.views.generic.edit import FormMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import News, Card_Product, Category, Comment, Review, ProductImage
+from .models import News, Card_Product, Category, Comment, Review, ProductImage, Brand
 from .forms import *
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
+from django.db.models import Max, Min
+from math import ceil, floor
 
 
 def ex404(request, exception):
@@ -86,7 +88,22 @@ class BlogDetailView(FormView, DetailView):
         return redirect(news.get_absolute_url())
 
 
-class HomeListView(ListView):
+class Custom:
+
+    def get_categories(self):
+        return Category.objects.all()
+
+    def get_brands(self):
+        return Brand.objects.all()
+
+    def get_price_min(self):
+        return floor(Card_Product.objects.aggregate(Min('price'))['price__min'])
+
+    def get_price_max(self):
+        return ceil(Card_Product.objects.aggregate(Max('price'))['price__max'])
+
+
+class HomeListView(Custom, ListView):
     model = Card_Product
     template_name = 'pages/index.html'
     context_object_name = 'products'
@@ -101,7 +118,7 @@ class HomeListView(ListView):
         return Card_Product.objects.filter(availability=False)
 
 
-class ShopListView(ListView):
+class ShopListView(Custom, ListView):
     model = Card_Product
     template_name = 'pages/shop.html'
     context_object_name = 'products'
@@ -134,12 +151,11 @@ class ProductDetailView(FormView, DetailView):
         context['slider'] = Paginator(objects, per_page=3)
         return context
 
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, **kwargs):
         form = ReviewForm(request.POST)
-        product = Card_Product.objects.get(id=pk)
+        product = Card_Product.objects.get(id=kwargs['pk'])
         if form.is_valid():
             form = form.cleaned_data
-            # print([type(i) for i in form])
             review = Review(
                 name=form['name'], ipaddress='127.0.0.1', email=form['email'],
                 text=form['text'], product=product, g=int(form['grade']),
