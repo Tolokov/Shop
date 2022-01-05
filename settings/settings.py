@@ -88,7 +88,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = mail_host
@@ -101,7 +100,6 @@ EMAIL_USE_SSL = mail_SSL
 DEFAULT_FROM_EMAIL = mail_host_user
 SERVER_EMAIL = mail_host_user
 RECIPIENTS_EMAIL = [mail_host_user]
-
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

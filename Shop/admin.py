@@ -3,12 +3,12 @@ from django.utils.safestring import mark_safe
 from .models import *
 from mptt.admin import MPTTModelAdmin
 
-
 admin.site.site_title = 'Панель администрирования интернет магазина'
 admin.site.site_header = 'Панель администрирования интернет магазина'
 
 
 class GetImage:
+    """Вывод изображений в административную панель"""
 
     def get_logo(self, obj):
         return mark_safe(f'<img src={obj.logo.url} width="100%" height="80"')
@@ -25,9 +25,7 @@ class GetImage:
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    '''
-    Новости и события
-    '''
+    """Новости и события на странице /blog/"""
     list_display = ('id', 'title', 'date', 'time', 'draft', 'poster', 'creator',)
     list_filter = ('creator', 'draft',)
     search_fields = ('title', 'description')
@@ -60,11 +58,10 @@ class CategoryAdmin(admin.ModelAdmin):
 
     get_count_category_products.short_description = 'Продуктов в категории'
 
+
 @admin.register(ProductImage)
 class ProductImages(admin.ModelAdmin, GetImage):
-    '''
-    Все второстепенные изображения товара
-    '''
+    """Все изображения товара"""
     list_display = ('product', 'get_image')
     readonly_fields = ('get_image',)
     list_filter = ('product',)
@@ -81,17 +78,13 @@ class ProductImagesInline(admin.TabularInline, GetImage):
 
 @admin.register(Card_Product)
 class CardProductAdmin(admin.ModelAdmin, GetImage):
-    '''
-    Карточка продукта
-    '''
+    """Карточка продукта"""
     list_per_page = 20
     save_as = True
     readonly_fields = ('get_icon',)
     search_fields = ('product_public_ID', 'name', 'description')
     list_filter = ('availability', 'condition', 'category', 'brand',)
     save_on_top = True
-
-
 
     inlines = [ProductImagesInline]
     list_display = (
@@ -129,8 +122,8 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
          })
     )
 
-    # поле обратной видимости в случае ManyToMany
     def show_category(self, obj):
+        """поле обратной видимости в случае ManyToMany"""
         return '\n'.join([cat.name for cat in obj.category.all()])
 
 
@@ -141,7 +134,7 @@ class CommentAdmin(MPTTModelAdmin):
 
 # @admin.register(RatingGrade)
 # class RatingAdmin(admin.ModelAdmin):
-#     '''Итоговый рейтинг'''
+#     """Итоговый рейтинг"""
 #     list_display = ('value', 'show_product')
 #
 #     def show_product(self, obj):
@@ -150,13 +143,13 @@ class CommentAdmin(MPTTModelAdmin):
 
 @admin.register(Review)
 class RatingGradeAdmin(admin.ModelAdmin):
-    '''Все оценки продукту'''
+    """Все оценки продукту"""
     list_display = ('name', 'ipaddress', 'email', 'created', 'product', 'update')
 
 
 @admin.register(Cart)
 class CartGradeAdmin(admin.ModelAdmin):
-    '''Корзина покупателя'''
+    """Корзина покупателя"""
     list_display = ('user', 'total_product', 'total_price', 'products')
     # def show_products(self, obj):
     #     return '\n'.join([cat.name for cat in obj.products.all()])
@@ -164,7 +157,7 @@ class CartGradeAdmin(admin.ModelAdmin):
 
 @admin.register(Favorites)
 class FavoritesAdmin(admin.ModelAdmin):
-    '''Избранное'''
+    """Избранное"""
     list_display = ('user', 'show_products')
 
     def show_products(self, obj):
@@ -199,6 +192,3 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Delivery)
 class DeliveryAdmin(admin.ModelAdmin):
     list_display = ('address_header', 'user', 'email')
-
-
-

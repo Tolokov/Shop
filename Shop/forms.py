@@ -3,6 +3,7 @@ from .models import Delivery, User, Comment
 
 
 class AddNewAddressDeliveryForm(ModelForm):
+    """Форма добавления адреса для доставки"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,7 +24,9 @@ class AddNewAddressDeliveryForm(ModelForm):
             'zip': TextInput(attrs={"placeholder": "zip"}),
         }
 
+
 class ContactForm(Form):
+    """Форма обращения в техническую поддержку через smtp.gmail"""
     required = {"required": "required"}
 
     name_attrs = {
@@ -55,6 +58,7 @@ class ContactForm(Form):
 
 
 class ReviewForm(Form):
+    """Добавление отзыва к карточке продукта"""
     required = {
         "required": "required",
         "class": "form-group col-md-6 form-control",
@@ -85,6 +89,7 @@ class ReviewForm(Form):
 
 
 class AddCommentForm(ModelForm):
+    """Добавление комментария к новости"""
     class Meta:
         model = Comment
         fields = '__all__'

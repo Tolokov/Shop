@@ -15,9 +15,7 @@ from mptt.models import TreeForeignKey, MPTTModel
 
 
 class News(models.Model):
-    '''
-    Посты с новостями и событиями, которые может оставлять только зарегистрированный пользователь
-    '''
+    """Новости и события, доступ к форме только для пользователей"""
     title = CharField('Заголовок', max_length=150)
     description = TextField('Описание', max_length=5000)
     date = DateField('Дата создания', default=date.today)
@@ -47,9 +45,7 @@ class News(models.Model):
 
 
 class Comment(MPTTModel):
-    '''
-    Комментарии к ивентам, новостям и другим комментариям, реализовать связь.
-    '''
+    """Комментарии к News"""
     text = models.TextField('Коментарий', max_length=1500, blank=True)
     parent = TreeForeignKey(
         'self',
@@ -74,11 +70,8 @@ class Comment(MPTTModel):
         order_insertion_by = ['created']
 
 
-
 class Category(models.Model):
-    '''
-    Многие ко многим
-    '''
+    """Категории продуктов"""
     name = models.CharField("Название категории", max_length=150)
     description = models.TextField("Описание", max_length=1500, blank=True)
     slug = models.SlugField(max_length=160, unique=True)
@@ -86,18 +79,13 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse('home', kwargs={'category_slug': self.slug})
-    #
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
 
 
 class Brand(models.Model):
-    '''
-    Один ко многим
-    '''
+    """Производитель продукта"""
     name = models.CharField("Название бренда", max_length=150)
     description = models.TextField("Описание", max_length=1500)
     slug = models.SlugField(max_length=160, unique=True)
@@ -112,9 +100,7 @@ class Brand(models.Model):
 
 
 class Card_Product(models.Model):
-    '''
-    Карточка продукта
-    '''
+    """Карточка продукта"""
     product_public_ID = models.IntegerField(primary_key=False, unique=True, null=False,
                                             default=randint(1000000, 9999999))
     name = CharField(max_length=300)
@@ -154,9 +140,7 @@ class Card_Product(models.Model):
 
 
 class ProductImage(models.Model):
-    '''
-    Изображения отображаемые с карточкой товара.
-    '''
+    """Изображения отображаемые с карточкой товара. на галерее изображений"""
     title = models.CharField("Заголовок", max_length=100, blank=True)
     description = models.TextField("Описание", max_length=2000, blank=True)
     image = models.ImageField("Фотография товара", upload_to="media/")
@@ -170,21 +154,8 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Фотографии к товару'
 
 
-# class RatingGrade(models.Model):
-#     '''
-#     Отображаемые значения рейтинга
-#     '''
-#     value = models.PositiveSmallIntegerField("Рейтинг", default=0)
-#
-#     def __str__(self):
-#         return f'{self.value}'
-#
-#     class Meta:
-#         verbose_name = 'Отображаемое значение рейтинга'
-#         verbose_name_plural = 'Отображаемые значения рейтинга'
-
-
 class Review(models.Model):
+    """Отзывы к продуктам"""
     name = CharField(max_length=150)
     ipaddress = CharField('Ip адрес', max_length=15)
     email = models.EmailField()
@@ -203,12 +174,9 @@ class Review(models.Model):
         verbose_name_plural = 'Отзывы'
         ordering = ['created']
 
-# step 3
 
 class CartProduct(models.Model):
-    '''
-    Выбранные пользователем товары
-    '''
+    """Выбранные пользователем товары"""
     user = models.ForeignKey(User, on_delete=CASCADE)
     products = models.ManyToManyField(Card_Product)
 
@@ -221,9 +189,7 @@ class CartProduct(models.Model):
 
 
 class Cart(models.Model):
-    '''
-    Корзина пользователя
-    '''
+    """Корзина пользователя"""
     user = models.ForeignKey(User, on_delete=CASCADE)
     products = models.ForeignKey(CartProduct, on_delete=CASCADE, blank=True)
     total_product = models.PositiveIntegerField(default=0)
@@ -238,9 +204,7 @@ class Cart(models.Model):
 
 
 class Favorites(models.Model):
-    '''
-    Избранное
-    '''
+    """Избранное пользователя"""
     user = models.ForeignKey(User, on_delete=CASCADE)
     products = models.ManyToManyField(Card_Product)
 
@@ -250,9 +214,7 @@ class Favorites(models.Model):
 
 
 class Order(models.Model):
-    '''
-    Заказ
-    '''
+    """Заказ пользователя"""
     user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True, )
 
@@ -294,38 +256,8 @@ class Order(models.Model):
         verbose_name_plural = 'Заказы'
 
 
-# # step 4
-# class Promo(models.Model):
-#     '''
-#     Промокоды, скидки и подарочные сертификаты
-#     '''
-#
-# class Currency(models.Model):
-#     '''
-#     Курс валют
-#     '''
-#
-# class Notification(models.Model):
-#     """Уведомления"""
-#
-#     recipient = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name='Получатель')
-#     text = models.TextField()
-#     read = models.BooleanField(default=False)
-#     objects = NotificationManager()
-#
-#     def __str__(self):
-#         return f"Уведомление для {self.recipient.user.username} | id={self.id}"
-#
-#     class Meta:
-#         verbose_name = 'Уведомление'
-#         verbose_name_plural = 'Уведомления'
-
-#
-# # step 5
 class Delivery(models.Model):
-    '''
-    Адрес поставки, заполняется зарегистрированным пользователем
-    '''
+    """Адрес доставки"""
     user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=SET_NULL, null=True)
     address_header = CharField(verbose_name='односложный заголовок адреса доставки', max_length=500, blank=True)
     email = models.EmailField(max_length=254, blank=True, default='User.email')
@@ -351,8 +283,44 @@ class Delivery(models.Model):
         verbose_name = 'Адрес доставки'
         verbose_name_plural = 'Адреса доставки'
 
+# class RatingGrade(models.Model):
+#     """
+#     Отображаемые значения рейтинга
+#     """
+#     value = models.PositiveSmallIntegerField("Рейтинг", default=0)
 #
+#     def __str__(self):
+#         return f'{self.value}'
+#
+#     class Meta:
+#         verbose_name = 'Отображаемое значение рейтинга'
+#         verbose_name_plural = 'Отображаемые значения рейтинга'
+
+# class Promo(models.Model):
+#     """
+#     Промокоды, скидки и подарочные сертификаты
+#     """
+#
+# class Currency(models.Model):
+#     """
+#     Курс валют
+#     """
+#
+# class Notification(models.Model):
+#     """Уведомления"""
+#     recipient = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name='Получатель')
+#     text = models.TextField()
+#     read = models.BooleanField(default=False)
+#     objects = NotificationManager()
+#
+#     def __str__(self):
+#         return f"Уведомление для {self.recipient.user.username} | id={self.id}"
+#
+#     class Meta:
+#         verbose_name = 'Уведомление'
+#         verbose_name_plural = 'Уведомления'
+
 # class Cart_Supplier(models.Model):
-#     '''
+#     """
 #     Тележка товаров пользователя, с последующим добавлением к количеству каждого товара
-#     '''
+#     """
