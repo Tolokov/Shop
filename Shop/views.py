@@ -110,10 +110,21 @@ class FilterProductView(Custom, ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
-        queryset = Card_Product.objects.filter(
-            Q(brand__in=self.request.GET.getlist("brand")) |
-            Q(category__in=self.request.GET.getlist("category"))).distinct()
-        return queryset
+
+        if self.request.GET == {}:
+            return Card_Product.objects.all()
+
+        elif len(self.request.GET) == 2:
+            queryset = Card_Product.objects.filter(
+                Q(category__in=self.request.GET.getlist("category")) &
+                Q(brand__in=self.request.GET.getlist("brand"))).distinct()
+            return queryset
+
+        else:
+            queryset = Card_Product.objects.filter(
+                Q(category__in=self.request.GET.getlist("category")) |
+                Q(brand__in=self.request.GET.getlist("brand"))).distinct()
+            return queryset
 
 
 class HomeListView(Custom, ListView):
@@ -173,9 +184,6 @@ class ProductDetailView(FormView, DetailView):
             )
             review.save()
         return redirect(product.get_absolute_url())
-
-
-
 
 
 class ContactFormView(FormView):
