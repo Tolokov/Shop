@@ -1,7 +1,8 @@
 from django.shortcuts import redirect
-from .models import News, Comment, User
 from django.views.generic import ListView, DetailView, FormView
-from .forms import AddCommentForm
+
+from Blog.models import News, Comment, User
+from Blog.forms import AddCommentForm
 
 
 class BlogListView(ListView):

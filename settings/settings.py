@@ -23,9 +23,9 @@ INSTALLED_APPS = [
 
     'mptt',
 
-    'Shop',
     'Blog',
-
+    'Interactive',
+    'Shop',
 ]
 
 MIDDLEWARE = [

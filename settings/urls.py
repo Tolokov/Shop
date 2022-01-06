@@ -5,7 +5,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Shop.urls')),
     path('blog/', include('Blog.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('Interactive.urls')),
 ]
 
 handler404 = 'Shop.views.ex404'
