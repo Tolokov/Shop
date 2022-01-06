@@ -5,3 +5,6 @@ pyvenv.cfg
 */security_settings.py
 Lib
 /media/
+/static/admin/
+/static/ckeditor/
+/static/mptt/

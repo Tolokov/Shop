@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'ckeditor',
+    'ckeditor_uploader',
     'mptt',
 
     'Blog',
@@ -109,6 +111,9 @@ LOGOUT_REDIRECT_URL = '/'
 STATIC_URL = 'static/'
 STATIC_DIR = path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
+# STATIC_ROOT = path.join(BASE_DIR, 'static')
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = path.join(BASE_DIR, 'media')

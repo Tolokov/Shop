@@ -1,7 +1,18 @@
 from django.contrib import admin
 from Blog.models import News, Comment
+from django import forms
 
 from mptt.admin import MPTTModelAdmin
+from Blog.models import News
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+
+class NewsAdminForm(forms.ModelForm):
+    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = News
+        fields = '__all__'
 
 
 @admin.register(News)
@@ -13,9 +24,10 @@ class NewsAdmin(admin.ModelAdmin):
     save_as = True
     save_as_continue = False
     list_per_page = 30
-    actions_on_bottom = True
     save_on_top = True
+    actions_on_bottom = True
     list_editable = ('draft',)
+    form = NewsAdminForm
 
 
 @admin.register(Comment)
