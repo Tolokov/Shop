@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'mptt',
 
     'Shop',
+    'Blog',
 
 ]
 

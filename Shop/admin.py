@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import *
-from mptt.admin import MPTTModelAdmin
+from Shop.models import *
 
 admin.site.site_title = 'Панель администрирования интернет магазина'
 admin.site.site_header = 'Панель администрирования интернет магазина'
@@ -21,20 +20,6 @@ class GetImage:
 
     get_image.short_description = 'Логотип'
     get_icon.short_description = 'Изображение'
-
-
-@admin.register(News)
-class NewsAdmin(admin.ModelAdmin):
-    """Новости и события на странице /blog/"""
-    list_display = ('id', 'title', 'date', 'time', 'draft', 'poster', 'creator',)
-    list_filter = ('creator', 'draft',)
-    search_fields = ('title', 'description')
-    save_as = True
-    save_as_continue = False
-    list_per_page = 30
-    actions_on_bottom = True
-    save_on_top = True
-    list_editable = ('draft',)
 
 
 @admin.register(Brand)
@@ -126,10 +111,6 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         """поле обратной видимости в случае ManyToMany"""
         return '\n'.join([cat.name for cat in obj.category.all()])
 
-
-@admin.register(Comment)
-class CommentAdmin(MPTTModelAdmin):
-    list_display = ('creator', 'text', 'parent', 'news', 'created')
 
 
 # @admin.register(RatingGrade)

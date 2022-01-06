@@ -1,5 +1,5 @@
-from django.forms import *
-from .models import Delivery, User, Comment
+from django.forms import TextInput, Form, ModelForm, CharField, Textarea, EmailField, IntegerField
+from Shop.models import Delivery
 
 
 class AddNewAddressDeliveryForm(ModelForm):
@@ -88,12 +88,4 @@ class ReviewForm(Form):
     grade = IntegerField(max_value=10, min_value=0)
 
 
-class AddCommentForm(ModelForm):
-    """Добавление комментария к новости"""
-    class Meta:
-        model = Comment
-        fields = '__all__'
-        widgets = {'text': Textarea(attrs={
-            "required": "header",
-            "id": "commentator",
-        })}
+
