@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.db.models import Max, Min
 from math import ceil, floor
-
+from django.db.models import Q
 
 def ex404(request, exception):
     context = {'errorMessage': 'We Couldn’t Find this Page'}
@@ -103,19 +103,30 @@ class Custom:
         return ceil(Card_Product.objects.aggregate(Max('price'))['price__max'])
 
 
+class FilterProductView(Custom, ListView):
+    """Фильтр продуктов"""
+    model = Card_Product
+    template_name = 'pages/shop.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = Card_Product.objects.filter(
+            Q(brand__in=self.request.GET.getlist("brand")) |
+            Q(category__in=self.request.GET.getlist("category")))
+        return queryset
+
+
 class HomeListView(Custom, ListView):
     model = Card_Product
     template_name = 'pages/index.html'
     context_object_name = 'products'
+    queryset = Card_Product.objects.filter(availability=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
         context['home_selected'] = 'active'
         return context
-
-    def get_queryset(self):
-        return Card_Product.objects.filter(availability=False)
 
 
 class ShopListView(Custom, ListView):
@@ -162,6 +173,9 @@ class ProductDetailView(FormView, DetailView):
             )
             review.save()
         return redirect(product.get_absolute_url())
+
+
+
 
 
 class ContactFormView(FormView):

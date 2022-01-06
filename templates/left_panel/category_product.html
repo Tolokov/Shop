@@ -5,7 +5,9 @@
     {% for category in view.get_categories %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title"><a href="#">{{ category.name }}</a></h4>
+                <h4 class="panel-title">
+                    <a href="{% url 'filter' %}?category={{ category.id }}" type="submit">
+                        {{ category.name }}</a></h4>
             </div>
         </div>
     {% endfor %}
