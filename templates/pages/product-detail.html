@@ -62,9 +62,7 @@
 									</button>
 								</span>
                                     <p><b>Category:</b>
-                                        {% for cat in product_detail.category.all %}
-                                            {{ cat }},
-                                        {% endfor %}
+                                        {{ product_detail.category.all | join:", "}}
                                     </p>
                                     <p><b>Condition:</b> {{ product_detail.condition }}</p>
                                     <p><b>Brand:</b> {{ product_detail.brand }}</p>

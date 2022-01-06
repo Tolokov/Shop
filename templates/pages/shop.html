@@ -20,14 +20,20 @@
                 <div class="col-sm-3">
                     <div class="left-sidebar">
                         <h2>Category</h2>
+                        <form action="{% url 'filter' %}" method="get">
 
+                            {% include 'left_panel/category_product.html' %}
+                            {% include 'left_panel/category_brand.html' %}
+                            {% include 'left_panel/category_price.html' %}
+                            <button type="submit" class="btn btn-primary"
+                                    style="display: block; margin: 0 auto">
+                                Применить
+                            </button>
 
-                        {% include 'left_panel/category_product.html' %}
-                        {% include 'left_panel/category_brand.html' %}
-                        {% include 'left_panel/category_price.html' %}
-
-
+                        </form>
+                        <br>
                         {% include 'left_panel/shipping.html' %}
+
                     </div>
                 </div>
                 <!--/left-panel-->

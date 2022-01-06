@@ -5,9 +5,12 @@
     {% for category in view.get_categories %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a href="{% url 'filter' %}?category={{ category.id }}" type="submit">
-                        {{ category.name }}</a></h4>
+
+                <li>
+                    <input value="{{ category.id }}" name="category" type="checkbox">
+                    <span style="color:black;padding-left:10px;">  {{ category.name }}</span>
+                </li>
+
             </div>
         </div>
     {% endfor %}

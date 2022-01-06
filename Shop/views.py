@@ -112,7 +112,7 @@ class FilterProductView(Custom, ListView):
     def get_queryset(self):
         queryset = Card_Product.objects.filter(
             Q(brand__in=self.request.GET.getlist("brand")) |
-            Q(category__in=self.request.GET.getlist("category")))
+            Q(category__in=self.request.GET.getlist("category"))).distinct()
         return queryset
 
 
