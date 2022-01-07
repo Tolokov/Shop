@@ -24,7 +24,7 @@
 
                             {% include 'left_panel/category_product.html' %}
                             {% include 'left_panel/category_brand.html' %}
-{#                            {% include 'left_panel/category_price.html' %}#}
+                            {# {% include 'left_panel/category_price.html' %}#}
                             <br>
                             <br>
                             <button type="submit" class="btn btn-primary"
@@ -34,7 +34,13 @@
 
                         </form>
                         <br>
-                        {% include 'left_panel/shipping.html' %}
+                        <!--shipping-->
+                        <div>
+                            <div class="shipping text-center">
+                                <img src="{% static 'images/home/shipping.jpg' %}" alt=""/>
+                            </div>
+                        </div>
+                        <!--/shipping-->
 
                     </div>
                 </div>
