@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from Shop.models import Card_Product, Category, Review, ProductImage, Brand
 from Shop.forms import ReviewForm, AddNewAddressDeliveryForm, Delivery
 from django.core.paginator import Paginator
-from django.db.models import Max, Min
+from django.db.models import Max, Min, Count
 from math import ceil, floor
 from django.db.models import Q
 
@@ -23,6 +23,7 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
+
 
 class Custom:
 
@@ -67,13 +68,29 @@ class HomeListView(Custom, ListView):
     model = Card_Product
     template_name = 'pages/index.html'
     context_object_name = 'products'
-    queryset = Card_Product.objects.filter(availability=False)
+
+    # Нельзя использовать в запросе количество объектов связанной модели, предварительно не аннотировав к запросу.
+    # queryset = Post.objects.all().order_by('?????')
+    # queryset = Card_Product.objects.filter(availability=False).annotate(cnt=Count('review')).order_by('-cnt')[:3:]
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
         context['home_selected'] = 'active'
+        queryset = Card_Product.objects.filter(availability=False)
+
+        recommended_queryset = queryset.annotate(cnt=Count('review')).order_by('-cnt')
+        recommended_queryset = self.cut_queryset(recommended_queryset, 3)
+        context['recommended_item'] = recommended_queryset[0]
+        context['recommended_next_items'] = recommended_queryset[1:4]
         return context
+
+    @staticmethod
+    def cut_queryset(queryset, step=3):
+        result = list()
+        for i in range(0, len(queryset), step):
+            result.append(queryset[i:i + step])
+        return result
 
 
 class ShopListView(Custom, ListView):
