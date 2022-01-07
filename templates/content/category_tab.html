@@ -1,37 +1,93 @@
 {% load static %}
-{% load content_tags %}
+
+{#{% load content_tags %}#}
+{##}
+{#<!--category-tab-->#}
+{#<div class="category-tab">#}
+{#    <div class="col-sm-12">#}
+{#        <ul class="nav nav-tabs">#}
+{##}
+{#            {% get_categories as categories %}#}
+{#            {% for category in categories %}#}
+{#                <li><a href="{{ category }}" data-toggle="tab">{{ category }}</a></li>#}
+{#            {% endfor %}#}
+{#class="active"#}
+{#        </ul>#}
+{#    </div>#}
+{##}
+{#    <div class="tab-content">#}
+{#        <div class="tab-pane fade active in">#}
+{##}
+{#            <div class="col-sm-3">#}
+{#                <div class="product-image-wrapper">#}
+{#                    <div class="single-products">#}
+{#                        <div class="productinfo text-center">#}
+{#                            <img src="{{ product.icon.url }}" alt=""/>#}
+{#                            <h2>{{ product.price }}</h2>#}
+{#                            loremloremloremloremloremlorem#}
+{#                            <p>{{ product.name }}</p>#}
+{#                            <a href="#" class="btn btn-default add-to-cart">#}
+{#                                <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#<!--/category-tab-->#}
 
 <!--category-tab-->
 <div class="category-tab">
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
 
-            {% get_categories as categories %}
-            {% for category in categories %}
-                <li><a href="{{ category }}" data-toggle="tab">{{ category }}</a></li>
+            {% for category in category_tab %}
+                {% if category == category_tab|first %}
+                    <li class="active">
+                        {% else %}
+                    <li>
+                {% endif %}
+            <a href="#{{ category.id }}" data-toggle="tab">{{ category.name }}</a></li>
             {% endfor %}
-            {#class="active"#}
+
         </ul>
     </div>
 
+    <!--RECOMMENDED head-->
     <div class="tab-content">
-        <div class="tab-pane fade active in">
+        {% for category in category_tab %}
+            {% if category == category_tab|first %}
+                <div class="tab-pane fade active in" id="{{ category.id }}">
+            {% else %}
+                <div class="tab-pane fade in" id="{{ category.id }}">
+            {% endif %}
 
+        <!--category_tab-->
+        {% for item in category.card_product_set.all|slice:":4" %}
             <div class="col-sm-3">
                 <div class="product-image-wrapper">
                     <div class="single-products">
                         <div class="productinfo text-center">
-                            <img src="{{ product.icon.url }}" alt=""/>
-                            <h2>{{ product.price }}</h2>
-                            loremloremloremloremloremlorem
-                            <p>{{ product.name }}</p>
+                            <img src="{{ item.icon.url }}" alt="{{ item.name }}"/>
+                            <h2>${{ item.price }}</h2>
+                            <p><a href="{{ item.get_absolute_url }}"> {{ item.name }}</a></p>
+
+                            <!-- add to card -->
                             <a href="#" class="btn btn-default add-to-cart">
                                 <i class="fa fa-shopping-cart"></i>Add to cart</a>
                         </div>
                     </div>
                 </div>
             </div>
+        {% endfor %}
+        <!--/category_tab-->
 
+        </div>
+        {% endfor %}
+
+        <!--/RECOMMENDED head-->
         </div>
     </div>
 </div>

@@ -69,10 +69,6 @@ class HomeListView(Custom, ListView):
     template_name = 'pages/index.html'
     context_object_name = 'products'
 
-    # Нельзя использовать в запросе количество объектов связанной модели, предварительно не аннотировав к запросу.
-    # queryset = Post.objects.all().order_by('?????')
-    # queryset = Card_Product.objects.filter(availability=False).annotate(cnt=Count('review')).order_by('-cnt')[:3:]
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
@@ -83,6 +79,7 @@ class HomeListView(Custom, ListView):
         recommended_queryset = self.cut_queryset(recommended_queryset, 3)
         context['recommended_item'] = recommended_queryset[0]
         context['recommended_next_items'] = recommended_queryset[1:4]
+        context['category_tab'] = Category.objects.all().select_related().order_by('name')
         return context
 
     @staticmethod
