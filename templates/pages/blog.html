@@ -27,7 +27,7 @@
                                     <img src="{{ post.poster.url }}" alt="{{ headline.1|upper }}">
                                 </a>
                             </div>
-                            <p>{{ post.description|truncatewords:30 }}</p>
+                            <p>{{ post.description|safe|truncatewords:40 }}</p>
                             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{{ headline.1|lower }}</a>
                         </div>
                     {% endfor %}

@@ -12,7 +12,7 @@ class BlogListView(ListView):
     paginate_by = 3
 
     def get_queryset(self):
-        return News.objects.filter(draft=False)
+        return News.objects.filter(draft=False).select_related('creator')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -27,7 +27,7 @@ class BlogDetailView(FormView, DetailView):
     template_name = 'pages/blog-single.html'
     pk_url_kwarg = 'post_id'
     context_object_name = 'single_post'
-    queryset = News.objects.filter(draft=False)
+    queryset = News.objects.filter(draft=False).select_related('creator')
     form_class = AddCommentForm
 
     def get_success_url(self):
@@ -35,8 +35,8 @@ class BlogDetailView(FormView, DetailView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(news=self.object)
-        context['count'] = context['comments'].count()
+        context['comments'] = Comment.objects.filter(news=self.object).select_related('creator')
+        context['count'] = context['comments'].__len__()
         context['responses'] = 'Отзывов'
         return context
 
@@ -47,19 +47,15 @@ class BlogDetailView(FormView, DetailView):
     def post(self, request, **kwargs):
         form = AddCommentForm(request.POST)
         news = News.objects.get(id=kwargs['pk'])
-        creator = User.objects.get(id=self.request.user.id)
         if form.is_valid():
+            creator = User.objects.get(id=self.request.user.id)
             form = form.cleaned_data
             if request.POST.get('parent', None):
                 parent = Comment.objects.get(id=int(request.POST.get('parent')))
             else:
                 parent = None
-            comment = Comment(
-                text=form['text'],
-                parent=parent,
-                news=news,
-                creator=creator,
-            )
+
+            comment = Comment(text=form['text'], parent=parent, news=news, creator=creator)
             comment.save()
 
         return redirect(news.get_absolute_url())
