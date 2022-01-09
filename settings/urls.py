@@ -11,7 +11,7 @@ urlpatterns = [
     path('', include('Interactive.urls')),
 ]
 
-handler404 = 'Shop.views.ex404'
+handler404 = 'Interactive.views.ex404'
 
 if settings.DEBUG:
     import debug_toolbar

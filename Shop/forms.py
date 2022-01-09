@@ -28,10 +28,12 @@ class AddNewAddressDeliveryForm(ModelForm):
 
 class ReviewForm(Form):
     """Добавление отзыва к карточке продукта"""
+
     required = {
         "required": "required",
         "class": "form-group col-md-6 form-control",
     }
+
     name_attrs = {
         "type": "text",
         "placeholder": "Your Name",
@@ -55,6 +57,3 @@ class ReviewForm(Form):
     text = CharField(widget=Textarea())
     text.widget.attrs.update(text_attrs)
     grade = IntegerField(max_value=10, min_value=0)
-
-
-
