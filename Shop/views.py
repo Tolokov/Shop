@@ -31,7 +31,7 @@ class Custom:
         return Category.objects.all()
 
     def get_brands(self):
-        return Brand.objects.all()
+        return Brand.objects.all().prefetch_related('card_product_set')
 
     def get_price_min(self):
         return floor(Card_Product.objects.aggregate(Min('price'))['price__min'])
