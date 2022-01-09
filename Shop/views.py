@@ -111,16 +111,27 @@ class ProductDetailView(FormView, DetailView):
     queryset = Card_Product.objects.filter(availability=False)
     form_class = ReviewForm
 
+    def get_queryset(self):
+        return Card_Product.objects.filter(availability=False).select_related('brand').prefetch_related('category')
+
     def get_success_url(self):
         return self.request.path
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
-        context['reviews'] = Review.objects.filter(product=self.object)
-        context['count'] = context['reviews'].count()
-        objects = ProductImage.objects.filter(product=self.object)
-        context['slider'] = Paginator(objects, per_page=3)
+
+        review_queryset = Review.objects.filter(product=self.object)
+        context['reviews'] = review_queryset
+        context['count'] = review_queryset.__len__()
+
+        # Paginator optimization (9 SQL queries --> 6 SQL queries)
+        product_images_queryset = ProductImage.objects.filter(product=self.object)
+        per_page = 3
+        max_pages = 5
+        objects = list(product_images_queryset[:per_page * max_pages])
+        paginator = Paginator(objects, per_page=per_page)
+        context['slider'] = paginator
         return context
 
     def post(self, request, **kwargs):

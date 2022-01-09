@@ -26,7 +26,7 @@
                                         {% endif %}
                                     {% for image in page.object_list %}
                                         <a href="{{ image.image.url }}" target="_blank">
-                                            <img src="{{ image.image.url }}" alt="" width="80" height="100">
+                                            <img src="{{ image.image.url }}" alt="{{ image.image.title }}" width="80" height="100">
                                         </a>
                                     {% endfor %}
                                     </div>
