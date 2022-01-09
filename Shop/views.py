@@ -75,11 +75,16 @@ class HomeListView(Custom, ListView):
         context['home_selected'] = 'active'
         queryset = Card_Product.objects.filter(availability=False)
 
+        posts_on_slider = 3
+        first_page_on_slider = 0
+        last_page_on_slider = 4
         recommended_queryset = queryset.annotate(cnt=Count('review')).order_by('-cnt')
-        recommended_queryset = self.cut_queryset(recommended_queryset, 3)
-        context['recommended_item'] = recommended_queryset[0]
-        context['recommended_next_items'] = recommended_queryset[1:4]
-        context['category_tab'] = Category.objects.all().select_related().order_by('name')
+        recommended_queryset = self.cut_queryset(recommended_queryset, posts_on_slider)
+        context['recommended_item'] = recommended_queryset[first_page_on_slider]
+        context['recommended_next_items'] = recommended_queryset[1:last_page_on_slider]
+
+        context['categories'] = Category.objects.all().order_by('name').prefetch_related('card_product_set')
+
         return context
 
     @staticmethod
@@ -108,7 +113,6 @@ class ProductDetailView(FormView, DetailView):
     template_name = 'pages/product-detail.html'
     context_object_name = 'product_detail'
     pk_url_kwarg = 'product_ID'
-    queryset = Card_Product.objects.filter(availability=False)
     form_class = ReviewForm
 
     def get_queryset(self):

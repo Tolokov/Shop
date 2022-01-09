@@ -3,8 +3,8 @@
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
 
-            {% for category in category_tab %}
-                {% if category == category_tab|first %}
+            {% for category in categories %}
+                {% if category == categories|first %}
                     <li class="active">
                         {% else %}
                     <li>
@@ -17,8 +17,8 @@
 
     <!--RECOMMENDED head-->
     <div class="tab-content">
-        {% for category in category_tab %}
-            {% if category == category_tab|first %}
+        {% for category in categories %}
+            {% if category == categories|first %}
                 <div class="tab-pane fade active in" id="{{ category.id }}">
             {% else %}
                 <div class="tab-pane fade in" id="{{ category.id }}">
