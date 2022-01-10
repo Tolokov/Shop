@@ -147,7 +147,10 @@ class Cart(models.Model):
 class Favorites(models.Model):
     """Избранное пользователя"""
     user = models.ForeignKey(User, on_delete=CASCADE)
-    products = models.ManyToManyField(Card_Product)
+    products = models.OneToOneField(Card_Product, on_delete=CASCADE, unique=True)
+
+    def __str__(self):
+        return self.user, self.products.product_public_ID
 
     class Meta:
         verbose_name = "Избранное"

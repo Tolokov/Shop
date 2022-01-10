@@ -52,9 +52,13 @@
                                             <li class="media" style="margin-left: {{ comment.parent.level|add:8 }}%;">
                                         {% endif %}
                                 {% endif %}
+
+                                <!--avatar-->
                             <a class="pull-left" href="#">
                                 <img class="media-object" src="{% static 'images/blog/man-two.jpg' %}" alt="">
                             </a>
+                                <!--/avatar-->
+
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
                                     <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
@@ -69,7 +73,6 @@
                             </div>
                             </li>
                             {% endfor %}
-
                         </ul>
                     </div>
                     <!--/Comments-->

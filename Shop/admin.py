@@ -5,6 +5,8 @@ from Shop.models import *
 admin.site.site_title = 'Панель администрирования интернет магазина'
 admin.site.site_header = 'Панель администрирования интернет магазина'
 
+admin.site.register(Favorites)
+
 
 class GetImage:
     """Вывод изображений в административную панель"""
@@ -112,7 +114,6 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         return '\n'.join([cat.name for cat in obj.category.all()])
 
 
-
 # @admin.register(RatingGrade)
 # class RatingAdmin(admin.ModelAdmin):
 #     """Итоговый рейтинг"""
@@ -134,15 +135,6 @@ class CartGradeAdmin(admin.ModelAdmin):
     list_display = ('user', 'total_product', 'total_price', 'products')
     # def show_products(self, obj):
     #     return '\n'.join([cat.name for cat in obj.products.all()])
-
-
-@admin.register(Favorites)
-class FavoritesAdmin(admin.ModelAdmin):
-    """Избранное"""
-    list_display = ('user', 'show_products')
-
-    def show_products(self, obj):
-        return '\n'.join([cat.name for cat in obj.products.all()])
 
 
 @admin.register(CartProduct)
