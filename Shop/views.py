@@ -1,34 +1,57 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View, ListView, DetailView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
+from django.urls import reverse_lazy
 
-from Shop.models import Card_Product, Category, Review, ProductImage, Brand
+from Shop.models import Card_Product, Category, Review, ProductImage, Favorites
 from Shop.forms import ReviewForm, AddNewAddressDeliveryForm, Delivery
+from Shop.utils import DataMixin
 
 
-class Custom:
+class HomeListView(DataMixin, ListView):
+    """Главная страница"""
+    template_name = 'pages/index.html'
+    queryset = Card_Product.objects.filter(availability=False)
 
-    def get_categories(self):
-        return Category.objects.all().values('id', 'name')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        context['home_selected'] = 'active'
 
-    def get_brands(self):
-        return Brand.objects.all().prefetch_related('card_product_set')
+        recommended_queryset = self.queryset.annotate(cnt=Count('review')).order_by('-cnt')
+        recommended_queryset = self.cut_queryset(recommended_queryset)
+        context['recommended_item'] = recommended_queryset[0]
+        context['recommended_next_items'] = recommended_queryset[1:4]
 
-    # from math import ceil, floor
-    # from django.db.models import Max, Min
-    # def get_price_min(self):
-    #     return floor(Card_Product.objects.aggregate(Min('price'))['price__min'])
-    #
-    # def get_price_max(self):
-    #     return ceil(Card_Product.objects.aggregate(Max('price'))['price__max'])
+        context['categories'] = Category.objects.all().order_by('name').prefetch_related('card_product_set')
+        return context
+
+    @staticmethod
+    def cut_queryset(queryset, step=3) -> list:
+        """ [[img,img,img.], [...], ...] """
+        result = list()
+        for i in range(0, len(queryset), step):
+            result.append(queryset[i:i + step])
+        return result
 
 
-class FilterProductView(Custom, ListView):
-    """Фильтр продуктов"""
-    model = Card_Product
+class ShopListView(DataMixin, ListView):
+    """Страница с фильтрацией"""
     template_name = 'pages/shop.html'
-    context_object_name = 'products'
+    queryset = Card_Product.objects.filter(availability=False)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Каталог'
+        context['shop_selected'] = 'active'
+        return context
+
+
+class FilterProductView(DataMixin, ListView):
+    """Фильтр продуктов"""
+    template_name = 'pages/shop.html'
 
     def get_queryset(self):
 
@@ -48,49 +71,8 @@ class FilterProductView(Custom, ListView):
             return queryset
 
 
-class HomeListView(Custom, ListView):
-    """Главная страница"""
-    model = Card_Product
-    template_name = 'pages/index.html'
-    context_object_name = 'products'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная страница'
-        context['home_selected'] = 'active'
-        queryset = Card_Product.objects.filter(availability=False)
-
-        recommended_queryset = queryset.annotate(cnt=Count('review')).order_by('-cnt')
-        recommended_queryset = self.cut_queryset(recommended_queryset)
-        context['recommended_item'] = recommended_queryset[0]
-        context['recommended_next_items'] = recommended_queryset[1:4]
-
-        context['categories'] = Category.objects.all().order_by('name').prefetch_related('card_product_set')
-        return context
-
-    @staticmethod
-    def cut_queryset(queryset, step=3) -> list:
-        """ [[img,img,img.], [...], ...] """
-        result = list()
-        for i in range(0, len(queryset), step):
-            result.append(queryset[i:i + step])
-        return result
-
-
-class ShopListView(Custom, ListView):
-    model = Card_Product
-    template_name = 'pages/shop.html'
-    context_object_name = 'products'
-    queryset = Card_Product.objects.filter(availability=False)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Каталог'
-        context['shop_selected'] = 'active'
-        return context
-
-
 class ProductDetailView(FormView, DetailView):
+    """Подробности о продукте"""
     model = Card_Product
     template_name = 'pages/product-detail.html'
     context_object_name = 'product_detail'
@@ -135,10 +117,13 @@ class ProductDetailView(FormView, DetailView):
         return redirect(product.get_absolute_url())
 
 
-class DeliveryFormView(FormView):
+class DeliveryFormView(LoginRequiredMixin, FormView):
     template_name = 'pages/delivery.html'
     form_class = AddNewAddressDeliveryForm
     success_url = '/delivery/'
+    # login_url = reverse_lazy('signup')
+    # Вместо 404 и перенаправления, пометка, доступ запрещен
+    raise_exception = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -153,11 +138,22 @@ class DeliveryFormView(FormView):
         return super(DeliveryFormView, self).form_valid(form)
 
 
-class CartView(View):
+class FavoritesView(ListView):
+    model = Favorites
+    template_name = 'pages/favorites.html'
+    context_object_name = 'favorites_items'
+
+    def get_queryset(self):
+        return Favorites.objects.filter(user=self.request.user.id).select_related('products')
+
+    def post(self, request, **kwargs):
+        print('Добавление в избранное')
+        print(kwargs)
+        print(request.user.id)
+        print(self.__class__())
+        return redirect(reverse_lazy('shop'))
+
+
+class CartView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'pages/cart.html', {})
-
-
-class FavoritesView(View):
-    def get(self, request):
-        return render(request, 'pages/product-detail.html', {})
