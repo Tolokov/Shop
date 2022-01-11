@@ -5,64 +5,83 @@
 {% block content %}
     <section id="cart_items">
         <div class="container">
-            <div class="bill-to"><p>Товары в корзине:</p></div>
-            <div class="table-responsive cart_info">
-                <table class="table table-condensed">
-                    <thead>
-                    <tr class="cart_menu">
-                        <td class="image">Item</td>
-                        <td class="description"></td>
-                        <td class="price">Price</td>
-                        <td class="quantity">Status</td>
-                        <td class="add">Add to cart</td>
-                        <td class="total">Remove</td>
-                        <td></td>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                    <!--cart_product-->
-                    {% for item in favorites_items %}
-                        <tr>
-                            <td class="cart_product">
-                                <a href="{{ item.products.get_absolute_url }}">
-                                    <img src="{{ item.products.icon.url }}"
-                                    alt="{{ item.products.name }}"
-                                    style="width: 100px; height: 100px"
-                                    ></a>
-                            </td>
-                            <td class="cart_description">
-                                <h4><a href="{{ item.products.get_absolute_url }}">
-                                    {{ item.products.name }}</a></h4>
-                                <p>Web ID: {{ item.products.product_public_ID }}</p>
-                            </td>
-                            <td class="cart_price">
-                                <p>${{ item.products.price }}</p>
-                            </td>
-                            <td class="cart_quantity">
-                                <p>{{ item.products.get_condition_display|upper }}</p>
-                            </td>
+            <!--favorites-panel-->
+            {% if favorites_items|length == 0 %}
+                <h2 class="title text-center">
+                    <strong> Таблица избранных продуктов пуста.
+                        Для добавления продукта в избранное кликните по кнопке любого
+                        понравившегося товара на странице
+                        <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
+                    </strong>
+                </h2>
 
-                            <td class="add">
-                                <a class="btn cart" href="">
-                                    <i class="fa fa-shopping-cart">Add to cart</i></a>
-                            </td>
-
-                            <td class="cart_delete">
-                                <a class="cart_quantity_delete" href="">
-                                    <i class="fa fa-times"></i></a>
-                            </td>
+            {% else %}
+                <div class="bill-to"><p>Товары в корзине:</p></div>
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="image">Item</td>
+                            <td class="description"></td>
+                            <td class="price">Price</td>
+                            <td class="quantity">Status</td>
+                            <td class="add">Add to cart</td>
+                            <td class="total">Remove</td>
+                            <td></td>
                         </tr>
-                    {% endfor %}
-                    <!--/cart_product-->
+                        </thead>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                        <!--favorites_product-->
+                        {% for item in favorites_items %}
+                            <tr>
+                                <td class="cart_product">
+                                    <a href="{{ item.products.get_absolute_url }}">
+                                        <img src="{{ item.products.icon.url }}"
+                                             alt="{{ item.products.name }}"
+                                             style="width: 100px; height: 100px"
+                                        ></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="{{ item.products.get_absolute_url }}">
+                                        {{ item.products.name }}</a></h4>
+                                    <p>Web ID: {{ item.products.product_public_ID }}</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p>${{ item.products.price }}</p>
+                                </td>
+                                <td class="cart_quantity">
+                                    <p>{{ item.products.get_condition_display|upper }}</p>
+                                </td>
+                                <td class="add">
+                                    <a class="btn cart" href="">
+                                        <i class="fa fa-shopping-cart">Add to cart</i></a>
+                                </td>
+                                <td>
+                                    {# <td class="cart_delete">#}
+                                    {# <a class="cart_quantity_delete" href="">#}
+                                    {# <i class="fa fa-times"> </i></a>#}
+                                    <form method="post" action="{% url 'delFavorites' item.products.id %}">
+                                        {% csrf_token %}
+                                        <button class="cart_delete" style="height: 30px; width: 30px"> X</button>
 
-            </div>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <!--/favorites_product-->
+
+                        </tbody>
+                    </table>
+
+                </div>
+            {% endif %}
             <div>
             </div>
         </div>
-    <br><br><br><br>
+        <!--/favorites-panel-->
+        <br><br><br><br>
     </section>
 {% endblock content %}
