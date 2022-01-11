@@ -132,17 +132,17 @@ class RatingGradeAdmin(admin.ModelAdmin):
 @admin.register(Cart)
 class CartGradeAdmin(admin.ModelAdmin):
     """Корзина покупателя"""
-    list_display = ('user', 'total_product', 'total_price', 'products')
+    list_display = ('user', 'total', 'product')
     # def show_products(self, obj):
     #     return '\n'.join([cat.name for cat in obj.products.all()])
 
 
-@admin.register(CartProduct)
-class CartProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'show_products')
-
-    def show_products(self, obj):
-        return ', '.join([cat.name for cat in obj.products.all()])
+# @admin.register(CartProduct)
+# class CartProductAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'user', 'show_products')
+#
+#     def show_products(self, obj):
+#         return ', '.join([cat.name for cat in obj.products.all()])
 
 
 @admin.register(Order)

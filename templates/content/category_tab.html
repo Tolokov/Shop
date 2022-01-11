@@ -35,8 +35,13 @@
                             <p><a href="{{ item.get_absolute_url }}"> {{ item.name }}</a></p>
 
                             <!-- add to card -->
-                            <a href="#" class="btn btn-default add-to-cart">
-                                <i class="fa fa-shopping-cart"></i>Add to cart</a>
+
+                     <form method="post" action="{% url 'addCart' item.id %}">
+                    {% csrf_token %}
+                    <button  class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
+{#                            <a href="#" class="btn btn-default add-to-cart">#}
+{#                                <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+
                         </div>
                     </div>
                 </div>

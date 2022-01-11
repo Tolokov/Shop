@@ -55,17 +55,21 @@
                                     <p>{{ item.products.get_condition_display|upper }}</p>
                                 </td>
                                 <td class="add">
-                                    <a class="btn cart" href="">
-                                        <i class="fa fa-shopping-cart">Add to cart</i></a>
+
+                     <form method="post" action="{% url 'addCart' item.products.id %}">
+                    {% csrf_token %}
+                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
+{#                                    <a class="btn cart" href="">#}
+{#                                        <i class="fa fa-shopping-cart">Add to cart</i></a>#}
                                 </td>
                                 <td>
                                     {# <td class="cart_delete">#}
                                     {# <a class="cart_quantity_delete" href="">#}
                                     {# <i class="fa fa-times"> </i></a>#}
+
                                     <form method="post" action="{% url 'delFavorites' item.products.id %}">
                                         {% csrf_token %}
                                         <button class="cart_delete" style="height: 30px; width: 30px"> X</button>
-
                                     </form>
 
                                 </td>

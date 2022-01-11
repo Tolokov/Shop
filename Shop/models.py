@@ -115,33 +115,34 @@ class Review(models.Model):
         verbose_name_plural = 'Отзывы'
         ordering = ['created']
 
-
-class CartProduct(models.Model):
-    """Выбранные пользователем товары"""
-    user = models.ForeignKey(User, on_delete=CASCADE)
-    products = models.ManyToManyField(Card_Product)
-
-    def __str__(self):
-        return f'{self.id} {self.user} {self.products}'
-
-    class Meta:
-        verbose_name = "Выбранный пользователем товар"
-        verbose_name_plural = "Выбранные пользователем товары"
+#
+# class CartProduct(models.Model):
+#     """Выбранные пользователем товары"""
+#     user = models.ForeignKey(User, on_delete=CASCADE)
+#     products = models.ManyToManyField(Card_Product)
+#
+#     def __str__(self):
+#         return f'{self.id} {self.user} {self.products}'
+#
+#     class Meta:
+#         verbose_name = "Выбранный пользователем товар"
+#         verbose_name_plural = "Выбранные пользователем товары"
 
 
 class Cart(models.Model):
     """Корзина пользователя"""
     user = models.ForeignKey(User, on_delete=CASCADE)
-    products = models.ForeignKey(CartProduct, on_delete=CASCADE, blank=True)
-    total_product = models.PositiveIntegerField(default=0)
-    total_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    product = models.ForeignKey(Card_Product, on_delete=CASCADE, blank=True)
+    total = models.PositiveIntegerField(default=1)
+    # total_price = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
-        return self.products
+        return self.product
 
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+        unique_together = (('user', 'product'),)
 
 
 class Favorites(models.Model):

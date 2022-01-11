@@ -19,7 +19,7 @@ class DataMixin:
         print(kwargs)
         print(request.user.id)
         print(self.__class__())
-        return redirect(reverse_lazy('shop'))
+        return redirect(request.META.get('HTTP_REFERER'))
 
     # from math import ceil, floor
     # from django.db.models import Max, Min

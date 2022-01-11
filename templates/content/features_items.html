@@ -14,13 +14,14 @@
 
                 <form method="post" action="{% url 'addCart' product.id %}">
                     {% csrf_token %}
-{#                    <a href="#" class="btn btn-default add-to-cart">#}
-{#                        <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
-                    <button>
-                        <i class="fa fa-shopping-cart"></i>Add to cart
-                    </button>
+                    <button  class="btn btn-fefault cart"><i class="fa fa-shopping-cart">
 
-                    </form>
+                    </i>Add to cart</button></form>
+
+  {#                    <a href="#" class="btn btn-default add-to-cart">#}
+{#                        <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+
+
                 </div>
             </div>
 
