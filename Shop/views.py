@@ -133,6 +133,7 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
         print(form.cleaned_data)
         return super(DeliveryFormView, self).form_valid(form)
 
+
 class FavoritesView(ListView):
     model = Favorites
     template_name = 'pages/favorites.html'
@@ -176,8 +177,17 @@ class CartListView(ListView):
 
 class AddCart(CartListView):
     def post(self, request, **kwargs):
-        print('!!add!')
-        return redirect(reverse_lazy('cart'))
+        user = User.objects.get(id=request.user.id)
+        product_id = Card_Product.objects.get(id=kwargs['product_id'])
+        try:
+            selected_product = Cart.objects.create(user=user, product=product_id, total=1)
+            selected_product.save()
+        except IntegrityError as Ie:
+            print('Обнаружен дубликат!', {Ie})
+            update_product = Cart.objects.get(user=user, product=product_id)
+            update_product.total += 1
+            update_product.save()
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class DelCart(CartListView):
