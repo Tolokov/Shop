@@ -190,10 +190,17 @@ class AddCart(CartListView):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class DelCart(CartListView):
+class DeductCart(CartListView):
     def post(self, request, **kwargs):
-        print('!!off!')
-        return redirect(reverse_lazy('cart'))
+        user = User.objects.get(id=request.user.id)
+        product_id = Card_Product.objects.get(id=kwargs['product_id'])
+        update_product = Cart.objects.get(user=user, product=product_id)
+        update_product.total -= 1
+        if update_product.total <= 0:
+            update_product.delete()
+        else:
+            update_product.save()
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class DeleteCartProduct(CartListView):
