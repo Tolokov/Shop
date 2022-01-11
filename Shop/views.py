@@ -188,6 +188,8 @@ class DelCart(CartListView):
 
 class DeleteCartProduct(CartListView):
     def post(self, request, **kwargs):
-        print('!!del!')
-        return redirect(reverse_lazy('cart'))
-
+        user = User.objects.get(id=request.user.id)
+        product_id = Card_Product.objects.get(id=kwargs['product_id'])
+        selected_item = Cart.objects.get(user=user, product=product_id)
+        selected_item.delete()
+        return redirect(request.META.get('HTTP_REFERER'))
