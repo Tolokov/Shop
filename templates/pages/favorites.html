@@ -40,8 +40,7 @@
                                     <a href="{{ item.products.get_absolute_url }}">
                                         <img src="{{ item.products.icon.url }}"
                                              alt="{{ item.products.name }}"
-                                             style="width: 100px; height: 100px"
-                                        ></a>
+                                             style="width: 100px; height: 100px"></a>
                                 </td>
                                 <td class="cart_description">
                                     <h4><a href="{{ item.products.get_absolute_url }}">
@@ -51,7 +50,7 @@
                                 <td class="cart_price">
                                     <p>${{ item.products.price }}</p>
                                 </td>
-                                <td class="cart_quantity">
+                                <td class="cart_status">
                                     <p>{{ item.products.get_condition_display|upper }}</p>
                                 </td>
                                 <td class="add">
