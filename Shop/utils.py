@@ -29,3 +29,4 @@ class DataMixin:
     # def get_price_max(self):
     #     return ceil(Card_Product.objects.aggregate(Max('price'))['price__max'])
 
+
