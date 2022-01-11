@@ -17,6 +17,8 @@ class HomeListView(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        del context['title']
+        del context['shop_selected']
         context['title'] = 'Главная страница'
         context['home_selected'] = 'active'
 
@@ -41,12 +43,6 @@ class ShopListView(DataMixin, ListView):
     """Страница с фильтрацией"""
     template_name = 'pages/shop.html'
     queryset = Card_Product.objects.filter(availability=False)
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Каталог'
-        context['shop_selected'] = 'active'
-        return context
 
 
 class FilterProductView(DataMixin, ListView):
@@ -121,7 +117,6 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
     template_name = 'pages/delivery.html'
     form_class = AddNewAddressDeliveryForm
     success_url = '/delivery/'
-    # login_url = reverse_lazy('signup')
     # Вместо 404 и перенаправления, пометка, доступ запрещен
     raise_exception = True
 

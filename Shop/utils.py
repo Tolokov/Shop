@@ -8,10 +8,18 @@ class DataMixin:
     model = Card_Product
     context_object_name = 'products'
 
-    def get_categories(self):
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Каталог'
+        context['shop_selected'] = 'active'
+        return context
+
+    @staticmethod
+    def get_categories():
         return Category.objects.all().values('id', 'name')
 
-    def get_brands(self):
+    @staticmethod
+    def get_brands():
         return Brand.objects.all().prefetch_related('card_product_set')
 
     def post(self, request, **kwargs):
