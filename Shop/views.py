@@ -149,10 +149,13 @@ class FavoritesView(ListView):
 class AddFavoritesView(FavoritesView):
 
     def post(self, request, **kwargs):
-        print('Добавление в избранное')
-        print(kwargs)
-        print(request.user.id)
-        print(self.__class__())
+        user = User.objects.get(id=request.user.id)
+        product_id = Card_Product.objects.get(id=kwargs['product_id'])
+        try:
+            favorite_item = Favorites.objects.create(user=user, products=product_id)
+            favorite_item.save()
+        except Exception as e:
+            print('Обнаружен дубликат!', {e})
         return redirect(reverse_lazy('shop'))
 
 

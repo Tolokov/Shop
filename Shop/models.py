@@ -147,14 +147,15 @@ class Cart(models.Model):
 class Favorites(models.Model):
     """Избранное пользователя"""
     user = models.ForeignKey(User, on_delete=CASCADE)
-    products = models.OneToOneField(Card_Product, on_delete=CASCADE, unique=True)
+    products = models.ForeignKey(Card_Product, on_delete=CASCADE)
 
     def __str__(self):
-        return self.user, self.products.product_public_ID
+        return f'{self.user}, {self.products}'
 
     class Meta:
         verbose_name = "Избранное"
         verbose_name_plural = "Избранные"
+        unique_together = (("user", "products"),)
 
 
 class Order(models.Model):
