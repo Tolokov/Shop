@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
+from django.db import IntegrityError
 
 from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart
 from Shop.forms import ReviewForm, AddNewAddressDeliveryForm, Delivery
@@ -149,8 +150,8 @@ class AddFavoritesView(FavoritesView):
         try:
             favorite_item = Favorites.objects.create(user=user, products=product_id)
             favorite_item.save()
-        except Exception as e:
-            print('Обнаружен дубликат!', {e})
+        except IntegrityError as Ie:
+            print('Обнаружен дубликат!', {Ie})
         return redirect(reverse_lazy('shop'))
 
 

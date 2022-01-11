@@ -15,16 +15,12 @@
                 <form method="post" action="{% url 'addCart' product.id %}">
                     {% csrf_token %}
                     <button  class="btn btn-fefault cart"><i class="fa fa-shopping-cart">
-
-                    </i>Add to cart</button></form>
-
+                    </i>Add to cart</button>
+                </form>
   {#                    <a href="#" class="btn btn-default add-to-cart">#}
 {#                        <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
-
-
                 </div>
             </div>
-
             <div class="choose">
                 <ul class="nav nav-pills nav-justified">
                     <li></li>
@@ -32,11 +28,8 @@
             {% csrf_token %}
 {#                    <li><a href="{% url 'addFavorites' product.id %}" >#}
 {#            <i class="fa fa-plus-square"> </i>Add to wishlist</a></li>#}
-
-            <li>
-                <button type="submit">
-                    <i class="fa fa-plus-square"></i> Add to wishlist
-                </button>
+            <li><button type="submit">
+                    <i class="fa fa-plus-square"></i> Add to wishlist </button>
             </li>
         </form>
 
