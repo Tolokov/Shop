@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
 
-from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User
+from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart
 from Shop.forms import ReviewForm, AddNewAddressDeliveryForm, Delivery
 from Shop.utils import DataMixin
 
@@ -164,6 +164,29 @@ class DeleteFavoritesView(FavoritesView):
         return redirect(reverse_lazy('favorites'))
 
 
-class CartView(LoginRequiredMixin, View):
-    def get(self, request):
-        return render(request, 'pages/cart.html', {})
+class CartListView(ListView):
+    model = Cart
+    template_name = 'pages/cart.html'
+    context_object_name = 'cart_items'
+
+    def get_queryset(self):
+        return Cart.objects.filter(user=self.request.user.id).select_related('product')
+
+
+class AddCart(CartListView):
+    def post(self, request, **kwargs):
+        print('!!add!')
+        return redirect(reverse_lazy('cart'))
+
+
+class DelCart(CartListView):
+    def post(self, request, **kwargs):
+        print('!!off!')
+        return redirect(reverse_lazy('cart'))
+
+
+class DeleteCartProduct(CartListView):
+    def post(self, request, **kwargs):
+        print('!!del!')
+        return redirect(reverse_lazy('cart'))
+
