@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
 
-from Shop.models import Card_Product, Category, Review, ProductImage, Favorites
+from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User
 from Shop.forms import ReviewForm, AddNewAddressDeliveryForm, Delivery
 from Shop.utils import DataMixin
 
@@ -137,7 +137,6 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
         print(form.cleaned_data)
         return super(DeliveryFormView, self).form_valid(form)
 
-
 class FavoritesView(ListView):
     model = Favorites
     template_name = 'pages/favorites.html'
@@ -146,12 +145,25 @@ class FavoritesView(ListView):
     def get_queryset(self):
         return Favorites.objects.filter(user=self.request.user.id).select_related('products')
 
+
+class AddFavoritesView(FavoritesView):
+
     def post(self, request, **kwargs):
         print('Добавление в избранное')
         print(kwargs)
         print(request.user.id)
         print(self.__class__())
         return redirect(reverse_lazy('shop'))
+
+
+class DeleteFavoritesView(FavoritesView):
+
+    def post(self, request, **kwargs):
+        user = User.objects.get(id=request.user.id)
+        product_id = Card_Product.objects.get(id=kwargs['product_id'])
+        favorite_item = Favorites.objects.get(user=user, products=product_id)
+        favorite_item.delete()
+        return redirect(reverse_lazy('favorites'))
 
 
 class CartView(LoginRequiredMixin, View):
