@@ -31,3 +31,10 @@ class ContactForm(Form):
     email = EmailField()
     email.widget.attrs.update(email_attrs)
     text = CharField(widget=Textarea(attrs=text_attrs))
+
+
+class CustomerForm(ModelForm):
+    class Meta:
+        model = Customer
+        fields = '__all__'
+        exclude = ['user']
