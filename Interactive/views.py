@@ -1,12 +1,13 @@
 from django.views.generic import FormView, CreateView
-from django.shortcuts import render
-from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-
-from Interactive.forms import ContactForm
 from django.conf import settings
+from django.shortcuts import redirect, render
+from django.core.mail import send_mail
 
+from Interactive.forms import ContactForm, CustomerForm
+from Interactive.models import Customer
 
 def ex404(request, exception):
     context = {'errorMessage': 'We Couldn’t Find this Page'}
@@ -21,6 +22,27 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
+
+
+class ProfileCreate(LoginRequiredMixin, CreateView):
+    model = Customer
+    success_url = reverse_lazy('profile')
+    template_name = 'pages/profile.html'
+    form_class = CustomerForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        customer = self.request.user.customer
+        form_class = CustomerForm(instance=customer)
+        context['form'] = form_class
+        return context
+
+    def post(self, request, *args, **kwargs):
+        customer = self.request.user.customer
+        form = CustomerForm(self.request.POST, self.request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+        return redirect(reverse_lazy('profile'), permanent=True)
 
 
 class ContactFormView(FormView):
@@ -63,5 +85,3 @@ class ContactFormView(FormView):
                   fail_silently=False)
 
         return super(ContactFormView, self).form_valid(form)
-
-
