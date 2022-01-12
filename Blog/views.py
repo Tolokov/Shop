@@ -58,4 +58,4 @@ class BlogDetailView(FormView, DetailView):
             comment = Comment(text=form['text'], parent=parent, news=news, creator=creator)
             comment.save()
 
-        return redirect(news.get_absolute_url())
+        return redirect(news.get_absolute_url(), permanent=True)

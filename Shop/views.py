@@ -111,7 +111,7 @@ class ProductDetailView(FormView, DetailView):
                 text=form['text'], product=product, g=int(form['grade']),
             )
             review.save()
-        return redirect(product.get_absolute_url())
+        return redirect(product.get_absolute_url(), permanent=True)
 
 
 class DeliveryFormView(LoginRequiredMixin, FormView):
@@ -154,7 +154,7 @@ class AddFavoritesView(FavoritesView):
             favorite_item.save()
         except IntegrityError as Ie:
             print('Обнаружен дубликат!', {Ie})
-        return redirect(reverse_lazy('shop'))
+        return redirect(reverse_lazy('shop'), permanent=True)
 
 
 class DeleteFavoritesView(FavoritesView):
@@ -164,7 +164,7 @@ class DeleteFavoritesView(FavoritesView):
         product_id = Card_Product.objects.get(id=kwargs['product_id'])
         favorite_item = Favorites.objects.get(user=user, products=product_id)
         favorite_item.delete()
-        return redirect(reverse_lazy('favorites'))
+        return redirect(reverse_lazy('favorites'), permanent=True)
 
 
 class CartListView(ListView):
@@ -188,7 +188,7 @@ class AddCart(CartListView):
             update_product = Cart.objects.get(user=user, product=product_id)
             update_product.total += 1
             update_product.save()
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
 class PopCart(CartListView):
@@ -201,7 +201,7 @@ class PopCart(CartListView):
             update_product.delete()
         else:
             update_product.save()
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
 class DeleteCartProduct(CartListView):
@@ -210,4 +210,4 @@ class DeleteCartProduct(CartListView):
         product_id = Card_Product.objects.get(id=kwargs['product_id'])
         selected_item = Cart.objects.get(user=user, product=product_id)
         selected_item.delete()
-        return redirect(request.META.get('HTTP_REFERER'))
+        return redirect(request.META.get('HTTP_REFERER'), permanent=True)
