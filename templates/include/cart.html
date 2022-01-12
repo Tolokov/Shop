@@ -3,12 +3,13 @@
 <section id="cart_items">
     <div class="container">
         <div class="bill-to"><p>Товары в корзине:</p></div>
+    <br>
         <!--cart-->
         {% if cart_items|length == 0 %}
             <h2 class="title text-center">
                 <strong> Товаров нет.
                     Для добавления товара в корзину кликните по кнопке
-                    любого желаемого товара на странице
+                    любого желаемого товара на странице<br>
                     <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
                 </strong>
             </h2>

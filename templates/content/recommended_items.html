@@ -19,7 +19,9 @@
                                     <!-- add to card -->
                     <form method="post" action="{% url 'addCart' product.id %}">
                     {% csrf_token %}
-                    <button  class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
+                    <button  class="btn btn-fefault cart" style="margin-right: 20px;">
+                        <i class="fa fa-shopping-cart">
+                        </i>Add to cart</button></form>
 {#                                    <a href="#" class="btn btn-default add-to-cart">#}
 {#                                        <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
 
@@ -47,7 +49,7 @@
                                         <!-- add to card -->
                                         <form method="post" action="{% url 'addCart' product.id %}">
                     {% csrf_token %}
-                    <button  class="btn btn-fefault cart">
+                    <button  class="btn btn-fefault cart" style="margin-right: 20px;">
                         <i class="fa fa-shopping-cart"></i>Add to cart</button></form>
 {#                                        <a href="#" class="btn btn-default add-to-cart"><i#}
 {#                                                class="fa fa-shopping-cart"></i>#}
