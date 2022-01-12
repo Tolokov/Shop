@@ -160,8 +160,3 @@ class OrderAdmin(admin.ModelAdmin):
         'status',
         'buying_type',
     )
-
-
-@admin.register(Delivery)
-class DeliveryAdmin(admin.ModelAdmin):
-    list_display = ('address_header', 'user', 'email')

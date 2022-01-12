@@ -1,5 +1,6 @@
-from django.forms import Form, CharField, Textarea, EmailField, ModelForm
-from Interactive.models import Customer
+from django.forms import Form, CharField, Textarea, EmailField, ModelForm, TextInput
+from Interactive.models import Customer, Delivery
+
 
 class ContactForm(Form):
     """Форма обращения в техническую поддержку через smtp.gmail"""
@@ -38,3 +39,26 @@ class CustomerForm(ModelForm):
         model = Customer
         fields = '__all__'
         exclude = ['user']
+
+
+class AddNewAddressDeliveryForm(ModelForm):
+    """Форма добавления адреса для доставки"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user'].empty_label = 'Это поле должно быть выбрано автоматически'
+
+    class Meta:
+        model = Delivery
+        fields = '__all__'
+        widgets = {
+            'address_header': TextInput(attrs={"placeholder": "header"}),
+            'name_first': TextInput(attrs={"placeholder": "name_first"}),
+            'name_last': TextInput(attrs={"placeholder": "name_last"}),
+            'address': TextInput(attrs={"placeholder": "address"}),
+            'country': TextInput(attrs={"placeholder": "country"}),
+            'state': TextInput(attrs={"placeholder": "state"}),
+            'phone': TextInput(attrs={"placeholder": "phone"}),
+            'sub_phone': TextInput(attrs={"placeholder": "sub_phone"}),
+            'zip': TextInput(attrs={"placeholder": "zip"}),
+        }

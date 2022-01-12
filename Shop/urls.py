@@ -9,8 +9,6 @@ urlpatterns = [
     path('filter/', views.FilterProductView.as_view(), name="filter"),
     path('shop/', views.ShopListView.as_view(), name='shop'),
 
-    path('delivery/', views.DeliveryFormView.as_view(), name='delivery'),
-
     path('favorites/', views.FavoritesView.as_view(), name='favorites'),
     path('add_favorites/<int:product_id>', views.AddFavoritesView.as_view(), name='addFavorites'),
     path('del_favorites/<int:product_id>', views.DeleteFavoritesView.as_view(), name='delFavorites'),

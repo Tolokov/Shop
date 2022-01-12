@@ -1,13 +1,12 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.db import IntegrityError
 
 from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart
-from Shop.forms import ReviewForm, AddNewAddressDeliveryForm, Delivery
+from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
 
 
@@ -112,27 +111,6 @@ class ProductDetailView(FormView, DetailView):
             )
             review.save()
         return redirect(product.get_absolute_url(), permanent=True)
-
-
-class DeliveryFormView(LoginRequiredMixin, FormView):
-    template_name = 'pages/delivery.html'
-    form_class = AddNewAddressDeliveryForm
-    success_url = '/delivery/'
-    # Вместо 404 и перенаправления, пометка, доступ запрещен
-    raise_exception = True
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['addresses'] = \
-            Delivery.objects.filter(user=self.request.user.id).values('id', 'user_id', 'address_header')
-
-        context['cart_items'] = Cart.objects.filter(user=self.request.user.id).select_related('product')
-        return context
-
-    def form_valid(self, form):
-        form.save()
-        print(form.cleaned_data)
-        return super(DeliveryFormView, self).form_valid(form)
 
 
 class FavoritesView(ListView):
