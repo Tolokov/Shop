@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+{% load static %}
+{% block title %} PROFILE {% endblock title %}
+
+{% block content %}
+<div class="container">
+<br>
+<br>
+<div class="row">
+
+	<div class="col-md-3">
+		<div class="card card-body">
+			<a class="btn btn-warning" href="{% url 'home' %}"> &#8592; Back to Home</a>
+		</div>
+	</div>
+
+    <div class="col-md-3">
+		<div class="card card-body">
+			<img class="profile-pic"
+                 style="max-width: 200px; max-height:200px; margin: 0 auto; border-radius: 50%;"
+                 <!--img-->
+{#                 src="{{ request.user.customer.avatar.url }}"#}
+            <!--/img-->
+            alt="avatar">
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		<div class="card card-body">
+
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{form.as_p}}
+			<input class="btn btn-primary" type="submit" name="update_profile">
+			</form>
+		</div>
+	</div>
+
+</div>
+<br>
+<br>
+<br>
+<br></div>
+{% endblock content %}

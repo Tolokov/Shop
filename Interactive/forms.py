@@ -1,5 +1,5 @@
-from django.forms import Form, CharField, Textarea, EmailField
-
+from django.forms import Form, CharField, Textarea, EmailField, ModelForm
+from Interactive.models import Customer
 
 class ContactForm(Form):
     """Форма обращения в техническую поддержку через smtp.gmail"""
