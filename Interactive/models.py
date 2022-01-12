@@ -8,7 +8,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=150, null=True)
     phone = models.CharField(max_length=150, null=True)
     email = models.CharField(max_length=150, null=True)
-    avatar = models.FileField(upload_to='media/avatars/', null=True, blank=True, default='media/avatars/orange.jpg')
+    avatar = models.ImageField(upload_to='media/avatars/', null=True, blank=True, default='media/avatars/orange.jpg')
 
     def __str__(self):
         return f'{self.user}'

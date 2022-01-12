@@ -1,4 +1,4 @@
-from django.forms import Form, CharField, Textarea, EmailField, ModelForm, TextInput
+from django.forms import Form, CharField, Textarea, EmailField, ModelForm, TextInput, ImageField, FileInput
 from Interactive.models import Customer, Delivery
 
 
@@ -35,6 +35,14 @@ class ContactForm(Form):
 
 
 class CustomerForm(ModelForm):
+    avatar = ImageField(label='Установить новое изображение:', required=False, widget=FileInput,)
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['avatar'].widget.clear_checkbox_label = ''
+    #     self.fields['avatar'].widget.initial_text = ''
+    #     self.fields['avatar'].widget.input_text = ''
+
     class Meta:
         model = Customer
         fields = '__all__'
