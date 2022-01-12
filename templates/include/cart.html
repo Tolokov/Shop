@@ -61,7 +61,7 @@
                                     {#          autocomplete="off" size="2">#}
                                     <a> {{ item.total }} </a>
                                     <a>
-                                        <form method="post" action="{% url 'delCart' item.product.id %}">
+                                        <form method="post" action="{% url 'popCart' item.product.id %}">
                                             {% csrf_token %}
                                             <button class="cart_quantity_down" style="height: 27px; width: 27px"> -
                                             </button>

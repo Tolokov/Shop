@@ -190,7 +190,7 @@ class AddCart(CartListView):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class DeductCart(CartListView):
+class PopCart(CartListView):
     def post(self, request, **kwargs):
         user = User.objects.get(id=request.user.id)
         product_id = Card_Product.objects.get(id=kwargs['product_id'])
