@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.views.generic import View, ListView, DetailView, FormView
+from django.shortcuts import redirect
+from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
@@ -123,9 +123,10 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['addresses'] = Delivery.objects \
-            .filter(user=self.request.user.id) \
-            .values('id', 'user_id', 'address_header')
+        context['addresses'] = \
+            Delivery.objects.filter(user=self.request.user.id).values('id', 'user_id', 'address_header')
+
+        context['cart_items'] = Cart.objects.filter(user=self.request.user.id).select_related('product')
         return context
 
     def form_valid(self, form):
