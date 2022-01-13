@@ -1,7 +1,6 @@
 from django.urls import path
 from Shop import views
 
-
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
     path('products/<int:product_ID>/', views.ProductDetailView.as_view(), name='product_detail'),

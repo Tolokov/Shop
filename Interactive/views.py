@@ -6,9 +6,8 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 
-from Interactive.forms import ContactForm, CustomerForm
+from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery
 from Interactive.models import Customer
-from Interactive.forms import AddNewAddressDeliveryForm, Delivery
 from Shop.models import Cart
 
 
@@ -94,19 +93,16 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
     template_name = 'pages/delivery.html'
     form_class = AddNewAddressDeliveryForm
     success_url = '/delivery/'
-    # Вместо 404 и перенаправления, пометка, доступ запрещен
     raise_exception = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['addresses'] = \
-            Delivery.objects.filter(user=self.request.user.id).values('id', 'user_id', 'address_header')
-
-        context['cart_items'] = Cart.objects.filter(user=self.request.user.id).select_related('product')
+        user_id = self.request.user.id
+        context['addresses'] = Delivery.objects.filter(user=user_id).values('id', 'user_id', 'address_header')
+        context['cart_items'] = Cart.objects.filter(user=user_id).select_related('product')
         return context
 
     def form_valid(self, form):
         form.save()
         print(form.cleaned_data)
         return super(DeliveryFormView, self).form_valid(form)
-

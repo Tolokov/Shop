@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Blog.models import News, Comment
+from Blog.models import Comment
 from django import forms
 
 from mptt.admin import MPTTModelAdmin

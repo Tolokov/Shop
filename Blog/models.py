@@ -38,7 +38,7 @@ class News(models.Model):
 
 class Comment(MPTTModel):
     """Комментарии к News"""
-    text = models.TextField('Коментарий', max_length=1500, blank=True)
+    text = models.TextField('Коментарий', max_length=1500, blank=False)
     parent = TreeForeignKey(
         'self',
         on_delete=models.SET_NULL,

@@ -19,7 +19,7 @@ def save_or_create_profile(sender, instance, created, **kwargs):
 
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, blank=True)
-    firs_name = models.CharField(max_length=150, null=True, default='Name')
+    first_name = models.CharField(max_length=150, null=True, default='Name')
     last_name = models.CharField(max_length=150, null=True, default='Last Name')
     phone = models.CharField(max_length=150, null=True, default='Phone')
     email = models.CharField(max_length=150, null=True, default='email')
@@ -27,6 +27,10 @@ class Customer(models.Model):
 
     def __str__(self):
         return f'{self.user}'
+
+    class Meta:
+        verbose_name = 'Покупатель'
+        verbose_name_plural = 'Покупатели'
 
 
 class Delivery(models.Model):
