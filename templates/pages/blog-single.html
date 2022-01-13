@@ -41,21 +41,22 @@
                         <h2>{{ count }} {{ responses|upper }}</h2>
                         <ul class="media-list">
                             {% for comment in comments %}
+
                                 {% if comment.parent is None %}
                                     <li class="media">
-                                        {% else %}
+                                {% else %}
                                         {% if comment.parent.level == 0 %}
                                             <li class="media" style="margin-left: 4%;">
-                                                {% elif comment.parent.level == 1 %}
+                                        {% elif comment.parent.level == 1 %}
                                             <li class="media" style="margin-left: 6%;">
-                                                {% else %}
+                                        {% else %}
                                             <li class="media" style="margin-left: {{ comment.parent.level|add:8 }}%;">
                                         {% endif %}
                                 {% endif %}
 
                                 <!--avatar-->
-                            <a class="pull-left" href="#">
-                                <img class="media-object" src="{% static 'images/blog/man-two.jpg' %}" alt="">
+                            <a class="pull-left">
+                                <img class="media-object" src="{{ comment.creator.customer.avatar.url }}" alt="">
                             </a>
                                 <!--/avatar-->
 

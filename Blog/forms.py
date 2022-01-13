@@ -1,5 +1,8 @@
 from django import forms
-from Blog.models import Comment
+
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+from Blog.models import Comment, News
 
 
 class AddCommentForm(forms.ModelForm):
@@ -9,3 +12,11 @@ class AddCommentForm(forms.ModelForm):
         model = Comment
         fields = '__all__'
         widgets = {'text': forms.Textarea(attrs={"id": "commentator"})}
+
+
+class NewsAdminForm(forms.ModelForm):
+    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = News
+        fields = '__all__'

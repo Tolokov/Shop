@@ -19,3 +19,5 @@ class CustomerAdmin(admin.ModelAdmin):
 
     def get_avatar(self, obj):
         return mark_safe(f'<img src={obj.avatar.url} width="110" height="80"')
+
+    get_avatar.short_description = 'Аватар'
