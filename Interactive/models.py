@@ -1,13 +1,28 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.signals import post_save
+from django.db import models
+from django.dispatch import receiver
+
+
+@receiver(post_save, sender=User)
+def save_or_create_profile(sender, instance, created, **kwargs):
+    """ Создание модели Покупателя после регистрации"""
+    if created:
+        Customer.objects.create(user=instance)
+    else:
+        try:
+            instance.customer.save()
+        except ObjectDoesNotExist:
+            Customer.objects.create(user=instance)
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
-    firs_name = models.CharField(max_length=150,  null=True)
-    last_name = models.CharField(max_length=150, null=True)
-    phone = models.CharField(max_length=150, null=True)
-    email = models.CharField(max_length=150, null=True)
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, blank=True)
+    firs_name = models.CharField(max_length=150, null=True, default='Name')
+    last_name = models.CharField(max_length=150, null=True, default='Last Name')
+    phone = models.CharField(max_length=150, null=True, default='Phone')
+    email = models.CharField(max_length=150, null=True, default='email')
     avatar = models.ImageField(upload_to='media/avatars/', null=True, blank=True, default='media/avatars/orange.jpg')
 
     def __str__(self):
@@ -40,4 +55,3 @@ class Delivery(models.Model):
     class Meta:
         verbose_name = 'Адрес доставки'
         verbose_name_plural = 'Адреса доставки'
-
