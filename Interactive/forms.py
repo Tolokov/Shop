@@ -4,44 +4,43 @@ from Interactive.models import Customer, Delivery
 
 class ContactForm(Form):
     """Форма обращения в техническую поддержку через smtp.gmail"""
-    required = {"required": "required"}
+    name = CharField()
+    email = EmailField()
+    text = CharField(widget=Textarea())
 
     name_attrs = {
         "class": "form-control",
         "type": "text",
         "name": "name",
         "placeholder": "Name",
-    } | required
+        "required": "required"
+    }
 
     email_attrs = {
         "class": "form-group col-md-6 form-control",
         "type": "email",
         "name": "email",
         "placeholder": "Email",
-    } | required
+        "required": "required"
+    }
 
     text_attrs = {
         "class": "form-group col-md-18 form-control",
+        "type": "message",
         "name": "message",
         "id": "message",
+        "placeholder": "Message",
         "rows": "8",
-    } | required
+        "required": "required"
+    }
 
-    name = CharField()
     name.widget.attrs.update(name_attrs)
-    email = EmailField()
     email.widget.attrs.update(email_attrs)
-    text = CharField(widget=Textarea(attrs=text_attrs))
+    text.widget.attrs.update(text_attrs)
 
 
 class CustomerForm(ModelForm):
-    avatar = ImageField(label='Установить новое изображение:', required=False, widget=FileInput,)
-
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['avatar'].widget.clear_checkbox_label = ''
-    #     self.fields['avatar'].widget.initial_text = ''
-    #     self.fields['avatar'].widget.input_text = ''
+    avatar = ImageField(label='Установить новое изображение:', required=False, widget=FileInput, )
 
     class Meta:
         model = Customer
