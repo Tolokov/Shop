@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends 'pages/base.html' %}
 {% load static %}
 {% block title %} favorites {% endblock title %}
 
@@ -56,11 +56,14 @@
                                 </td>
                                 <td class="add">
 
-                     <form method="post" action="{% url 'addCart' item.products.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
-{#                                    <a class="btn cart" href="">#}
-{#                                        <i class="fa fa-shopping-cart">Add to cart</i></a>#}
+                                    <form method="post" action="{% url 'addCart' item.products.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to
+                                            cart
+                                        </button>
+                                    </form>
+                                    {#                                    <a class="btn cart" href="">#}
+                                    {#                                        <i class="fa fa-shopping-cart">Add to cart</i></a>#}
                                 </td>
                                 <td>
                                     {# <td class="cart_delete">#}

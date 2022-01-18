@@ -20,11 +20,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.discord',
     'ckeditor',
     'ckeditor_uploader',
     'debug_toolbar',
     'mptt',
+    'snowpenguin.django.recaptcha3',
 
     'Blog',
     'Interactive',
@@ -39,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
@@ -70,6 +80,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -124,3 +139,14 @@ MEDIA_ROOT = path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 INTERNAL_IPS = ['127.0.0.1', 'localhost']
+
+RECAPTCHA_PUBLIC_KEY = PUBLIC_KEY
+RECAPTCHA_PRIVATE_KEY = PRIVATE_KEY
+RECAPTCHA_DEFAULT_ACTION = DEFAULT_ACTION
+RECAPTCHA_SCORE_THRESHOLD = SCORE_THRESHOLD
+RECAPTCHA_LANGUAGE = 'en'
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 4
+ACCOUNT_USERNAME_MIN_LENGTH = 4

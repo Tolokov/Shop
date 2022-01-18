@@ -1,21 +1,22 @@
-from django import forms
+from django.forms import Textarea, ModelForm, CharField
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from Blog.models import Comment, News
 
 
-class AddCommentForm(forms.ModelForm):
+class AddCommentForm(ModelForm):
     """Добавление комментария к новости"""
 
     class Meta:
         model = Comment
         fields = '__all__'
-        widgets = {'text': forms.Textarea(attrs={"id": "commentator"})}
+        widgets = {'text': Textarea(attrs={"id": "commentator"})}
 
 
-class NewsAdminForm(forms.ModelForm):
-    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+class NewsAdminForm(ModelForm):
+    """CKEditor"""
+    description = CharField(label="Описание", widget=CKEditorUploadingWidget())
 
     class Meta:
         model = News

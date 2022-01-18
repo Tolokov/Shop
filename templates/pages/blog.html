@@ -1,13 +1,13 @@
-{% extends './base.html' %}
+{% extends 'pages/base.html' %}
 
 {% load static %}
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
 
-    <section>
-        <div class="container">
-            <div class="col-sm-9" style="width:100%; height: 70% ;left: 20px; ">
+            <div class="col-sm-9" style="width:100%;left: 40px; ">
                 <div class="blog-post-area">
                     <h2 class="title text-center">{{ headline.0|upper }}</h2>
 
@@ -52,10 +52,9 @@
                         </ul>
                     </div>
                     <!-- /pagination -->
-
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
 {% endblock content %}

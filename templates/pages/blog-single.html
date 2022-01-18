@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends 'pages/base.html' %}
 {% load static %}
 {% block title %} {{ single_post.title }} {% endblock title %}
 
@@ -7,10 +7,10 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-sm-9"  style="width:100%;left: 40px; ">
+                <div class="col-sm-9" style="width:100%;left: 40px; ">
 
                     <!--blog-post-area-->
-                    <div class="blog-post-area" >
+                    <div class="blog-post-area">
                         <h2 class="title text-center">Latest From our Blog</h2>
                         <div class="single-blog-post">
                             <h3>{{ single_post.title }}</h3>
@@ -44,21 +44,21 @@
 
                                 {% if comment.parent is None %}
                                     <li class="media">
-                                {% else %}
+                                        {% else %}
                                         {% if comment.parent.level == 0 %}
                                             <li class="media" style="margin-left: 4%;">
-                                        {% elif comment.parent.level == 1 %}
+                                                {% elif comment.parent.level == 1 %}
                                             <li class="media" style="margin-left: 6%;">
-                                        {% else %}
+                                                {% else %}
                                             <li class="media" style="margin-left: {{ comment.parent.level|add:8 }}%;">
                                         {% endif %}
                                 {% endif %}
 
-                                <!--avatar-->
+                            <!--avatar-->
                             <a class="pull-left">
                                 <img class="media-object" src="{{ comment.creator.customer.avatar.url }}" alt="">
                             </a>
-                                <!--/avatar-->
+                            <!--/avatar-->
 
                             <div class="media-body">
                                 <ul class="sinlge-post-meta">
@@ -106,8 +106,8 @@
                             <div class="row">
                                 <h2 class="title text-center">
                                     <strong>Доступ к комментариям отключен не авторизованным пользователям,
-                                        <a href="{% url 'login' %}"><u>войдите</u></a> или
-                                        <a href="{% url 'signup' %}"><u>зарегистрируйтесь</u></a>
+                                        <a href="{% url 'account_login' %}"><u>войдите</u></a> или
+                                        <a href="{% url 'account_signup' %}"><u>зарегистрируйтесь</u></a>
                                     </strong>
                                 </h2>
                             </div>

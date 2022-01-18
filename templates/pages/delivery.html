@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends 'pages/base.html' %}
 {% load static %}
 {% block title %} checkout {% endblock title %}
 
@@ -40,23 +40,42 @@
     <!--form-delivery-->
     <div class="container">
         <div class="tab-pane fade active in" id="reviews">
-            <div class="bill-to"><p>Добавить новый адресс доставки:</p></div>
+            <p>
+            <div class="bill-to col-sm-12"><h3>Добавить новый адресс доставки:</h3></div>
+            </p>
+            <br><br>
+            <br><br>
             <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
                 {% csrf_token %}
-                <span>{{ form.user }}<br><br></span>
-                <span>{{ form.sub_phone }} {{ form.zip }}<br><br></span>
-                <span>{{ form.address_header }} {{ form.phone }}</span><br>
-                <span>{{ form.name_first }} {{ form.name_last }}</span><br>
-                <span>{{ form.email }} {{ form.address }} </span><br>
-                <span>{{ form.country }} {{ form.state }} </span><br>
-                <span>{{ form.fax }} </span><br>
-                <div>{{ form.comment }}
-                    Получать уведомления по почте: {{ form.notification_on_email }}</div>
+                <h4>Обязательные поля:</h4>
+                <div>
+                    <input type="hidden" value="{{ user.id }}" name="user">
+                    <br>
+                    <span><b style="color:red">{{ form.non_field_errors }}</b></span>
+                    <span>{{ form.address_header.errors }} {{ form.phone.errors }}</span>
+                    <span>{{ form.address_header }} {{ form.phone }}</span>
+                    <span>{{ form.name_first.errors }} {{ form.name_last.errors }}</span>
+                    <span>{{ form.name_first }} {{ form.name_last }}</span>
+                    <span>{{ form.email.errors }} {{ form.address.errors }}</span>
+                    <span>{{ form.email }} {{ form.address }}</span>
+                    <span>{{ form.country.errors }} {{ form.state.errors }}</span>
+                    <span>{{ form.country }} {{ form.state }}</span>
+                </div>
+                <hr>
+                <h4>Необязательные поля:</h4>
+                <div>
+                    <span>{{ form.zip }} {{ form.sub_phone }}</span>
+                    <span>Получать уведомления по почте:{{ form.notification_on_email }}</span>
+                    <span>{{ form.comment }}</span>
+                </div>
 
                 <button class="btn btn-default pull-right" type="submit" name="submit">
                     Submit
                 </button>
             </form>
+            <br>
+            <br>
+            <br>
         </div>
     </div>
     <!--/form-delivery-->

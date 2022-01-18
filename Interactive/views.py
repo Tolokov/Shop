@@ -1,13 +1,12 @@
 from django.views.generic import FormView, CreateView
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.conf import settings
 from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 
-from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery
-from Interactive.models import Customer
+from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery, MailForm
+from Interactive.models import Customer, Mail
 from Shop.models import Cart
 
 
@@ -19,11 +18,11 @@ def ex404(request, exception):
     request = render(request, 'exception/404.html', status=404, context=context)
     return request
 
-
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'registration/signup.html'
+# from django.contrib.auth.forms import UserCreationForm
+# class SignUpView(CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('login')
+#     template_name = 'registration/signup.html'
 
 
 class ProfileCreate(LoginRequiredMixin, CreateView):
@@ -47,6 +46,12 @@ class ProfileCreate(LoginRequiredMixin, CreateView):
         return redirect(reverse_lazy('profile'), permanent=True)
 
 
+class MailView(CreateView):
+    model = Mail
+    form_class = MailForm
+    success_url = "/"
+
+
 class ContactFormView(FormView):
     template_name = 'pages/contact-us.html'
     form_class = ContactForm
@@ -60,9 +65,9 @@ class ContactFormView(FormView):
             'E-Shopper Inc.',
             '935 W. Webster Ave New Streets Chicago, IL 60614, NY',
             'New York USA',
-            'Mobile: +2346 17 38 93',
-            'Fax: 1-714-252-0026',
-            'Email: info@e-shopper.com',
+            '<b>Mobile</b>: +2346 17 38 93',
+            '<b>Fax</b>: 1-714-252-0026',
+            '<b>Email</b>: info@e-shopper.com',
         )
         context['contact_info'] = contact_info
 

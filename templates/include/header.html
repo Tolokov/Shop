@@ -37,7 +37,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="index.html"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
+                        <a href="{% url 'home' %}"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
@@ -68,16 +68,17 @@
                         <ul class="nav navbar-nav">
 
                             {% if user.is_authenticated %}
-                                <li><a href="{% url 'profile' %}" alt="Профиль"><i class="fa fa-user"></i>{{ user.username }}</a></li>
+                                <li><a href="{% url 'profile' %}"><i class="fa fa-user"></i> {{ user.username }}</a>
+                                </li>
                                 <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
                                 <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
                                 <li><a href="{% url 'delivery' %}"><i class="fa fa-crosshairs"></i> Доставка</a></li>
-                                <li><a href="{% url 'logout' %}"><i class="fa fa-lock"></i> Выйти</a></li>
+                                <li><a href="{% url 'account_logout' %}"><i class="fa fa-lock"></i> Выйти</a></li>
 
                             {% else %}
                                 <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
-                                <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i> Войти</a></li>
-                                <li><a href="{% url 'signup' %}"><i class="fa fa-lock"></i> Регистрация</a></li>
+                                <li><a href="{% url 'account_login' %}"><i class="fa fa-lock"></i> Войти</a></li>
+                                <li><a href="{% url 'account_signup' %}"><i class="fa fa-lock"></i> Регистрация</a></li>
                             {% endif %}
 
                         </ul>

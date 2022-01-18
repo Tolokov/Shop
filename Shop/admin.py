@@ -86,41 +86,16 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
     )
     list_editable = ('availability', 'condition')
     fieldsets = (
-        (None,
-         {
-             'fields': (('name', 'product_public_ID'),)
-         }),
-        (None,
-         {
-             'fields': (('price', 'availability', 'condition'),)
-         }),
-        ('Неизменяемые категории товаров',
-         {
-             'classes': ('collapse',),
-             'fields': (('brand', 'category'),)
-         }),
-        (None,
-         {
-             'fields': (('get_icon', 'icon'),)
-         }),
-        (None,
-         {
-             'fields': (('description',),)
-         })
+        (None, {'fields': (('name', 'product_public_ID'),)}),
+        (None, {'fields': (('price', 'availability', 'condition'),)}),
+        ('Неизменяемые категории товаров', {'classes': ('collapse',), 'fields': (('brand', 'category'),)}),
+        (None, {'fields': (('get_icon', 'icon'),)}),
+        (None, {'fields': (('description',),)})
     )
 
     def show_category(self, obj):
         """поле обратной видимости в случае ManyToMany"""
         return '\n'.join([cat.name for cat in obj.category.all()])
-
-
-# @admin.register(RatingGrade)
-# class RatingAdmin(admin.ModelAdmin):
-#     """Итоговый рейтинг"""
-#     list_display = ('value', 'show_product')
-#
-#     def show_product(self, obj):
-#         return '\n'.join([cat.name for cat in obj.Card_Product.all()])
 
 
 @admin.register(Review)
@@ -133,16 +108,6 @@ class RatingGradeAdmin(admin.ModelAdmin):
 class CartGradeAdmin(admin.ModelAdmin):
     """Корзина покупателя"""
     list_display = ('user', 'total', 'product')
-    # def show_products(self, obj):
-    #     return '\n'.join([cat.name for cat in obj.products.all()])
-
-
-# @admin.register(CartProduct)
-# class CartProductAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'user', 'show_products')
-#
-#     def show_products(self, obj):
-#         return ', '.join([cat.name for cat in obj.products.all()])
 
 
 @admin.register(Order)

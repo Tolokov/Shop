@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends 'pages/base.html' %}
 {% load static %}
 {% block title %} {{ title }} {% endblock title %}
 
@@ -46,7 +46,7 @@
                         <h2 class="title text-center">{{ headline.2|upper }}</h2>
                         <address>
                             {% for content in contact_info %}
-                                <p>{{ content }}</p>
+                                <p>{{ content|safe }}</p>
                             {% endfor %}
                         </address>
                         <div class="social-networks">

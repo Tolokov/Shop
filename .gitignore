@@ -8,3 +8,10 @@ Lib
 /static/admin/
 /static/ckeditor/
 /static/mptt/
+/Blog/migrations/
+/Interactive/migrations/
+/Shop/migrations/
+/newvenv39/
+/practice.py
+/practice.html
+/Doc.txt

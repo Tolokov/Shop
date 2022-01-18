@@ -1,19 +1,17 @@
 <!--category-products-->
 <div class="panel-group category-products" id="accordian">
     <div class="panel panel-default"></div>
-
     {% for category in view.get_categories %}
         <div class="panel panel-default">
-            <div class="panel-heading">
-
+            <div class="panel-heading form-check">
                 <li>
-                    <input value="{{ category.id }}" name="category" type="checkbox">
-                    <span style="color:black;padding-left:10px;">  {{ category.name }}</span>
+                    <input value="{{ category.id }}" name="category" type="checkbox"
+                           style="transform: scale(1.6); padding: 10px;">
+                    <span class="form-check-label" style="color:black;font-size: 120%;padding-left:10px;">
+                        {{ category.name }}</span>
                 </li>
-
             </div>
         </div>
     {% endfor %}
-
 </div>
 <!--/category-products-->

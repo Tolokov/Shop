@@ -17,17 +17,26 @@
                                     <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
 
                                     <!-- add to card -->
-                    <form method="post" action="{% url 'addCart' product.id %}">
-                    {% csrf_token %}
-                    <button  class="btn btn-fefault cart" style="margin-right: 20px;">
-                        <i class="fa fa-shopping-cart">
-                        </i>Add to cart</button></form>
-{#                                    <a href="#" class="btn btn-default add-to-cart">#}
-{#                                        <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
+                                    <form method="post" action="{% url 'addCart' product.id %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-fefault cart" style="margin-right: 20px;">
+                                            <i class="fa fa-shopping-cart">
+                                            </i>Add to cart
+                                        </button>
+                                    </form>
+                                    {#  <a href="#" class="btn btn-default add-to-cart">#}
+                                    {#      <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
 
                                 </div>
                             </div>
                         </div>
+                        {% if product.condition == 'N' %}
+                            <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>
+                        {% elif product.condition == 'F' %}
+                            <img src="{% static 'images/home/fresh.png' %}" class="new" alt=""/>
+                        {% else %}
+                            <img src="{% static 'images/home/hand.png' %}" class="new" alt=""/>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
@@ -48,15 +57,24 @@
 
                                         <!-- add to card -->
                                         <form method="post" action="{% url 'addCart' product.id %}">
-                    {% csrf_token %}
-                    <button  class="btn btn-fefault cart" style="margin-right: 20px;">
-                        <i class="fa fa-shopping-cart"></i>Add to cart</button></form>
-{#                                        <a href="#" class="btn btn-default add-to-cart"><i#}
-{#                                                class="fa fa-shopping-cart"></i>#}
-{#                                            Add to cart</a>#}
+                                            {% csrf_token %}
+                                            <button class="btn btn-fefault cart" style="margin-right: 20px;">
+                                                <i class="fa fa-shopping-cart"></i>Add to cart
+                                            </button>
+                                        </form>
+                                        {#  <a href="#" class="btn btn-default add-to-cart"><i#}
+                                        {#          class="fa fa-shopping-cart"></i>#}
+                                        {#      Add to cart</a>#}
                                     </div>
                                 </div>
                             </div>
+                            {% if product.condition == 'N' %}
+                                <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>
+                            {% elif product.condition == 'F' %}
+                                <img src="{% static 'images/home/fresh.png' %}" class="new" alt=""/>
+                            {% else %}
+                                <img src="{% static 'images/home/hand.png' %}" class="new" alt=""/>
+                            {% endif %}
                         </div>
                     {% endfor %}
 

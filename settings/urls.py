@@ -5,10 +5,12 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include('Shop.urls')),
-    path('blog/', include('Blog.urls')),
     path('', include('Interactive.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
+    path('blog/', include('Blog.urls')),
+    path('pages/', include('django.contrib.flatpages.urls')),
 ]
 
 handler404 = 'Interactive.views.ex404'

@@ -85,16 +85,18 @@ class ProductDetailView(FormView, DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
 
+        context['form'] = ReviewForm()
+
         review_queryset = Review.objects.filter(product=self.object)
         context['reviews'] = review_queryset
         context['count'] = review_queryset.__len__()
 
         product_images_queryset = ProductImage.objects.filter(product=self.object)
-        context['slider'] = self.paginator_optimizator(product_images_queryset)
+        context['slider'] = self.paginator_optimization(product_images_queryset)
         return context
 
     @staticmethod
-    def paginator_optimizator(queryset, per_page=3, max_pages=5):
+    def paginator_optimization(queryset, per_page=3, max_pages=5):
         """Paginator optimization (9 SQL queries --> 6 SQL queries)"""
         objects = list(queryset[:per_page * max_pages])
         paginator = Paginator(objects, per_page=per_page)
@@ -107,7 +109,7 @@ class ProductDetailView(FormView, DetailView):
             form = form.cleaned_data
             review = Review(
                 name=form['name'], ipaddress='127.0.0.1', email=form['email'],
-                text=form['text'], product=product, g=int(form['grade']),
+                text=form['text'], product=product, g=form['g'],
             )
             review.save()
         return redirect(product.get_absolute_url(), permanent=True)
