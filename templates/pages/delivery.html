@@ -52,14 +52,19 @@
                     <input type="hidden" value="{{ user.id }}" name="user">
                     <br>
                     <span><b style="color:red">{{ form.non_field_errors }}</b></span>
+
                     <span>{{ form.address_header.errors }} {{ form.phone.errors }}</span>
                     <span>{{ form.address_header }} {{ form.phone }}</span>
+
                     <span>{{ form.name_first.errors }} {{ form.name_last.errors }}</span>
                     <span>{{ form.name_first }} {{ form.name_last }}</span>
+
                     <span>{{ form.email.errors }} {{ form.address.errors }}</span>
                     <span>{{ form.email }} {{ form.address }}</span>
+
                     <span>{{ form.country.errors }} {{ form.state.errors }}</span>
                     <span>{{ form.country }} {{ form.state }}</span>
+
                 </div>
                 <hr>
                 <h4>Необязательные поля:</h4>
@@ -70,7 +75,7 @@
                 </div>
 
                 <button class="btn btn-default pull-right" type="submit" name="submit">
-                    Submit
+                    Сохранить адресс доставки
                 </button>
             </form>
             <br>

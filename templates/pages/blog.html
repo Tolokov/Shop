@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-sm-9" style="width:100%;left: 40px; ">
+            <div class="col-sm-9" style="width:80%;left: 40px; ">
                 <div class="blog-post-area">
                     <h2 class="title text-center">{{ headline.0|upper }}</h2>
 
@@ -27,7 +27,7 @@
                                     <img src="{{ post.poster.url }}" alt="{{ headline.1|upper }}">
                                 </a>
                             </div>
-                            <p>{{ post.description|safe|truncatewords:40 }}</p>
+                            <p>{{ post.description|safe|truncatewords:120 }}</p>
                             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{{ headline.1|lower }}</a>
                         </div>
                     {% endfor %}
