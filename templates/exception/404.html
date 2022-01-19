@@ -6,10 +6,10 @@
     <body>
     <div class="container text-center">
         <div class="logo-404">
-            <a href="../pages/index.html"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
+            <a href="../pages/index.html"><img src="{% static 'images/home/logo.png' %}" alt="logo"/></a>
         </div>
         <div class="content-404">
-            <img src="{% static 'images/404/404.png' %}" class="img-responsive" alt=""/>
+            <img src="{% static 'images/404/404.png' %}" class="img-responsive" alt="404error"/>
             <h1><b>OPPS!</b> {{ errorMessage }}</h1>
             <p>Uh... So it looks like you brock something. The page you are looking for has up and Vanished.</p>
             <h2><a href="{% url 'home' %}">Bring me back Home</a></h2>

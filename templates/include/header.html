@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="logo pull-left">
-                        <a href="{% url 'home' %}"><img src="{% static 'images/home/logo.png' %}" alt=""/></a>
+                        <a href="{% url 'home' %}"><img src="{% static 'images/home/logo.png' %}" alt="logo"/></a>
                     </div>
                     <div class="btn-group pull-right">
                     </div>
@@ -48,8 +48,7 @@
                         <ul class="nav navbar-nav">
 
                             {% if user.is_authenticated %}
-                                <li><a href="{% url 'profile' %}"><i class="fa fa-user"></i> {{ user.username }}</a>
-                                </li>
+                                <li><a href="{% url 'profile' %}"><i class="fa fa-user"></i> {{ user.username }}</a></li>
                                 <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
                                 <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Корзина</a></li>
                                 <li><a href="{% url 'delivery' %}"><i class="fa fa-crosshairs"></i> Доставка</a></li>

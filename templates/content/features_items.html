@@ -21,12 +21,13 @@
                     {# <a href="#" class="btn btn-default add-to-cart">#}
                     {#  <i class="fa fa-shopping-cart"></i>Add to cart</a>#}
                 </div>
+
                 {% if product.condition == 'N' %}
-                    <img src="{% static 'images/home/new.png' %}" class="new" alt=""/>
+                    <img src="{% static 'images/home/new.png' %}" class="new" alt="status-new"/>
                 {% elif product.condition == 'F' %}
-                    <img src="{% static 'images/home/fresh.png' %}" class="new" alt=""/>
+                    <img src="{% static 'images/home/fresh.png' %}" class="new" alt="status-fresh"/>
                 {% else %}
-                    <img src="{% static 'images/home/hand.png' %}" class="new" alt=""/>
+                    <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-fresh"/>
                 {% endif %}
 
             </div>

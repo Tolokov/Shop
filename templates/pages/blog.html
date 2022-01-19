@@ -30,6 +30,8 @@
                             <p>{{ post.description|safe|truncatewords:120 }}</p>
                             <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{{ headline.1|lower }}</a>
                         </div>
+                        <br>
+                        <br>
                     {% endfor %}
                     <!-- /posts -->
 

@@ -50,18 +50,15 @@
                                 <!--/product-information-->
                                 <div class="product-information">
                                     {% if product_detail.condition == 'N' %}
-                                        <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival"
-                                             alt=""/>
+                                        <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival" alt="status-new"/>
                                     {% elif product_detail.condition == 'F' %}
-                                        <img src="{% static 'images/product-details/fresh.png' %}" class="newarrival"
-                                             alt=""/>
+                                        <img src="{% static 'images/product-details/fresh.png' %}" class="newarrival" alt="status-fresh"/>
                                     {% else %}
-                                        <img src="{% static 'images/product-details/hand.png' %}" class="newarrival"
-                                             alt=""/>
+                                        <img src="{% static 'images/product-details/hand.png' %}" class="newarrival" alt="status-fresh"/>
                                     {% endif %}
                                     <h2>{{ product_detail.name }}</h2>
                                     <p>Web ID: {{ product_detail.product_public_ID }}</p>
-                                    <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
+                                    <img src="{% static 'images/product-details/rating.png' %}" alt="rating"/>
                                     <span>
 									<span>US ${{ product_detail.price }}</span>
 									<label>Quantity:</label>
@@ -82,8 +79,7 @@
                                     <p><b>Condition:</b> {{ product_detail.get_condition_display|upper }}</p>
                                     <p><b>Brand:</b> {{ product_detail.brand }}</p>
                                     <a href=""><img
-                                            src="{% static 'images/product-details/share.png" class="share img-responsive' %}"
-                                            alt=""/></a>
+                                            src="{% static 'images/product-details/share.png' %}"  class="share img-responsive" alt="images"/></a>
                                 </div>
                                 <!--/product-information-->
                             </div>
@@ -113,7 +109,7 @@
                                     <p>{{ review.text }}</p>
                                     <br>
                                     <b>Rating: {{ review.grade }}</b>
-                                    <img src="{% static 'images/product-details/rating.png' %}" alt=""/>
+                                    <img src="{% static 'images/product-details/rating.png' %}" alt="rating"/>
                                     <hr>
                                 {% endfor %}
                                 <!--/review-detail-->
