@@ -4,9 +4,6 @@ from django.utils.safestring import mark_safe
 
 from Interactive.models import Delivery, Customer, Mail
 
-admin.site.unregister(FlatPage)
-admin.site.register(FlatPage, FlatPageAdmin)
-
 
 @admin.register(Mail)
 class MailAdmin(admin.ModelAdmin):
@@ -41,3 +38,7 @@ class FlatPageAdmin(FlatPageAdmin):
              'fields': ('url', 'title', 'content', 'sites', 'registration_required', 'template_name')
          }),
     )
+
+
+admin.site.unregister(FlatPage)
+admin.site.register(FlatPage, FlatPageAdmin)
