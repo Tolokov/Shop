@@ -1,0 +1,52 @@
+[
+  {
+    "model": "Shop.Brand",
+    "pk": 1,
+    "fields": {
+      "name": "Casio",
+      "description": "Японский производитель электронных устройств",
+      "slug": "casio",
+      "logo": "fixtures/brand/casio.jpg"
+    }
+  },
+  {
+    "model": "Shop.Brand",
+    "pk": 2,
+    "fields": {
+      "name": "Diesel",
+      "description": "Итальянская дизайнерская компания, а также торговая марка модной одежды и аксессуаров деним-направления.",
+      "slug": "diesel",
+      "logo": "fixtures/brand/citizen.png"
+    }
+  },
+  {
+    "model": "Shop.Brand",
+    "pk": 3,
+    "fields": {
+      "name": "Citizen",
+      "description": "Японская компания, производящая часы и электронику",
+      "slug": "citizen",
+      "logo": "fixtures/brand/diesel.jpg"
+    }
+  },
+  {
+    "model": "Shop.Brand",
+    "pk": 4,
+    "fields": {
+      "name": "Tiffany",
+      "description": "Ювелирная транснациональная компания, основанная в 1837 году.",
+      "slug": "tiffany",
+      "logo": "fixtures/brand/tiffany.png"
+    }
+  },
+  {
+    "model": "Shop.Brand",
+    "pk": 5,
+    "fields": {
+      "name": "Rolex",
+      "description": "Швейцарская часовая компания, выпускающая наручные часы и аксессуары.",
+      "slug": "rolex",
+      "logo": "fixtures/brand/rolex.png"
+    }
+  }
+]

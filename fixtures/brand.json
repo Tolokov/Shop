@@ -3,50 +3,59 @@
     "model": "Shop.Brand",
     "pk": 1,
     "fields": {
-      "name": "Casio",
-      "description": "Японский производитель электронных устройств",
-      "slug": "casio",
-      "logo": "fixtures/brand/casio.jpg"
+      "name": "Gucci",
+      "description": "Итальянский дом моды, производитель одежды, парфюмерии, аксессуаров и текстиля.",
+      "slug": "gucci",
+      "logo": "fixtures/brand/gucci.jpg"
     }
   },
   {
     "model": "Shop.Brand",
     "pk": 2,
     "fields": {
-      "name": "Diesel",
-      "description": "Итальянская дизайнерская компания, а также торговая марка модной одежды и аксессуаров деним-направления.",
-      "slug": "diesel",
-      "logo": "fixtures/brand/citizen.png"
+      "name": "DolceGabbana",
+      "description": "Итальянский дом моды, основанный в 1985 году модельерами Доменико Дольче и Стефано Габбана.",
+      "slug": "dg",
+      "logo": "fixtures/brand/dg.jpg"
     }
   },
   {
     "model": "Shop.Brand",
     "pk": 3,
     "fields": {
-      "name": "Citizen",
-      "description": "Японская компания, производящая часы и электронику",
-      "slug": "citizen",
-      "logo": "fixtures/brand/diesel.jpg"
+      "name": "Levis",
+      "description": "Магазин джинсовой одежды",
+      "slug": "levis",
+      "logo": "fixtures/brand/Levis.png"
     }
   },
   {
     "model": "Shop.Brand",
     "pk": 4,
     "fields": {
-      "name": "Tiffany",
-      "description": "Ювелирная транснациональная компания, основанная в 1837 году.",
-      "slug": "tiffany",
-      "logo": "fixtures/brand/tiffany.png"
+      "name": "Michael Kors",
+      "description": "Каталог сумок, рюкзаков, клатчей, кошельков",
+      "slug": "mk.jpg",
+      "logo": "fixtures/brand/mk.jpg"
     }
   },
   {
     "model": "Shop.Brand",
     "pk": 5,
     "fields": {
-      "name": "Rolex",
-      "description": "Швейцарская часовая компания, выпускающая наручные часы и аксессуары.",
-      "slug": "rolex",
-      "logo": "fixtures/brand/rolex.png"
+      "name": "Guess",
+      "description": "Американская розничная компания и одноимённый бренд мужской и женской одежды.",
+      "slug": "og",
+      "logo": "fixtures/brand/og.jpg"
+    }
+  },{
+    "model": "Shop.Brand",
+    "pk": 6,
+    "fields": {
+      "name": "Tommy Hilfiger",
+      "description": "Американский модельер и предприниматель, основатель бренда Tommy Hilfiger.",
+      "slug": "th",
+      "logo": "fixtures/brand/th.png"
     }
   }
 ]
