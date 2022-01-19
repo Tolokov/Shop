@@ -8,10 +8,14 @@ from Interactive.models import Customer, Delivery, Mail
 class MailForm(ModelForm):
     captcha = ReCaptchaField()
 
+    def __init__(self, *args, **kwargs):
+        super(MailForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['placeholder'] = 'Подписаться'
+
     class Meta:
         model = Mail
         fields = ('email', 'captcha')
-        widgets = {'email': TextInput(attrs={'placeholder': 'Подписаться'})}
+        widgets = {'email': EmailInput()}
         labels = {'email': ''}
 
 
