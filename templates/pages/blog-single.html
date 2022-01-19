@@ -10,7 +10,7 @@
                 <div class="col-sm-9" style="width:75%;">
 
                     <!--blog-post-area-->
-                    <div class="blog-post-area" >
+                    <div class="blog-post-area">
                         <h2 class="title text-center">Latest From our Blog</h2>
                         <div class="single-blog-post">
                             <h3>{{ single_post.title }}</h3>
@@ -27,8 +27,12 @@
                             </p>
                             <div class="pager-area">
                                 <ul class="pager pull-right">
-                                    <li><a href="{{ single_post.get_prev_absolute_url }}">Pre</a></li>
-                                    <li><a href="{{ single_post.get_next_absolute_url }}">Next</a></li>
+                                    {% if single_post.get_prev_absolute_url %}
+                                        <li><a href="{{ single_post.get_prev_absolute_url }}">Pre</a>
+                                        </li>{% else %}{% endif %}
+                                    {% if single_post.get_next_absolute_url %}
+                                        <li><a href="{{ single_post.get_next_absolute_url }}">Next</a>
+                                        </li>{% else %}{% endif %}
                                 </ul>
                             </div>
                         </div>
