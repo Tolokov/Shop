@@ -75,10 +75,10 @@ class ContactFormView(FormView):
             'Contact US', 'get in touch', 'contact info', 'SOCIAL NETWORKING'
         )
         context['social_networking'] = (
-            ('fa-facebook', '#'),
-            ('fa-twitter', '#'),
-            ('fa-google-plus', '#'),
-            ('fa-youtube', '#')
+            ('fa-facebook', 'https://www.facebook.com'),
+            ('fa-twitter', 'https://twitter.com/'),
+            ('fa-google-plus', 'https://www.google.com'),
+            ('fa-youtube', 'https://www.youtube.com')
         )
         return context
 
