@@ -191,3 +191,8 @@ class DeleteCartProduct(CartListView):
         selected_item = Cart.objects.get(user=user, product=product_id)
         selected_item.delete()
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
+
+
+class OrderListView(ListView):
+    template_name = 'pages/order.html'
+    model = Cart
