@@ -59,7 +59,12 @@
                                 <p><b>Комментарий:</b><span> {{ address.comment }}</span></p>
                             {% endif %}
                         </div>
-                        <button class="btn btn-default" type="submit"> Удалить</button>
+                    <form method="post" action="{% url 'delDelivery' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ user.id }}" name="user">
+                        <input type="hidden" value="{{ address.id }}" name="addr">
+                        <button type="submit" class="cart btn"> Удалить</button>
+                    </form>
                     </div>
                     <hr>
                 {% endfor %}

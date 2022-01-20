@@ -1,4 +1,4 @@
-from django.views.generic import FormView, CreateView
+from django.views.generic import FormView, CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.conf import settings
@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 
 from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery, MailForm
-from Interactive.models import Customer, Mail
+from Interactive.models import Customer, Mail, User
 from Shop.models import Cart
 
 
@@ -111,3 +111,9 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
         form.save()
         print(form.cleaned_data)
         return super(DeliveryFormView, self).form_valid(form)
+
+class DeleteDelivery(View):
+    def post(self, request, **kwargs):
+        delivery = Delivery.objects.get(id=self.request.POST['addr'])
+        delivery.delete()
+        return redirect(reverse_lazy('delivery'), permanent=True)
