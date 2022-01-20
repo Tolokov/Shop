@@ -12,7 +12,8 @@
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <img src="{{ product.icon.url }}" alt="{{ product.name }}"/>
+                                    <a href="{{ product.get_absolute_url }}" target="_blank">
+                                        <img src="{{ product.icon.url }}" alt="{{ product.name }}"/></a>
                                     <h2>${{ product.price }}</h2>
                                     <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
 
@@ -51,7 +52,8 @@
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
-                                        <img src="{{ product.icon.url }}" alt="{{ product.name }}"/>
+                                        <a href="{{ product.get_absolute_url }}" target="_blank">
+                                            <img src="{{ product.icon.url }}" alt="{{ product.name }}"/></a>
                                         <h2>${{ product.price }}</h2>
                                         <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
 

@@ -62,7 +62,7 @@
                                     <span>
 									<span>US ${{ product_detail.price }}</span>
 									<label>Quantity:</label>
-									<input type="text" value="3"/>
+									<input type="text" value="{{ product_detail.quantity }}"/>
 
                     <form method="post" action="{% url 'addCart' product_detail.id %}">
                     {% csrf_token %}
@@ -73,14 +73,12 @@
 {#									</button>#}
 
 								</span>
-                                    <p><b>Category:</b>
+                                    <p><b>Категории:</b>
                                         {{ product_detail.category.all | join:", " }}
                                     </p>
-                                    <p><b>Condition:</b> {{ product_detail.get_condition_display|upper }}</p>
-                                    <p><b>Brand:</b> {{ product_detail.brand }}</p>
-                                    <a href=""><img
-                                            src="{% static 'images/product-details/share.png' %}"  class="share img-responsive" alt="images"/></a>
-                                </div>
+                                    <p><b>Качество товара:</b> {{ product_detail.get_condition_display|upper }}</p>
+                                    <p><b>Бренд:</b> {{ product_detail.brand }}</p>
+                                    </div>
                                 <!--/product-information-->
                             </div>
                         </div>

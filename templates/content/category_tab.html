@@ -30,7 +30,8 @@
                 <div class="product-image-wrapper">
                     <div class="single-products">
                         <div class="productinfo text-center">
-                            <img src="{{ item.icon.url }}" alt="{{ item.name }}"/>
+                            <a href="{{ item.get_absolute_url }}" target="_blank">
+                                <img src="{{ item.icon.url }}" alt="{{ item.name }}"/></a>
                             <h2>${{ item.price }}</h2>
                             <p><a href="{{ item.get_absolute_url }}"> {{ item.name }}</a></p>
 
