@@ -22,69 +22,101 @@
                         Нет сохраненных адресов
                     </strong>
                 </h2>
+
             {% else %}
-                <div class="bill-to"><p>Выбрать сохраненный адрес доставки: </p></div>
-                <select id="last_addresses" class="register-req">
-                    {% for address in addresses %}
-                        <option value=”GR”>{{ address.address_header }}</option>
-                    {% endfor %}
-                </select>
-                </div>
+
+                <div class="bill-to"><p>Сохраненные адреса доставки: </p>
+                {% for address in addresses %}
+                    <div>
+                        <h3>{{ address.address_header }}</h3>
+                        <div class="register-req">
+                            {% if address.email %}
+                                <p><b>Электронная почта:</b><span> {{ address.email }}{{ address.email }}</span></p>
+                            {% endif %}
+                            {% if address.name_first %}
+                                <p><b>Фамилия:</b><span> {{ address.name_first }}</span></p>
+                            {% endif %}
+                            {% if  address.name_last %}
+                                <p><b>Имя:</b><span> {{ address.name_last }}</span></p>
+                            {% endif %}
+                            {% if address.country %}
+                                <p><b>Страна:</b><span> {{ address.country }}</span></p>{% endif %}
+                            {% if address.state %}<p><b>Регион:</b><span> {{ address.state }}</span></p>
+                            {% endif %}
+                            {% if address.address %}
+                                <p><b>Город и улица:</b><span> {{ address.address }}</span></p>
+                            {% endif %}
+                            {% if address.zip %}
+                                <p><b>Почтовый индекс:</b><span> {{ address.zip }}</span></p>
+                            {% endif %}
+                            {% if address.phone %}
+                                <p><b>Номер телефона:</b><span> {{ address.phone }}</span></p>
+                            {% endif %}
+                            {% if address.sub_phone %}
+                                <p><b>Дополнительный номер телефона:</b><span> {{ address.sub_phone }}</span></p>
+                            {% endif %}
+                            {% if address.comment %}
+                                <p><b>Комментарий:</b><span> {{ address.comment }}</span></p>
+                            {% endif %}
+                        </div>
+                        <button class="btn btn-default" type="submit"> Удалить</button>
+                    </div>
+                    <hr>
+                {% endfor %}
             {% endif %}
-        <br>
-        {% include 'include/cart.html' %}
-        <hr>
-    </div>
-    <!--/address-->
+            <br>
+            </div>
+            <!--/address-->
+            <br>
+            <!--form-delivery-->
+            <div class="container">
+                <div class="tab-pane fade active in" id="reviews">
+                    <p>
+                    <div class="bill-to col-sm-12"><h3>Добавить новый адресс доставки:</h3></div>
+                    </p>
+                    <br><br>
+                    <br><br>
+                    <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
+                        {% csrf_token %}
+                        <h4>Обязательные поля:</h4>
+                        <div>
+                            <input type="hidden" value="{{ user.id }}" name="user">
+                            <br>
+                            <span><b style="color:red">{{ form.non_field_errors }}</b></span>
 
-    <!--form-delivery-->
-    <div class="container">
-        <div class="tab-pane fade active in" id="reviews">
-            <p>
-            <div class="bill-to col-sm-12"><h3>Добавить новый адресс доставки:</h3></div>
-            </p>
-            <br><br>
-            <br><br>
-            <form id="main-contact-form" class="contact-form row" name="contact-form" method="post">
-                {% csrf_token %}
-                <h4>Обязательные поля:</h4>
-                <div>
-                    <input type="hidden" value="{{ user.id }}" name="user">
+                            <span>{{ form.address_header.errors }} {{ form.phone.errors }}</span>
+                            <span>{{ form.address_header }} {{ form.phone }}</span>
+
+
+                            <span>{{ form.name_first.errors }} {{ form.name_last.errors }}</span>
+                            <span>{{ form.name_first }} {{ form.name_last }}</span>
+
+                            <span>{{ form.email.errors }} {{ form.address.errors }}</span>
+                            <span>{{ form.email }} {{ form.address }}</span>
+
+                            <span>{{ form.country.errors }} {{ form.state.errors }}</span>
+                            <span>{{ form.country }} {{ form.state }}</span>
+
+                        </div>
+                        <hr>
+                        <h4>Необязательные поля:</h4>
+                        <div>
+                            <span>{{ form.zip }} {{ form.sub_phone }}</span>
+                            <span>Получать уведомления по почте:{{ form.notification_on_email }}</span>
+                            <span>{{ form.comment }}</span>
+                        </div>
+
+                        <button class="btn btn-default pull-right" type="submit" name="submit">
+                            Сохранить адресс доставки
+                        </button>
+                    </form>
                     <br>
-                    <span><b style="color:red">{{ form.non_field_errors }}</b></span>
-
-                    <span>{{ form.address_header.errors }} {{ form.phone.errors }}</span>
-                    <span>{{ form.address_header }} {{ form.phone }}</span>
-
-                    <span>{{ form.name_first.errors }} {{ form.name_last.errors }}</span>
-                    <span>{{ form.name_first }} {{ form.name_last }}</span>
-
-                    <span>{{ form.email.errors }} {{ form.address.errors }}</span>
-                    <span>{{ form.email }} {{ form.address }}</span>
-
-                    <span>{{ form.country.errors }} {{ form.state.errors }}</span>
-                    <span>{{ form.country }} {{ form.state }}</span>
-
+                    <br>
+                    <br>
                 </div>
-                <hr>
-                <h4>Необязательные поля:</h4>
-                <div>
-                    <span>{{ form.zip }} {{ form.sub_phone }}</span>
-                    <span>Получать уведомления по почте:{{ form.notification_on_email }}</span>
-                    <span>{{ form.comment }}</span>
-                </div>
-
-                <button class="btn btn-default pull-right" type="submit" name="submit">
-                    Сохранить адресс доставки
-                </button>
-            </form>
+            </div>
+            <!--/form-delivery-->
             <br>
             <br>
-            <br>
-        </div>
-    </div>
-    <!--/form-delivery-->
-    <br>
-    <br>
-    <br>
+            <br></div></div>
 {% endblock content %}

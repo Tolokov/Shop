@@ -11,7 +11,7 @@ class AddCommentForm(ModelForm):
     class Meta:
         model = Comment
         fields = '__all__'
-        widgets = {'text': Textarea(attrs={"id": "commentator"})}
+        widgets = {'text': Textarea(attrs={"id": "commentator", "placeholder": "Оставить комментарий ..."})}
 
 
 class NewsAdminForm(ModelForm):
@@ -21,3 +21,4 @@ class NewsAdminForm(ModelForm):
     class Meta:
         model = News
         fields = '__all__'
+

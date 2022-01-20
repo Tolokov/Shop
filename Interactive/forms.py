@@ -43,17 +43,17 @@ class AddNewAddressDeliveryForm(ModelForm):
         fields = '__all__'
         widgets = {
             'user': TextInput(attrs={"placeholder": "user", "type": "hidden"}),
-            'address_header': TextInput(attrs={"placeholder": "Display title on delivery"} | pattern | required),
-            'name_first': TextInput(attrs={"placeholder": "First Name"} | pattern | required),
-            'name_last': TextInput(attrs={"placeholder": "Last Name"} | pattern | required),
-            'address': TextInput(attrs={"placeholder": "Delivery address"} | pattern | required),
-            'country': TextInput(attrs={"placeholder": "The country"} | pattern | required),
-            'state': TextInput(attrs={"placeholder": "Region"} | pattern | required),
-            'phone': TextInput(attrs={"placeholder": "Phone number"} | pattern | required),
-            'sub_phone': TextInput(attrs={"placeholder": "Additional phone number"} | pattern),
-            'zip': TextInput(attrs={"placeholder": "Postcode"} | pattern),
-            'comment': Textarea(attrs={"placeholder": "Additional shipping comment"} | pattern),
-            'email': EmailInput(attrs={"placeholder": "Email"} | pattern | required),
+            'address_header': TextInput(attrs={"placeholder": "Название сохраняемого адреса"} | pattern | required),
+            'name_first': TextInput(attrs={"placeholder": "Фамилия"} | pattern | required),
+            'name_last': TextInput(attrs={"placeholder": "Имя"} | pattern | required),
+            'address': TextInput(attrs={"placeholder": "Город, улица, дом, квартира"} | pattern | required),
+            'country': TextInput(attrs={"placeholder": "Страна"} | pattern | required),
+            'state': TextInput(attrs={"placeholder": "Регион"} | pattern | required),
+            'phone': TextInput(attrs={"placeholder": "Номер телефона"} | pattern | required),
+            'sub_phone': TextInput(attrs={"placeholder": "Номер телефона дополнительно"} | pattern),
+            'zip': TextInput(attrs={"placeholder": "Индекс"} | pattern),
+            'comment': Textarea(attrs={"placeholder": "Комментарий к адресу"} | pattern),
+            'email': EmailInput(attrs={"placeholder": "Электронная почта"} | pattern | required),
         }
 
     def clean(self):

@@ -103,7 +103,7 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user_id = self.request.user.id
-        context['addresses'] = Delivery.objects.filter(user=user_id).values('id', 'user_id', 'address_header')
+        context['addresses'] = Delivery.objects.filter(user=user_id)
         context['cart_items'] = Cart.objects.filter(user=user_id).select_related('product')
         return context
 
