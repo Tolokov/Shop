@@ -12,6 +12,7 @@ class NewsAdmin(admin.ModelAdmin):
     """Новости и события на странице /blog/"""
     list_display = ('id', 'title', 'date', 'time', 'is_draft', 'get_poster', 'creator')
     readonly_fields = ('get_poster',)
+    list_display_links = ('id', 'title')
     list_filter = ('creator',)
     search_fields = ('title', 'description')
     save_as = True
