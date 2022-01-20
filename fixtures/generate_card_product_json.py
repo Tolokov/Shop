@@ -38,7 +38,8 @@ def get_pk(count=99999):
 def main(how_many_cards):
     many_cards = list()
     pk = get_pk()
-    paths = os.walk('C:\\Users\\Python DEV\\PycharmProjects\\DjangoWatchShop\\media\\fixtures\\images')
+    from archive.path_to_files import path_to_f
+    paths = os.walk(path_to_f)
     names = paths.__next__()[2]
 
 
