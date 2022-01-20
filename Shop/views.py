@@ -1,5 +1,6 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
@@ -193,6 +194,6 @@ class DeleteCartProduct(CartListView):
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin, ListView):
     template_name = 'pages/order.html'
     model = Cart

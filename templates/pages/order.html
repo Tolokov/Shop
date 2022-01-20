@@ -1,5 +1,47 @@
 {% extends 'pages/base.html' %}
+{% load static %}
+{% block title %} order {% endblock title %}
 
 {% block content %}
+    <!--order-->
+    {% if user.is_authenticated %}
+    <section id="cart_items">
+        <div class="container">
 
+            <div class="bill-to"><p>Формирование заказа:</p></div>
+            <div class="table-responsive cart_info">
+                <b>Заказчик: ++     ++</b>
+            <table class="table table-condensed">
+                <tr class="cart_menu">
+    <td>Продукт</td><td>Цена</td><td>Количество</td><td>Итоговая стоимость</td>
+                </tr>
+                <!--total_list-->
+                <tr>
+                    <td>...</td><td>...</td><td>...</td><td>...</td>
+                </tr>
+                <!--/total_lis-->
+                <tr class="cart_menu">
+                    <td>Итого : </td><td>$ ...</td><td></td><td></td>
+                </tr>
+            </table>
+            </div>
+            <div>
+                <b>Выберете адрес доставки:</b>
+            </div>
+            <form>
+                {% csrf_token %}
+                <button class="btn btn-default pull-right"> Оплатить</button>
+            </form>
+
+        </div>
+    </section><br><br>
+    <!--/order-->
+    {% else %}
+        <h2 class="title text-center">
+                    <strong> Товаров нет.
+                        Для оплаты товара необходимо добавить его в корзину на странице<br>
+                        <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
+                    </strong>
+                </h2>
+    {% endif %}
 {% endblock content %}

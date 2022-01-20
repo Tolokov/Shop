@@ -85,9 +85,9 @@
                 </div>
                 <!--/cart-->
                 <div>
-                    <form action="{% url 'order' %}">
-                        <button class="btn btn-default pull-right"> Оформить заказ?</button>
-                    </form>
+                <a href="{% url 'order' %}">
+                    <button class="btn btn-default pull-right"> Оформить заказ</button>
+                </a>
                 </div>
 
             {% else %}
