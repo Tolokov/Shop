@@ -3,5 +3,107 @@
 {% block title %} cart {% endblock title %}
 
 {% block content %}
-    {% include 'include/cart.html' %}
+    <section id="cart_items">
+        <div class="container">
+            <div class="bill-to"><p>Товары в корзине:</p></div>
+            <br>
+            <!--cart-->
+            {% if cart_items %}
+                <div class="table-responsive cart_info">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr class="cart_menu">
+                            <td class="image">Item</td>
+                            <td class="description"></td>
+                            <td class="price">Price</td>
+                            <td class="quantity">Quantity</td>
+                            <td class="total">Total</td>
+                            <td class="Delete">Delete</td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in cart_items %}
+                            <tr>
+                                <td class="cart_product">
+                                    <a href="{{ item.product.get_absolute_url }}">
+                                        <img src="{{ item.product.icon.url }}"
+                                             alt="{{ item.product.name }}"
+                                             style="width: 100px; height: 100px"></a>
+                                </td>
+                                <td class="cart_description">
+                                    <h4><a href="{{ item.product.get_absolute_url }}">
+                                        {{ item.product.name }}</a></h4>
+                                    <p>Web ID: {{ item.product.product_public_ID }}</p>
+                                </td>
+                                <td class="cart_price">
+                                    <p>${{ item.product.price }}</p>
+                                </td>
+
+                                <!--cart_quantity-->
+                                <td class="cart_quantity">
+                                    <div class="cart_quantity_button">
+                                        {#  <a class="cart_quantity_up" href=""> + </a>#}
+                                        <a>
+                                            <form method="post" action="{% url 'addCart' item.product.id %}">
+                                                {% csrf_token %}
+                                                <button class="cart_quantity_up" style="height: 27px; width: 27px"> +
+                                                </button>
+                                            </form>
+                                        </a>
+
+                                        {#   <input class="cart_quantity_input" type="text" name="quantity" value="1"#}
+                                        {#          autocomplete="off" size="2">#}
+                                        <a> {{ item.total }} </a>
+                                        <a>
+                                            <form method="post" action="{% url 'popCart' item.product.id %}">
+                                                {% csrf_token %}
+                                                <button class="cart_quantity_down" style="height: 27px; width: 27px"> -
+                                                </button>
+                                            </form>
+                                        </a>
+                                        {# <a class="cart_quantity_down" href=""> - </a>#}
+                                    </div>
+                                </td>
+                                <!--/cart_quantity-->
+
+                                <td class="cart_total">
+                                    <p class="cart_total_price">${% widthratio item.product.price 1 item.total %}</p>
+                                </td>
+                                <td class="cart_delete">
+
+                                    <form method="post" action="{% url 'deleteCart' item.product.id %}">
+                                        {% csrf_token %}
+                                        <button class="cart_delete" style="height: 30px; width: 30px"> X</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+                <!--/cart-->
+                <div>
+                    <form action="{% url 'order' %}">
+                        <button class="btn btn-default pull-right"> Оформить заказ?</button>
+                    </form>
+                </div>
+
+            {% else %}
+
+                <h2 class="title text-center">
+                    <strong> Товаров нет.
+                        Для добавления товара в корзину кликните по кнопке
+                        любого желаемого товара на странице<br>
+                        <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
+                    </strong>
+                </h2>
+
+            {% endif %}
+        </div>
+    </section><br><br>
+    <!--/#cart-items-->
+
+
 {% endblock content %}
