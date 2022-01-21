@@ -115,8 +115,12 @@
 
                                 <!--contact-form-->
                                 <div>
-
-                                    <div><p><b>Write Your Review</b></p>
+                                    {# <div><p><b>Write Your Review</b></p>#}
+                                    {% if count == 0 %}
+                                    <div><p><b>Оставить первый отзыв</b></p>
+                                    {% else %}
+                                    <div><p><b>Написать отзыв</b></p>
+                                    {% endif %}
                                         <!--form-->
                                         <form action="{% url 'product_detail' product_detail.id %}" method="post">
                                             {% csrf_token %}

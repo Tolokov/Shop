@@ -12,9 +12,9 @@ class ReviewForm(ModelForm):
     class Meta:
         """Рендеринг формы для captcha"""
         required = {"required": "required", "class": "form-group col-md-6 form-control"}
-        name_attrs = {"type": "text", "placeholder": "Your Name", "name": "name"} | required
-        email_attrs = {"type": "email", "placeholder": "Email Address"} | required
-        text_attrs = {"name": "text", "placeholder": "Text"} | required
+        name_attrs = {"type": "text", "placeholder": "Your Name", "name": "Имя"} | required
+        email_attrs = {"type": "email", "placeholder": "Адрес электронной почты"} | required
+        text_attrs = {"name": "text", "placeholder": "Текст"} | required
 
         model = Review
         fields = ('name', 'email', 'text', 'g', 'captcha')
