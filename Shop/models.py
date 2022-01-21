@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.utils import timezone
 from random import randint
 
+from decimal import Decimal
+from django.db.models import F, Sum
 
 class Category(models.Model):
     """Категории продуктов"""
@@ -123,8 +125,20 @@ class Cart(models.Model):
     product = models.ForeignKey(Card_Product, on_delete=CASCADE, blank=True)
     total = models.PositiveIntegerField(default=1)
 
+    @property
+    def total_price(self):
+        total = Cart.objects.aggregate(
+            total_price=Sum(F('total') * F('product__price'))
+        )['total_price'] or Decimal('0')
+        return total
+
+    @property
+    def product_cost(self):
+        total = self.total * self.product.price
+        return total
+
     def __str__(self):
-        return f'{self.product}'
+        return f'{self.product}, {self.user}'
 
     class Meta:
         verbose_name = 'Товар в корзине'

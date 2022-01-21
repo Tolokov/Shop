@@ -5,43 +5,91 @@
 {% block content %}
     <!--order-->
     {% if user.is_authenticated %}
-    <section id="cart_items">
-        <div class="container">
+        <section id="cart_items">
+            <div class="container">
+                <!--address-->
+                <div>
+                    {% if addresses|length == 0 %}
+                        <h2 class="title text-center">
+                            <strong>
+                                Нет сохраненных адресов,
+                                для сохранения адреса перейдите на страницу <a href="{% url delivery %}"> Доставка </a>
+                            </strong>
+                        </h2>
+                    {% else %}
 
-            <div class="bill-to"><p>Формирование заказа:</p></div>
-            <div class="table-responsive cart_info">
-                <b>Заказчик: ++     ++</b>
-            <table class="table table-condensed">
-                <tr class="cart_menu">
-    <td>Продукт</td><td>Цена</td><td>Количество</td><td>Итоговая стоимость</td>
-                </tr>
-                <!--total_list-->
-                <tr>
-                    <td>...</td><td>...</td><td>...</td><td>...</td>
-                </tr>
-                <!--/total_lis-->
-                <tr class="cart_menu">
-                    <td>Итого : </td><td>$ ...</td><td></td><td></td>
-                </tr>
-            </table>
-            </div>
-            <div>
-                <b>Выберете адрес доставки:</b>
-            </div>
-            <form>
-                {% csrf_token %}
-                <button class="btn btn-default pull-right"> Оплатить</button>
-            </form>
+                        <div class="bill-to"><p>Использовать адрес доставки: </p></div>
+                        <form>
+                            {% csrf_token %}
+                            <select id="last_addresses" class="register-req">
+                                {% for address in addresses %}
+                                    <option value=”{{ address.id }}”>{{ address.address_header }}</option>
+                                {% endfor %}
+                            </select>
+                            <button class="btn btn-default pull-right"> Применить</button>
+                        </form>
+                        <br>
+                    {% endif %}
+                </div>
+                <br>
 
-        </div>
-    </section><br><br>
-    <!--/order-->
+                <div class="bill-to"><p>Формирование заказа:</p></div>
+                <div class="table-responsive cart_info">
+                    <div>
+                        <p><b>Заказчик:</b>
+                            <i>{{ user_delivery.name_first }}&nbsp;</i>
+                            <i>{{ user_delivery.name_last }}</i></p>
+
+                        <p><i>{{ user_delivery.country }}&nbsp;&nbsp;&nbsp;</i>
+                            <i> {{ user_delivery.state }}&nbsp;&nbsp;&nbsp;</i>
+                            <i> {{ user_delivery.email }}</i></p>
+                        <p><i>{{ user_delivery.address }} &nbsp;&nbsp;</p>
+                        </i>
+                        <br>
+                    </div>
+                    <table class="table table-condensed">
+                        <tr class="cart_menu">
+                            <td>Продукт</td>
+                            <td>Цена</td>
+                            <td>Количество</td>
+                            <td>Итоговая стоимость</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <!--total_list-->
+                        {% for product in products_for_pay %}
+                            <tr>
+                                <td>{{ product.product.name }}</td>
+                                <td>{{ product.product.price }}</td>
+                                <td>{{ product.total }}</td>
+                                <td>{{ product.product_cost|floatformat:"2" }}</td>
+                            </tr>
+                        {% endfor %}
+                        <!--/total_lis-->
+                        <tr class="cart_menu">
+                            <td>Итого :</td>
+                            <td></td>
+                            <td></td>
+                            <td>$ {{ products_for_pay.first.total_price|floatformat:"2" }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <form>
+                    {% csrf_token %}
+                    <button class="btn btn-default pull-right"> Оплатить</button>
+                </form>
+
+            </div>
+        </section><br><br>
+        <!--/order-->
     {% else %}
         <h2 class="title text-center">
-                    <strong> Товаров нет.
-                        Для оплаты товара необходимо добавить его в корзину на странице<br>
-                        <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
-                    </strong>
-                </h2>
+            <strong> Товаров нет.
+                Для оплаты товара необходимо добавить его в корзину на странице<br>
+                <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
+            </strong>
+        </h2>
     {% endif %}
 {% endblock content %}

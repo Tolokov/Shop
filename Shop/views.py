@@ -10,6 +10,8 @@ from Shop.models import Card_Product, Category, Review, ProductImage, Favorites,
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
 
+from Interactive.models import Delivery
+
 
 class HomeListView(DataMixin, ListView):
     """Главная страница"""
@@ -195,5 +197,19 @@ class DeleteCartProduct(CartListView):
 
 
 class OrderListView(LoginRequiredMixin, ListView):
-    template_name = 'pages/order.html'
     model = Cart
+    template_name = 'pages/order.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['user_data'] = Cart.objects.filter(user=self.request.user.id).first()
+        context['user_delivery'] = Delivery.objects.filter(user=self.request.user.id).first()
+
+        context['addresses'] = Delivery.objects.filter(user=self.request.user.id)
+
+        products_for_pay = Cart.objects.filter(user=self.request.user.id)
+        context['products_for_pay'] = products_for_pay
+
+        return context
+
