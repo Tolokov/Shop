@@ -33,6 +33,7 @@ def main():
 
 
 if __name__ == '__main__':
-    result = main()
-    with open('images_for_card.json', 'w') as j:
-        j.write(json.dumps(result))
+    pass
+    # result = main()
+    # with open('../images_for_card.json', 'w') as j:
+    #     j.write(json.dumps(result))
