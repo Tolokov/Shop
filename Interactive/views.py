@@ -18,6 +18,7 @@ def ex404(request, exception):
     request = render(request, 'exception/404.html', status=404, context=context)
     return request
 
+
 # from django.contrib.auth.forms import UserCreationForm
 # class SignUpView(CreateView):
 #     form_class = UserCreationForm
@@ -111,6 +112,7 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
         form.save()
         print(form.cleaned_data)
         return super(DeliveryFormView, self).form_valid(form)
+
 
 class DeleteDelivery(View):
     def post(self, request, **kwargs):

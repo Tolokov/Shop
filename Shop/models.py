@@ -1,13 +1,12 @@
 from django.db import models
-from django.db.models import BooleanField, TextField, CharField, ImageField, CASCADE, SET_NULL
+from django.db.models import CASCADE, SET_NULL, F, Sum
 from django.contrib.auth.models import User
 from django.urls import reverse
 
 from django.utils import timezone
+from decimal import Decimal
 from random import randint
 
-from decimal import Decimal
-from django.db.models import F, Sum
 
 class Category(models.Model):
     """Категории продуктов"""
@@ -46,10 +45,10 @@ class Card_Product(models.Model):
         null=False,
         default=randint(1000000, 9999999)
     )
-    name = CharField(max_length=300)
-    description = TextField(max_length=5000)
+    name = models.CharField(max_length=300)
+    description = models.TextField(max_length=5000)
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    availability = BooleanField(default=True, verbose_name='hidden')
+    availability = models.BooleanField(default=True, verbose_name='hidden')
     quantity = models.PositiveIntegerField('На складе', default=0)
 
     NEW = 'N'
@@ -100,10 +99,10 @@ class ProductImage(models.Model):
 
 class Review(models.Model):
     """Отзывы к продуктам"""
-    name = CharField(max_length=150)
-    ipaddress = CharField('Ip адрес', max_length=15)
+    name = models.CharField(max_length=150)
+    ipaddress = models.CharField('Ip адрес', max_length=15)
     email = models.EmailField()
-    text = TextField()
+    text = models.TextField()
     created = models.DateTimeField(auto_now_add=True, blank=True)
     update = models.DateTimeField(auto_now=True, blank=True)
     product = models.ForeignKey(Card_Product, verbose_name='Продукт', on_delete=CASCADE)
@@ -192,8 +191,9 @@ class Order(models.Model):
         (BUYING_SELF, 'Самовывоз'),
         (BUYING_DELIVERY, 'Доставка')
     )
-    buying_type = models.CharField(max_length=22, verbose_name='Тип заказа', choices=BUYING_CHOICES,
-                                   default=BUYING_SELF)
+    buying_type = models.CharField(
+        max_length=22, verbose_name='Тип заказа', choices=BUYING_CHOICES, default=BUYING_SELF
+    )
 
     def __str__(self):
         return f'{self.user}, {self.cart}'
@@ -201,8 +201,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-
-
 
 # class RatingGrade(models.Model):
 #     """
@@ -240,8 +238,3 @@ class Order(models.Model):
 #     class Meta:
 #         verbose_name = 'Уведомление'
 #         verbose_name_plural = 'Уведомления'
-
-# class Cart_Supplier(models.Model):
-#     """
-#     Тележка товаров пользователя, с последующим добавлением к количеству каждого товара
-#     """
