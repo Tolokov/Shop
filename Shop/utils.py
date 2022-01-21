@@ -1,3 +1,5 @@
+from django.utils.safestring import mark_safe
+
 from Shop.models import Card_Product, Category, Brand
 
 
@@ -26,3 +28,13 @@ class DataMixin:
     #
     # def get_price_max(self):
     #     return ceil(Card_Product.objects.aggregate(Max('price'))['price__max'])
+
+
+class GetImage:
+    """Вывод изображений в административную панель"""
+
+    def get_image(self, obj):
+        print('get_image', obj)
+        return mark_safe(f'<img src={obj.image.url} width="100" height="80"')
+
+    get_image.short_description = 'Изображение'

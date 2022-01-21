@@ -1,6 +1,7 @@
 from django.contrib import admin
-from django.utils.safestring import mark_safe
-from Shop.models import *
+
+from Shop.models import Favorites, Brand, Card_Product, Category, ProductImage, Review, Cart, Order
+from Shop.utils import GetImage
 
 admin.site.site_title = 'Панель администрирования интернет магазина'
 admin.site.site_header = 'Панель администрирования интернет магазина'
@@ -8,25 +9,9 @@ admin.site.site_header = 'Панель администрирования инт
 admin.site.register(Favorites)
 
 
-class GetImage:
-    """Вывод изображений в административную панель"""
-
-    def get_logo(self, obj):
-        return mark_safe(f'<img src={obj.logo.url} width="100%" height="80"')
-
-    def get_icon(self, obj):
-        return mark_safe(f'<img src={obj.icon.url} width="100" height="80"')
-
-    def get_image(self, obj):
-        return mark_safe(f'<img src={obj.image.url} width="100" height="80"')
-
-    get_image.short_description = 'Логотип'
-    get_icon.short_description = 'Изображение'
-
-
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin, GetImage):
-    list_display = ('name', 'get_count_brand_products', 'description', 'get_logo')
+    list_display = ('name', 'get_count_brand_products', 'description', 'get_image')
     prepopulated_fields = {'slug': ('name',)}
 
     def get_count_brand_products(self, obj):
@@ -68,7 +53,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
     """Карточка продукта"""
     list_per_page = 20
     save_as = True
-    readonly_fields = ('get_icon',)
+    readonly_fields = ('get_image',)
     search_fields = ('product_public_ID', 'name', 'description')
     list_filter = ('availability', 'condition', 'category', 'brand',)
     save_on_top = True
@@ -80,7 +65,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         'price',
         'availability',
         'condition',
-        'get_icon',
+        'get_image',
         'show_category',
         'brand',
     )
@@ -89,7 +74,7 @@ class CardProductAdmin(admin.ModelAdmin, GetImage):
         (None, {'fields': (('name', 'product_public_ID'),)}),
         (None, {'fields': (('price', 'availability', 'condition'),)}),
         ('Неизменяемые категории товаров', {'classes': ('collapse',), 'fields': (('brand', 'category'),)}),
-        (None, {'fields': (('get_icon', 'icon'),)}),
+        (None, {'fields': (('get_image', 'image'),)}),
         (None, {'fields': (('description',),)})
     )
 

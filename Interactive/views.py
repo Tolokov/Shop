@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.core.mail import send_mail
 
 from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery, MailForm
-from Interactive.models import Customer, Mail, User
+from Interactive.models import Customer, Mail
 from Shop.models import Cart
 
 

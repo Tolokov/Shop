@@ -28,7 +28,7 @@ class Brand(models.Model):
     name = models.CharField("Название бренда", max_length=150)
     description = models.TextField("Описание", max_length=1500)
     slug = models.SlugField(max_length=160, unique=True)
-    logo = ImageField("Логотип", upload_to="media/brands/")
+    image = models.ImageField("Логотип", upload_to="media/brands/")
 
     def __str__(self):
         return self.name
@@ -67,7 +67,7 @@ class Card_Product(models.Model):
         blank=False,
     )
 
-    icon = ImageField('Изображение в корзине', upload_to='media/product_icon')
+    image = models.ImageField('Изображение в корзине', upload_to='media/product_icon')
     category = models.ManyToManyField(Category, verbose_name="категории")
     brand = models.ForeignKey(Brand, verbose_name="бренды", on_delete=SET_NULL, null=True, blank=False)
 
