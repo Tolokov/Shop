@@ -206,7 +206,7 @@ class OrderListView(LoginRequiredMixin, ListView):
         context['products_for_pay'] = Cart.objects.filter(
             user=self.request.user.id
         ).select_related('product')
-        context['total_price'] = Cart.total_price(context['products_for_pay'], user_pk=self.request.user.id)
+        context['total_price'] = Cart.total_price(user_pk=self.request.user.id)
 
         try:
             context['addresses'] = Delivery.objects.filter(user=self.request.user.id).values('id', 'address_header')

@@ -126,7 +126,8 @@ class Cart(models.Model):
     product = models.ForeignKey(Card_Product, on_delete=CASCADE, blank=True)
     total = models.PositiveIntegerField(default=1)
 
-    def total_price(self, user_pk):
+    @staticmethod
+    def total_price(user_pk):
         """Итоговая стоимость всех товаров в корзине пользователя"""
         total = Cart.objects.filter(user=user_pk).aggregate(
             total_price=Sum(F('total') * F('product__price'))
