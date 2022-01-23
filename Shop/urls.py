@@ -1,5 +1,12 @@
 from django.urls import path
+
+from rest_framework import routers
+
 from Shop import views
+from Shop.api import CardViewSet
+
+router = routers.DefaultRouter()
+router.register('api/card', CardViewSet, 'card_product')
 
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
@@ -18,6 +25,8 @@ urlpatterns = [
     path('del_cart/<int:product_id>', views.DeleteCartProduct.as_view(), name='deleteCart'),
 
     path('order/', views.OrderListView.as_view(), name='order'),
-    path('order/<int:id>/', views.OrderListView.as_view(), name='choice')
+    path('order/<int:id>/', views.OrderListView.as_view(), name='choice'),
 
 ]
+
+urlpatterns += router.urls

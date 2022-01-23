@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'debug_toolbar',
     'mptt',
+    'rest_framework',
     'snowpenguin.django.recaptcha3',
 
     'Blog',

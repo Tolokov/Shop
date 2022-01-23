@@ -45,7 +45,8 @@ class Card_Product(models.Model):
         primary_key=False,
         unique=True,
         null=False,
-        default=randint(1000000, 9999999)
+        # default=randint(1000000, 9999999)
+        default=1111111
     )
     name = models.CharField(max_length=300)
     description = models.TextField(max_length=5000)
@@ -68,7 +69,7 @@ class Card_Product(models.Model):
         blank=False,
     )
 
-    image = models.ImageField('Изображение в корзине', upload_to='media/product_icon')
+    image = models.ImageField('Изображение в корзине', upload_to='media/product_icon', null=True, blank=True)
     category = models.ManyToManyField(Category, verbose_name="категории")
     brand = models.ForeignKey(Brand, verbose_name="бренды", on_delete=SET_NULL, null=True, blank=False)
 
