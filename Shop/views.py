@@ -202,38 +202,40 @@ class OrderListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        user_id = self.request.user.id
 
-        context['products_for_pay'] = Cart.objects.filter(
-            user=self.request.user.id
-        ).select_related('product')
-        context['total_price'] = Cart.total_price(user_pk=self.request.user.id)
-
-        try:
-            context['addresses'] = Delivery.objects.filter(user=self.request.user.id).values('id', 'address_header')
-        except Exception as e:
-            print('Оформление Заказа с пустой корзиной', e)
+        context['products_for_pay'] = Cart.objects.filter(user=user_id).select_related('product')
+        context['total_price'] = Cart.total_price(user_pk=user_id)
 
         try:
-            context['user_delivery'] = DefaultDelivery.objects.get(user=User.objects.get(id=self.request.user.id))
+            context['user_delivery'] = DefaultDelivery.objects.get(user=user_id)
+
         except Exception as e:
-            print('Ошибка при оформлении аддреса доставки:', e)
-            default_address = Delivery.objects.filter(user=self.request.user.id)
+            print('Ошибка при оформлении адреса доставки:', e)
+            default_address = Delivery.objects.filter(user=user_id)
             new_default_address = DefaultDelivery.objects.create(
-                user=User.objects.get(id=self.request.user.id),
+                user=User.objects.get(id=user_id),
                 default=Delivery.objects.get(id=default_address[0].id))
             new_default_address.save()
+
+        try:
+            context['addresses'] = Delivery.objects.filter(user=user_id).values('id', 'address_header')
+        except Exception as e:
+            print('Оформление заказа с пустой корзиной', e)
 
         return context
 
     def post(self, request, **kwargs):
-        print(self.request.POST['address_form'])
-        old_default_address = DefaultDelivery.objects.get(
-            user=User.objects.get(id=self.request.user.id)
-        )
-        old_default_address.delete()
-        new_default_address = DefaultDelivery.objects.create(
-            user=User.objects.get(id=self.request.user.id),
-            default=Delivery.objects.get(id=self.request.POST['address_form'])
-        )
-        new_default_address.save()
+        user_id = self.request.user.id
+        try:
+            old_default_address = DefaultDelivery.objects.get(user=User.objects.get(id=user_id))
+            old_default_address.delete()
+            new_default_address = DefaultDelivery.objects.create(
+                user=User.objects.get(id=user_id),
+                default=Delivery.objects.get(id=self.request.POST['address_form'])
+            )
+            new_default_address.save()
+        except Exception as e:
+            print('Ошибка заполнения формы адреса, данными', e)
+
         return redirect(reverse_lazy('order'), permanent=True)
