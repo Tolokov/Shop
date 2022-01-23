@@ -7,6 +7,8 @@ from django.utils import timezone
 from decimal import Decimal
 from random import randint
 
+from Interactive.models import Delivery
+
 
 class Category(models.Model):
     """Категории продуктов"""
@@ -120,19 +122,20 @@ class Review(models.Model):
 
 class Cart(models.Model):
     """Корзина пользователя"""
-    user = models.ForeignKey(User, on_delete=CASCADE)
+    user = models.OneToOneField(User, on_delete=CASCADE)
     product = models.ForeignKey(Card_Product, on_delete=CASCADE, blank=True)
     total = models.PositiveIntegerField(default=1)
 
-    @property
-    def total_price(self):
-        total = Cart.objects.aggregate(
+    def total_price(self, user_pk):
+        """Итоговая стоимость всех товаров в корзине пользователя"""
+        total = Cart.objects.filter(user=user_pk).aggregate(
             total_price=Sum(F('total') * F('product__price'))
         )['total_price'] or Decimal('0')
         return total
 
     @property
     def product_cost(self):
+        """Итоговая стоимость одинаковых товаров"""
         total = self.total * self.product.price
         return total
 
@@ -201,6 +204,18 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
+
+
+class DefaultDelivery(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    default = models.OneToOneField(Delivery, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f'{self.user}, {self.default}'
+
+    class Meta:
+        verbose_name = 'Адрес по умолчанию'
+        verbose_name_plural = 'Адреса по умолчанию'
 
 # class RatingGrade(models.Model):
 #     """

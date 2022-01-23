@@ -1,12 +1,12 @@
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
 from django.urls import reverse_lazy
 from django.db import IntegrityError
 
-from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart
+from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
 
@@ -203,13 +203,37 @@ class OrderListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['user_data'] = Cart.objects.filter(user=self.request.user.id).first()
-        context['user_delivery'] = Delivery.objects.filter(user=self.request.user.id).first()
+        context['products_for_pay'] = Cart.objects.filter(
+            user=self.request.user.id
+        ).select_related('product')
+        context['total_price'] = Cart.total_price(context['products_for_pay'], user_pk=self.request.user.id)
 
-        context['addresses'] = Delivery.objects.filter(user=self.request.user.id)
+        try:
+            context['addresses'] = Delivery.objects.filter(user=self.request.user.id).values('id', 'address_header')
+        except Exception as e:
+            print('Оформление Заказа с пустой корзиной', e)
 
-        products_for_pay = Cart.objects.filter(user=self.request.user.id)
-        context['products_for_pay'] = products_for_pay
+        try:
+            context['user_delivery'] = DefaultDelivery.objects.get(user=User.objects.get(id=self.request.user.id))
+        except Exception as e:
+            print('Ошибка при оформлении аддреса доставки:', e)
+            default_address = Delivery.objects.filter(user=self.request.user.id)
+            new_default_address = DefaultDelivery.objects.create(
+                user=User.objects.get(id=self.request.user.id),
+                default=Delivery.objects.get(id=default_address[0].id))
+            new_default_address.save()
 
         return context
 
+    def post(self, request, **kwargs):
+        print(self.request.POST['address_form'])
+        old_default_address = DefaultDelivery.objects.get(
+            user=User.objects.get(id=self.request.user.id)
+        )
+        old_default_address.delete()
+        new_default_address = DefaultDelivery.objects.create(
+            user=User.objects.get(id=self.request.user.id),
+            default=Delivery.objects.get(id=self.request.POST['address_form'])
+        )
+        new_default_address.save()
+        return redirect(reverse_lazy('order'), permanent=True)

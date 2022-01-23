@@ -3,12 +3,20 @@
 {% block title %} cart {% endblock title %}
 
 {% block content %}
-    <section id="cart_items">
-        <div class="container">
-            <div class="bill-to"><p>Товары в корзине:</p></div>
-            <br>
-            <!--cart-->
-            {% if cart_items %}
+    <div id="cart_items">
+        {% if cart_items %}
+            <div class="container">
+                <div>
+                    <a href="{% url 'order' %}">
+                        <button class="btn btn-default pull-right"> Оформить заказ</button>
+                    </a>
+                </div>
+
+                <div class="bill-to"><p>Товары в корзине:</p></div>
+                <br>
+                <!--cart-->
+
+
                 <div class="table-responsive cart_info">
                     <table class="table table-condensed">
                         <thead>
@@ -85,25 +93,26 @@
                 </div>
                 <!--/cart-->
                 <div>
-                <a href="{% url 'order' %}">
-                    <button class="btn btn-default pull-right"> Оформить заказ</button>
-                </a>
+                    <a href="{% url 'order' %}">
+                        <button class="btn btn-default pull-right"> Оформить заказ</button>
+                    </a>
                 </div>
+            </div>
 
-            {% else %}
+        {% else %}
 
-                <h2 class="title text-center">
-                    <strong> Товаров нет.
-                        Для добавления товара в корзину кликните по кнопке
-                        любого желаемого товара на странице<br>
-                        <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
-                    </strong>
-                </h2>
+            <h2 class="title text-center">
+                <strong> Товаров нет.
+                    Для добавления товара в корзину кликните по кнопке
+                    любого желаемого товара на странице<br>
+                    <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
+                </strong>
+            </h2>
+            </div>
+        {% endif %}
 
-            {% endif %}
-        </div>
-    </section><br><br>
+    </section>
+    <br>
+    <br>
     <!--/#cart-items-->
-
-
 {% endblock content %}
