@@ -206,6 +206,9 @@ class RatingGrade(models.Model):
     def __str__(self):
         return f'{self.value}'
 
+    def get_value(self):
+        return range(self.value)
+
     class Meta:
         verbose_name = 'Отображаемое значение рейтинга'
         verbose_name_plural = 'Отображаемые значения рейтинга'

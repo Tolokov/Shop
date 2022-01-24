@@ -73,20 +73,18 @@
                                             <b> Оценок ещё нет</b>
                                         {% endif %}
                                     </p>
-
                                     <span>
-									<span>US ${{ product_detail.price }}</span>
-        <label>На складе:</label>
-        <input type="text" value="{{ product_detail.quantity }}"/>
+                                    <span> $ {{ product_detail.price }}</span>
+                                    <label>На складе:</label>
+                                    <input type="text" value="{{ product_detail.quantity }}"/>
 
-                    <form method="post" action="{% url 'addCart' product_detail.id %}">
-                    {% csrf_token %}
-                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
-{#									<button type="button" class="btn btn-fefault cart">#}
-{#										<i class="fa fa-shopping-cart"></i>#}
-{#										Add to cart#}
-{#									</button>#}
-
+                                    <form method="post" action="{% url 'addCart' product_detail.id %}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
+{#	<button type="button" class="btn btn-fefault cart">#}
+{#		<i class="fa fa-shopping-cart"></i>#}
+{#		Add to cart#}
+{#	</button>#}
 								</span>
                                     <p><b>Категории:</b>
                                         {{ product_detail.category.all | join:", " }}
@@ -112,18 +110,23 @@
                                 <!--review-detail-->
                                 {% for review in reviews %}
                                     <ul>
-                                        <li><a href=""><i class="fa fa-user"></i>{{ review.name }}</a></li>
-                                        <li><a href=""><i class="fa fa-clock-o"></i>{{ review.update|date:"G:i" }}
+                                        <li><a><i class="fa fa-user"></i>{{ review.name }}</a></li>
+                                        <li><a><i class="fa fa-clock-o"></i>{{ review.update|date:"G:i" }}
                                             PM</a>
                                         </li>
-                                        <li><a href=""><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}
+                                        <li><a><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}
                                         </a>
                                         </li>
                                     </ul>
                                     <p>{{ review.text }}</p>
                                     <br>
-                                    <b>Rating: {{ review.grade }}</b>
-                                    <img src="{% static 'images/product-details/rating.png' %}" alt="rating"/>
+{#                                    <b>Оценка: </b>#}
+                                    {% for star in review.grade.get_value %}
+                                        <img src="{% static 'images/star-on-big.png' %}" alt="rating"/>
+                                    {% endfor %}
+
+{#                                    <img src="{% static 'images/product-details/rating.png' %}" alt="rating"/>#}
+
                                     <hr>
                                 {% endfor %}
                                 <!--/review-detail-->
