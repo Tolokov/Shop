@@ -1,8 +1,8 @@
 from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, FormView, View
+from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Avg
 from django.urls import reverse_lazy
 from django.db import IntegrityError
 
@@ -90,9 +90,17 @@ class ProductDetailView(FormView, DetailView):
 
         context['form'] = ReviewForm()
 
-        review_queryset = Review.objects.filter(product=self.object)
+        review_queryset = Review.objects.filter(product=self.object).select_related('grade')
         context['reviews'] = review_queryset
         context['count'] = review_queryset.__len__()
+
+        if context['reviews']:
+            avg = review_queryset.aggregate(Avg('grade__value'))['grade__value__avg']
+            stars = round(avg)
+            context['grade_on'] = range(stars)
+            context['grade_off'] = range(5 - stars)
+        else:
+            context['avg_grade'] = False
 
         product_images_queryset = ProductImage.objects.filter(product=self.object)
         context['slider'] = self.paginator_optimization(product_images_queryset)
