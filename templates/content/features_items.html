@@ -8,7 +8,11 @@
             <div class="single-products">
                 <div class="productinfo text-center">
                     <a href="{{ product.get_absolute_url }}" target="_blank">
+                        {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}"/></a>
+                        {% else %}
+                            <b style="color:red"> Изображение не загружено</b>
+                        {% endif %}
                     <h2>${{ product.price }}</h2>
                     <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
                     <div style="margin-right: 20px;">
