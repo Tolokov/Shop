@@ -1,25 +1,30 @@
-from django.forms import Textarea, IntegerField, TextInput, ModelForm
+from django.forms import ModelForm, RadioSelect, ModelChoiceField, TextInput, EmailInput, Textarea
 from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 
-from Shop.models import Review
+from Shop.models import Review, RatingGrade
 
 
 class ReviewForm(ModelForm):
     """Добавление отзыва к карточке продукта"""
     captcha = ReCaptchaField()
-    g = IntegerField(max_value=10, min_value=0)
+    grade = ModelChoiceField(
+        queryset=RatingGrade.objects.all(),
+        widget=RadioSelect(),
+        empty_label=None,
+    )
 
     class Meta:
         """Рендеринг формы для captcha"""
-        required = {"required": "required", "class": "form-group col-md-6 form-control"}
-        name_attrs = {"type": "text", "placeholder": "Ваше имя", "name": "name"} | required
-        email_attrs = {"type": "email", "placeholder": "Адрес электронной почты"} | required
-        text_attrs = {"name": "text", "placeholder": "Текст"} | required
+        pattern = {"class": "form-group col-md-6 form-control"}
+        name_attrs = {"type": "text", "placeholder": "Ваше имя", "name": "name"} | pattern
+        email_attrs = {"type": "email", "placeholder": "Адрес электронной почты"} | pattern
+        text_attrs = {"name": "text", "placeholder": "Текст"} | pattern
 
         model = Review
-        fields = ('name', 'email', 'text', 'g', 'captcha')
+        fields = ('name', 'email', 'text', 'ipaddress', 'product', 'grade', 'captcha')
+
         widgets = {
             'name':  TextInput(attrs=name_attrs),
-            'email':  TextInput(attrs=email_attrs),
-            'text': Textarea(attrs=text_attrs)
+            'email':  EmailInput(attrs=email_attrs),
+            'text': Textarea(attrs=text_attrs),
         }

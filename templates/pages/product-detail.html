@@ -50,11 +50,14 @@
                                 <!--/product-information-->
                                 <div class="product-information">
                                     {% if product_detail.condition == 'N' %}
-                                        <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival" alt="status-new"/>
+                                        <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival"
+                                             alt="status-new"/>
                                     {% elif product_detail.condition == 'F' %}
-                                        <img src="{% static 'images/product-details/fresh.png' %}" class="newarrival" alt="status-fresh"/>
+                                        <img src="{% static 'images/product-details/fresh.png' %}" class="newarrival"
+                                             alt="status-fresh"/>
                                     {% else %}
-                                        <img src="{% static 'images/product-details/hand.png' %}" class="newarrival" alt="status-fresh"/>
+                                        <img src="{% static 'images/product-details/hand.png' %}" class="newarrival"
+                                             alt="status-fresh"/>
                                     {% endif %}
                                     <h2>{{ product_detail.name }}</h2>
                                     <p>Web ID: {{ product_detail.product_public_ID }}</p>
@@ -79,7 +82,7 @@
                                     <p><b>Качество товара:</b> {{ product_detail.get_condition_display|upper }}</p>
                                     <p><b>Бренд:</b> {{ product_detail.brand }}</p>
                                     <p><b>Описание:</b> {{ product_detail.description }}</p>
-                                    </div>
+                                </div>
                                 <!--/product-information-->
                             </div>
                         </div>
@@ -117,41 +120,50 @@
                                 <div>
                                     {# <div><p><b>Write Your Review</b></p>#}
                                     {% if count == 0 %}
-                                    <div><p><b>Оставить первый отзыв</b></p>
+                                        <div><p><b>Оставить первый отзыв:</b></p>
                                     {% else %}
-                                    <div><p><b>Написать отзыв</b></p>
+                                        <div><p><b>Написать отзыв:</b></p>
                                     {% endif %}
-                                        <!--form-->
-                                        <form action="{% url 'product_detail' product_detail.id %}" method="post">
-                                            {% csrf_token %}
-                                            <span>{{ form.name }}{{ form.email }}</span>
-                                            <span>{{ form.text }}</span>
-                                            <span>{{ form.g }}</span>
-                                            <span>{{ form.captcha }}</span>
+                                    <!--form-->
+<form action="{% url 'add_review' %}" method="post" name="review">
+    {% csrf_token %}
+    <input type="hidden" value="{{ product_detail.id }}" name="product">
+    <input type="hidden" value="127.0.0.1" name="ipaddress">
 
-                                            <b>Rating: </b> <img src="{% static 'images/product-details/rating.png' %}"
-                                                                 alt="Review from"/>
-                                            <button class="btn btn-default pull-right" type="submit" name="submit">
-                                                Submit
-                                            </button>
-                                        </form>
-                                        <!--/form-->
+    <span>{{ form.name.errors }} {{ form.email.errors }}</span>
+    <span>{{ form.name }} {{ form.email }}</span>
+    {{ form.text }}
+
+    <b>Рейтинг: </b>
+    {% for k, v in form.fields.grade.choices %}
+    <input required id="review{{ v }}" type="radio" name="grade" value="{{ v }}">
+    <label for="review{{ v }}" >{{ k }}</label>
+    {% endfor %}
+    {{ form.captcha }}
+
+
+{#    <img src="{% static 'images/product-details/rating.png' %}" alt="Review form"/>#}
+    <button class="btn btn-default pull-right" type="submit" name="submit">
+        Submit
+    </button>
+ </form>
+                                    <!--/form-->
                                     </div>
+                                    </div>
+                                    <br><br><br>
                                 </div>
-                                <br><br><br>
+                                <!--/contact-form-->
+                                <br>
+                                <br>
+                                <br>
                             </div>
-                            <!--/contact-form-->
-                            <br>
-                            <br>
-                            <br>
                         </div>
                         </div>
                         </div>
+                        <!--/reviews-->
                     </div>
-                    <!--/reviews-->
                 </div>
             </div>
-        </div>
     </section>
 {% endblock content %}
 

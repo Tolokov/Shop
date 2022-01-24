@@ -100,27 +100,6 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Фотографии к товару'
 
 
-class Review(models.Model):
-    """Отзывы к продуктам"""
-    name = models.CharField(max_length=150)
-    ipaddress = models.CharField('Ip адрес', max_length=15)
-    email = models.EmailField()
-    text = models.TextField()
-    created = models.DateTimeField(auto_now_add=True, blank=True)
-    update = models.DateTimeField(auto_now=True, blank=True)
-    product = models.ForeignKey(Card_Product, verbose_name='Продукт', on_delete=CASCADE)
-    # grade = models.ForeignKey(RatingGrade, on_delete=CASCADE, verbose_name="оценка", blank=True)
-    g = models.IntegerField("оценка", blank=True)
-
-    def __str__(self):
-        return f'{self.product}, {self.name}, {self.ipaddress}'
-
-    class Meta:
-        verbose_name = 'Отзывы'
-        verbose_name_plural = 'Отзывы'
-        ordering = ['created']
-
-
 class Cart(models.Model):
     """Корзина пользователя"""
     user = models.OneToOneField(User, on_delete=CASCADE)
@@ -219,18 +198,41 @@ class DefaultDelivery(models.Model):
         verbose_name = 'Адрес по умолчанию'
         verbose_name_plural = 'Адреса по умолчанию'
 
-# class RatingGrade(models.Model):
-#     """
-#     Отображаемые значения рейтинга
-#     """
-#     value = models.PositiveSmallIntegerField("Рейтинг", default=0)
-#
-#     def __str__(self):
-#         return f'{self.value}'
-#
-#     class Meta:
-#         verbose_name = 'Отображаемое значение рейтинга'
-#         verbose_name_plural = 'Отображаемые значения рейтинга'
+
+class RatingGrade(models.Model):
+    """Отображаемые значения рейтинга"""
+    value = models.PositiveSmallIntegerField("Рейтинг", default=3)
+
+    def __str__(self):
+        return f'{self.value}'
+
+    class Meta:
+        verbose_name = 'Отображаемое значение рейтинга'
+        verbose_name_plural = 'Отображаемые значения рейтинга'
+
+
+class Review(models.Model):
+    """Отзывы к продуктам"""
+    name = models.CharField(max_length=150)
+    email = models.EmailField()
+    text = models.TextField()
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+    update = models.DateTimeField(auto_now=True, blank=True)
+
+    ipaddress = models.CharField('IP адрес', max_length=15)
+    product = models.ForeignKey(Card_Product, verbose_name='Продукт', on_delete=CASCADE)
+    grade = models.ForeignKey(RatingGrade, on_delete=CASCADE, verbose_name="оценка", blank=True)
+    # g = models.IntegerField("оценка", blank=True)
+
+    def __str__(self):
+        return f'{self.product}, {self.name}, {self.ipaddress}'
+
+    class Meta:
+        verbose_name = 'Отзывы'
+        verbose_name_plural = 'Отзывы'
+        ordering = ['created']
+
+
 
 # class Promo(models.Model):
 #     """

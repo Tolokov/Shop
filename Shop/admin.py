@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from Shop.models import Favorites, Brand, Card_Product, Category, ProductImage, Review, Cart, Order, DefaultDelivery
+from Shop.models import *
 from Shop.utils import GetImage
 
 admin.site.site_title = 'Панель администрирования интернет магазина'
@@ -8,6 +8,8 @@ admin.site.site_header = 'Панель администрирования инт
 
 admin.site.register(Favorites)
 admin.site.register(DefaultDelivery)
+admin.site.register(RatingGrade)
+
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin, GetImage):

@@ -107,15 +107,29 @@ class ProductDetailView(FormView, DetailView):
 
     def post(self, request, **kwargs):
         form = ReviewForm(request.POST)
-        product = Card_Product.objects.get(id=kwargs['pk'])
         if form.is_valid():
-            form = form.cleaned_data
-            review = Review(
-                name=form['name'], ipaddress='127.0.0.1', email=form['email'],
-                text=form['text'], product=product, g=form['g'],
-            )
-            review.save()
-        return redirect(product.get_absolute_url(), permanent=True)
+            print(form)
+            form.save()
+        else:
+            print('проверка не прошла')
+
+        # product = Card_Product.objects.get(id=kwargs['pk'])
+        # grade = RatingGrade.objects.get(value=form['grade'])
+        # if form.is_valid():
+        #     print(product, grade)
+            # form = form.cleaned_data
+            # review = Review(
+            #     name=form['name'], ipaddress='127.0.0.1', email=form['email'],
+            #     text=form['text'], product=product, grade=grade,
+            # )
+            # review.save()
+        # return redirect(product.get_absolute_url(), permanent=True)
+
+        return redirect(request.META.get('HTTP_REFERER'), permanent=True)
+
+
+
+
 
 
 class FavoritesView(ListView):

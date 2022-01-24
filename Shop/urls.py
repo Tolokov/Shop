@@ -11,7 +11,7 @@ router.register('api/card', CardViewSet, 'card_product')
 urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
     path('products/<int:product_ID>/', views.ProductDetailView.as_view(), name='product_detail'),
-    path('review/<int:pk>/', views.ProductDetailView.as_view(), name="product_detail"),
+    path('review/', views.ProductDetailView.as_view(), name="add_review"),
     path('filter/', views.FilterProductView.as_view(), name="filter"),
     path('shop/', views.ShopListView.as_view(), name='shop'),
 
