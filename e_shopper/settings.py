@@ -113,12 +113,6 @@ USE_TZ = True
 
 USE_L10N = True
 
-LANGUAGES = (
-    ('ru', 'Russia'),
-    ('en', 'English'),
-    ('de', 'German'),
-)
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -146,6 +140,14 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = path.join(BASE_DIR, 'media')
+
+LOCALE_PATHS = (path.join(BASE_DIR, 'locale'),)
+
+LANGUAGES = (
+    ('ru', 'Russia'),
+    ('en', 'English'),
+    ('de', 'German'),
+)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -4,6 +4,20 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-25 18:08+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 
 #: .\templates\account\account_inactive.html:5
 #: .\templates\account\account_inactive.html:9
@@ -193,7 +207,7 @@ msgstr ""
 
 #: .\templates\account\password_reset_from_key.html:8
 msgid "Bad Token"
-msgstr "Не работающий токен"
+msgstr "Не рабочий токен"
 
 #: .\templates\account\password_reset_from_key.html:12
 #, python-format
@@ -203,30 +217,34 @@ msgid ""
 "            request a <a href=\"%(passwd_reset_url)s\">new password reset</"
 "a>."
 msgstr ""
+"Ссылка на сброс пароля оказалась недействительной, возможно, потому что она уже была "
+"использована.\n"
+"            Запросить <a href=\"%(passwd_reset_url)s\">новый сброс пароля</"
+"a>."
 
 #: .\templates\account\password_reset_from_key.html:18
 msgid "change password"
-msgstr ""
+msgstr "изменить пароль"
 
 #: .\templates\account\password_reset_from_key_done.html:9
 msgid "Your password is now changed."
-msgstr ""
+msgstr "Теперь ваш пароль изменен."
 
 #: .\templates\account\password_set.html:5
 #: .\templates\account\password_set.html:9
 #: .\templates\account\password_set.html:14
 msgid "Set Password"
-msgstr ""
+msgstr "Установить пароль"
 
 #: .\templates\account\signup.html:5 .\templates\socialaccount\signup.html:5
 msgid "Signup"
-msgstr ""
+msgstr "Регистрация"
 
 #: .\templates\account\signup.html:9 .\templates\account\signup.html:20
 #: .\templates\socialaccount\signup.html:9
 #: .\templates\socialaccount\signup.html:21
 msgid "Sign Up"
-msgstr ""
+msgstr "Зарегистрироваться"
 
 #: .\templates\account\signup.html:11
 #, python-format
@@ -234,31 +252,33 @@ msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>\n"
 "        ."
 msgstr ""
+"У вас уже есть аккаунт?  Тогда, пожалуйста <a href=\"%(login_url)s\">sign in</a>\n"
+"        ."
 
 #: .\templates\account\signup_closed.html:5
 #: .\templates\account\signup_closed.html:11
 msgid "Sign Up Closed"
-msgstr ""
+msgstr "Регистрация закрыта"
 
 #: .\templates\account\signup_closed.html:13
 msgid "We are sorry, but the sign up is currently closed."
-msgstr ""
+msgstr "Мы сожалеем, но в настоящее время регистрация закрыта."
 
 #: .\templates\account\snippets\already_logged_in.html:5
 msgid "Note"
-msgstr ""
+msgstr "Примечание"
 
 #: .\templates\account\snippets\already_logged_in.html:5
 #, python-format
 msgid "you are already logged in as %(user_display)s."
-msgstr ""
+msgstr "вы уже вошли в систему под именем %(user_display)s."
 
 #: .\templates\account\verification_sent.html:5
 #: .\templates\account\verification_sent.html:9
 #: .\templates\account\verified_email_required.html:5
 #: .\templates\account\verified_email_required.html:9
 msgid "Verify Your E-mail Address"
-msgstr ""
+msgstr "Проверьте свой адрес электронной почты"
 
 #: .\templates\account\verification_sent.html:11
 msgid ""
@@ -268,6 +288,12 @@ msgid ""
 "inbox, check your spam folder. Please contact us\n"
 "        if you do not receive the verification e-mail within a few minutes."
 msgstr ""
+"Мы отправили вам электронное письмо для проверки. Перейдите по указанной ссылке, чтобы "
+"завершить регистрацию\n"
+" процесс. Если вы не видите письмо с подтверждением в вашем основном "
+"входящие, проверьте папку спам. Пожалуйста, свяжитесь с нами\n"
+" если вы не получите проверочное письмо в течение нескольких минут."
+
 
 #: .\templates\account\verified_email_required.html:13
 msgid ""
@@ -275,6 +301,9 @@ msgid ""
 "        you are who you claim to be. For this purpose, we require that you\n"
 "        verify ownership of your e-mail address. "
 msgstr ""
+"Эта часть сайта требует, чтобы мы проверили,\n"
+"        вы являетесь тем, за кого себя выдаете. Для этого мы требуем, чтобы вы\n"
+"        подтвердить право собственности на ваш адрес электронной почты. "
 
 #: .\templates\account\verified_email_required.html:17
 msgid ""
@@ -284,6 +313,11 @@ msgid ""
 "        main inbox, check your spam folder. Otherwise\n"
 "        contact us if you do not receive it within a few minutes."
 msgstr ""
+"Мы отправили вам электронное письмо для\n"
+" проверки. Пожалуйста, нажмите на ссылку в этом письме. Если вы "
+"не видите письмо с подтверждением в вашем\n"
+" основном почтовом ящике, проверьте папку Спам. В противном случае\n"
+" свяжитесь с нами, если вы не получите его в течение нескольких минут."
 
 #: .\templates\account\verified_email_required.html:22
 #, python-format
@@ -292,93 +326,101 @@ msgid ""
 "mail address</a>\n"
 "        ."
 msgstr ""
-
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>\n"
+"<strong> Примечание: </strong> вы все еще можете <a href=\"%(email_url)s\">сменить"
+"электронный адрес</a>\n"
 #: .\templates\openid\login.html:9
 msgid "OpenID Sign In"
-msgstr ""
+msgstr "Вход по OpenID"
 
 #: .\templates\pages\blog-single.html:14 .\templates\pages\blog.html:47
 msgid "Последнее из нашего блога"
-msgstr ""
+msgstr "Последнее из нашего блога"
 
 #: .\templates\pages\blog-single.html:24
 msgid "poster"
-msgstr ""
+msgstr "плакат"
 
 #: .\templates\pages\blog-single.html:63
 msgid "Аватар"
-msgstr ""
+msgstr "Аватар"
 
-#: .\templates\pages\blog-single.html:92
+#: .\templates\pages\blog-single.html:93
 msgid "Оставить комментарий:"
-msgstr ""
+msgstr "Оставить комментарий:"
+
 
 #: .\templates\pages\blog-single.html:100
 msgid "Отправить"
-msgstr ""
+msgstr "Отправить"
 
 #: .\templates\pages\blog-single.html:112
 msgid "Доступ к комментариям отключен не авторизованным пользователям,:"
-msgstr ""
+msgstr "Доступ к комментариям отключен не авторизованным пользователям,:"
 
 #: .\templates\pages\blog-single.html:113
 msgid "войдите"
-msgstr ""
+msgstr "войдите"
 
 #: .\templates\pages\blog-single.html:113
 msgid "или"
-msgstr ""
+msgstr "или"
 
 #: .\templates\pages\blog-single.html:114
 msgid "зарегистрируйтесь"
-msgstr ""
+msgstr "зарегистрируйтесь"
 
 #: .\templates\pages\blog.html:14
 msgid "Поиск по новостям"
-msgstr ""
+msgstr "Поиск по новостям"
 
 #: .\templates\pages\blog.html:15
 msgid "Поиск"
-msgstr ""
+msgstr "Поиск"
 
 #: .\templates\pages\blog.html:65
 msgid "Читать дальше"
-msgstr ""
+msgstr "Читать дальше"
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:9
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "Сбой входа в социальную сеть"
 
 #: .\templates\socialaccount\authentication_error.html:11
 msgid ""
 "An error occurred while attempting to login via your social network account."
 msgstr ""
+"Произошла ошибка при попытке войти в систему через вашу учетную запись в социальной сети"
 
 #: .\templates\socialaccount\connections.html:5
 #: .\templates\socialaccount\connections.html:9
 msgid "Account Connections"
-msgstr ""
+msgstr "Соединение ..."
 
 #: .\templates\socialaccount\connections.html:12
 msgid ""
 "You can sign in to your account using any of the following third party "
 "accounts:"
 msgstr ""
+"Вы можете войти в свою учетную запись, используя любую из следующих сторонних"
+"учетных записей:"
 
 #: .\templates\socialaccount\connections.html:44
 msgid ""
 "You currently have no social network accounts connected to this account."
 msgstr ""
+"В настоящее время у вас нет аккаунтов в социальных сетях, связанных с этой учетной записью"
 
 #: .\templates\socialaccount\connections.html:47
 msgid "Add a 3rd Party Account"
-msgstr ""
+msgstr "Добавить учетную запись третьей стороны"
 
 #: .\templates\socialaccount\login.html:8
 #, python-format
 msgid "Connect %(provider)s"
-msgstr ""
+msgstr "Подключение через %(provider)"
 
 #: .\templates\socialaccount\login.html:10
 #, python-format
@@ -386,11 +428,13 @@ msgid ""
 "You are about to connect a new third party account from\n"
 "            %(provider)s."
 msgstr ""
+"Вы собираетесь подключить новую учетную запись третьего лица from\n"
+"            %(provider)"
 
 #: .\templates\socialaccount\login.html:13
 #, python-format
 msgid "Sign In Via %(provider)s"
-msgstr ""
+msgstr "Войти через  %(provider)"
 
 #: .\templates\socialaccount\login.html:15
 #, python-format
@@ -398,15 +442,17 @@ msgid ""
 "You are about to sign in using a third party account from\n"
 "            %(provider)s."
 msgstr ""
+"Вы собираетесь подключить новую учетную запись третьего лица from\n"
+"            %(provider)"
 
 #: .\templates\socialaccount\login.html:21
 msgid "Continue"
-msgstr ""
+msgstr "Продолжить"
 
 #: .\templates\socialaccount\login_cancelled.html:5
 #: .\templates\socialaccount\login_cancelled.html:9
 msgid "Login Cancelled"
-msgstr ""
+msgstr "Вход отменен"
 
 #: .\templates\socialaccount\login_cancelled.html:13
 #, python-format
@@ -415,6 +461,9 @@ msgid ""
 "accounts. If this was a\n"
 "        mistake, please proceed to <a href=\"%(login_url)s\">sign in</a>."
 msgstr ""
+"Вы решили отказаться от входа на наш сайт, используя одну из ваших существующих "
+"аккаунтов. Если это была случайная \n"
+"        ошибка, пожалуйста перейдете по ссылке <a href=\"%(login_url)s\">sign in</a>."
 
 #: .\templates\socialaccount\signup.html:11
 #, python-format
@@ -423,3 +472,6 @@ msgid ""
 "        %(provider_name)s account to login to\n"
 "        %(site_name)s. As a final step, please complete the following form:"
 msgstr ""
+"Вы собираетесь использовать свой\n"
+" %(provider_name)s для входа\n"
+" %(site_name)s. В качестве последнего шага заполните следующую форму:"

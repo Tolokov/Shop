@@ -17,129 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:221
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:221
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:221
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
 
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:207
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:207
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:207
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
 
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:222
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:222
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:222
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
-"\">DEBUG=True</a> is in your settings file and you have not configured any "
-"URLs."
-msgstr ""
-
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:230
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:230
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:230
-msgid "Django Documentation"
-msgstr ""
-
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:231
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:231
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:231
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:239
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:239
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:239
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:240
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:240
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:240
-msgid "Get started with Django"
-msgstr ""
-
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:248
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:248
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:248
-msgid "Django Community"
-msgstr ""
-
-#: .\Lib\site-packages\django\views\templates\default_urlconf.html:249
-#: .\VirtualEnvironment\Lib\site-packages\django\views\templates\default_urlconf.html:249
-#: .\newvenv39\Lib\site-packages\django\views\templates\default_urlconf.html:249
-msgid "Connect, get help, or contribute"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:5
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:5
-msgid "Select an image to embed"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:27
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:27
-msgid "Browse for the image you want, then click 'Embed Image' to continue..."
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:29
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:29
-msgid ""
-"No images found. Upload images using the 'Image Button' dialog's 'Upload' "
-"tab."
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:50
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:50
-msgid "Images in: "
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:62
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:80
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:62
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:80
-msgid "Embed Image"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:146
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:146
-msgid "Play Slideshow"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:147
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:147
-msgid "Pause Slideshow"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:148
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:148
-msgid "&lsaquo; Previous Photo"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:149
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:149
-msgid "Next Photo &rsaquo;"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:150
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:150
-msgid "Next &rsaquo;"
-msgstr ""
-
-#: .\VirtualEnvironment\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:151
-#: .\newvenv39\Lib\site-packages\ckeditor_uploader\templates\ckeditor\browse.html:151
-msgid "&lsaquo; Prev"
-msgstr ""
 
 #: .\newvenv39\Lib\site-packages\crispy_forms_gds\templates\gds\base.html:32
 msgid "Skip to main content"
@@ -433,70 +312,75 @@ msgstr ""
 
 #: .\templates\openid\login.html:9
 msgid "OpenID Sign In"
-msgstr ""
+msgstr "OpenID-Anmeldung"
 
 #: .\templates\pages\blog-single.html:14 .\templates\pages\blog.html:47
 msgid "Последнее из нашего блога"
-msgstr ""
+msgstr "Aktuelles aus unserem Blog"
 
 #: .\templates\pages\blog-single.html:24
 msgid "poster"
-msgstr ""
+msgstr "poster"
 
 #: .\templates\pages\blog-single.html:63
 msgid "Аватар"
-msgstr ""
+msgstr "Avatar"
 
 #: .\templates\pages\blog-single.html:92
 msgid "Оставить комментарий:"
-msgstr ""
+msgstr "Hinterlassen Sie einen Kommentar:"
+
+#: .\templates\pages\blog-single.html:93
+msgid "ОТЗЫВОВ"
+msgstr "REVIEWS"
 
 #: .\templates\pages\blog-single.html:100
 msgid "Отправить"
-msgstr ""
+msgstr "senden."
 
 #: .\templates\pages\blog-single.html:112
 msgid "Доступ к комментариям отключен не авторизованным пользователям,:"
-msgstr ""
+msgstr "Der Zugriff auf Kommentare ist für nicht autorisierte Benutzer gesperrt:"
 
 #: .\templates\pages\blog-single.html:113
 msgid "войдите"
-msgstr ""
+msgstr "sich anmelden"
 
 #: .\templates\pages\blog-single.html:113
 msgid "или"
-msgstr ""
+msgstr "oder"
 
 #: .\templates\pages\blog-single.html:114
 msgid "зарегистрируйтесь"
-msgstr ""
+msgstr "registrieren"
 
 #: .\templates\pages\blog.html:14
 msgid "Поиск по новостям"
-msgstr ""
+msgstr "Suche nach Nachrichten"
 
 #: .\templates\pages\blog.html:15
 msgid "Поиск"
-msgstr ""
+msgstr "Suche"
 
 #: .\templates\pages\blog.html:65
 msgid "Читать дальше"
-msgstr ""
+msgstr "Weiterlesen"
 
 #: .\templates\socialaccount\authentication_error.html:5
 #: .\templates\socialaccount\authentication_error.html:9
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "Anmeldefehler bei sozialen Netzwerken"
 
 #: .\templates\socialaccount\authentication_error.html:11
 msgid ""
 "An error occurred while attempting to login via your social network account."
 msgstr ""
+"Beim Versuch, sich über Ihr soziales Netzwerkkonto anzumelden, ist ein Fehler aufgetreten."
 
 #: .\templates\socialaccount\connections.html:5
 #: .\templates\socialaccount\connections.html:9
 msgid "Account Connections"
-msgstr ""
+msgstr "Kontoverbindungen"
 
 #: .\templates\socialaccount\connections.html:12
 msgid ""
@@ -539,12 +423,12 @@ msgstr ""
 
 #: .\templates\socialaccount\login.html:21
 msgid "Continue"
-msgstr ""
+msgstr "Fortsetzen"
 
 #: .\templates\socialaccount\login_cancelled.html:5
 #: .\templates\socialaccount\login_cancelled.html:9
 msgid "Login Cancelled"
-msgstr ""
+msgstr "Anmeldung abgebrochen"
 
 #: .\templates\socialaccount\login_cancelled.html:13
 #, python-format

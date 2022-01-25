@@ -44,7 +44,6 @@ class BlogDetailView(FormView, DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(news=self.object).select_related('creator')
         context['count'] = context['comments'].__len__()
-        context['responses'] = 'Отзывов'
         return context
 
     def form_valid(self, form):
