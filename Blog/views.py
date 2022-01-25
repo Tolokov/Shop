@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, FormView
 
 from Blog.models import News, Comment, User
@@ -10,9 +11,7 @@ class BlogListView(ListView):
     template_name = 'pages/blog.html'
     context_object_name = 'posts'
     paginate_by = 3
-
-    def get_queryset(self):
-        return News.objects.filter(draft=False).select_related('creator')
+    queryset = News.objects.filter(draft=False).select_related('creator')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -20,6 +19,15 @@ class BlogListView(ListView):
         context['blog_selected'] = 'active'
         context['headline'] = ('Latest From our Blog', 'Читать дальше...')
         return context
+
+
+class SearchResultsListView(BlogListView):
+    def get_queryset(self):
+        request = self.request.GET.get('s')
+        result = News.objects.filter(draft=False).filter(
+            Q(title__icontains=request) | Q(description__icontains=request)
+        ).select_related('creator')
+        return result
 
 
 class BlogDetailView(FormView, DetailView):

@@ -5,12 +5,16 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
+    <form method="get" action="{% url 'search' %}">
+        <div class="search_box" style="margin-left: 5%">
+            <input name="s" type="text" placeholder="Поиск по новостям..."/>
+        </div>
+    </form>
 
+        <div class="row">
             <div class="col-sm-9" style="width:80%;left: 40px; ">
                 <div class="blog-post-area">
                     <h2 class="title text-center">{{ headline.0|upper }}</h2>
-
                     <!-- posts -->
                     {% for post in posts %}
                         <div class="single-blog-post">
