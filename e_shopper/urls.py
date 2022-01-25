@@ -9,11 +9,11 @@ urlpatterns = [
     path('', include('Shop.urls')),
     path('', include('Interactive.urls')),
     path('admin/', admin.site.urls),
-    path('blog/', include('Blog.urls')),
     path('i18n/', include('django.conf.urls.i18n'))
 ]
 
 urlpatterns += i18n_patterns(
+    path('blog/', include('Blog.urls')),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('accounts/', include('allauth.urls')),
 )

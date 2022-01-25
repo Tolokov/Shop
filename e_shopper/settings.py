@@ -137,7 +137,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 # LOGIN_URL = 'registration/login/'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_DIR = path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 # STATIC_ROOT = path.join(BASE_DIR, 'static')

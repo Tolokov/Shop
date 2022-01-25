@@ -2,13 +2,14 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 
 from mptt.admin import MPTTModelAdmin
+from modeltranslation.admin import TranslationAdmin
 
 from Blog.models import News, Comment
 from Blog.forms import NewsAdminForm
 
 
 @admin.register(News)
-class NewsAdmin(admin.ModelAdmin):
+class NewsAdmin(TranslationAdmin):
     """Новости и события на странице /blog/"""
     list_display = ('id', 'title', 'date', 'time', 'is_draft', 'get_poster', 'creator')
     readonly_fields = ('get_poster',)

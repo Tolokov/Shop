@@ -16,7 +16,10 @@ class AddCommentForm(ModelForm):
 
 class NewsAdminForm(ModelForm):
     """CKEditor"""
-    description = CharField(label="Описание", widget=CKEditorUploadingWidget())
+    # description = CharField(label="Описание", widget=CKEditorUploadingWidget())
+    description_ru = CharField(label="Описание [ru]", widget=CKEditorUploadingWidget())
+    description_en = CharField(label="Description [en]", widget=CKEditorUploadingWidget())
+    description_de = CharField(label="Beschreibung [de]", widget=CKEditorUploadingWidget())
 
     class Meta:
         model = News

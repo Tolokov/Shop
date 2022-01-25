@@ -1,20 +1,50 @@
 {% extends 'pages/base.html' %}
 
-{% load static %}
+{% load static i18n %}
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
     <div class="container">
-    <form method="get" action="{% url 'search' %}">
-        <div class="search_box" style="margin-left: 5%">
-            <input name="s" type="text" placeholder="Поиск по новостям..."/>
+
+    <div class="container" >
+    <!--search-->
+    <div  style="float: left; display:flex;" >
+    <form method="get" action="{% url 'search' %}" style=" display:flex;">
+        <div class="search_box" style="margin-left: 10%; display:flex;" >
+            <input name="s" type="text" placeholder="{% trans 'Поиск по новостям' %}..."/>
+            <button type="submit" value="Search" class="btn btn-primary" style="margin:0px; margin-left:10px">{% trans 'Поиск' %}</button>
         </div>
     </form>
+    </div>
+    <!--/search-->
 
+    <!--language-->
+    <div style="float: right; margin-right: 18%; ">
+        <form action="{% url 'set_language' %}" method="post" style="display:flex;">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+
+            <select name="language">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                {% endfor %}
+                <input type="submit" value="Translate" style="margin: 0px; margin-left: 10px"  class="btn btn-primary">
+            </select>
+        </form>
+    </div>
+    <!--/language-->
+
+    </div>
         <div class="row">
             <div class="col-sm-9" style="width:80%;left: 40px; ">
                 <div class="blog-post-area">
-                    <h2 class="title text-center">{{ headline.0|upper }}</h2>
+                    <h2 class="title text-center">{% trans 'Последнее из нашего блога' %}</h2>
                     <!-- posts -->
                     {% for post in posts %}
                         <div class="single-blog-post">
@@ -32,7 +62,7 @@
                                 </a>
                             </div>
                             <p>{{ post.description|safe|truncatewords:120 }}</p>
-                            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{{ headline.1|lower }}</a>
+                            <a class="btn btn-primary" href="{{ post.get_absolute_url }}">{% trans 'Читать дальше' %}</a>
                         </div>
                         <br>
                         <br>
@@ -58,6 +88,7 @@
                         </ul>
                     </div>
                     <!-- /pagination -->
+
                 </div>
             </div>
         </div>
