@@ -55,17 +55,18 @@ class ShopListView(DataMixin, ListView):
 class JsonFilterProductView(DataMixin, ListView):
 
     def get_queryset(self):
+        queryset = Card_Product.objects.filter(availability=False)
         if self.request.GET == {}:
-            return Card_Product.objects.all()
+            return queryset
 
         elif len(self.request.GET) == 2:
-            queryset = Card_Product.objects.filter(
+            queryset = queryset.filter(
                 Q(category__in=self.request.GET.getlist("category")) &
                 Q(brand__in=self.request.GET.getlist("brand"))).distinct()
             return queryset
 
         else:
-            queryset = Card_Product.objects.filter(
+            queryset = queryset.filter(
                 Q(category__in=self.request.GET.getlist("category")) |
                 Q(brand__in=self.request.GET.getlist("brand"))).distinct()
             return queryset

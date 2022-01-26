@@ -54,16 +54,16 @@ class Card_Product(models.Model):
     availability = models.BooleanField(default=True, verbose_name='hidden')
     quantity = models.PositiveIntegerField('На складе', default=0)
 
-    NEW = 'N'
-    FRESH = 'F'
-    SECOND_HAND = 'S'
+    NEW = 'new'
+    FRESH = 'fresh'
+    SECOND_HAND = 'hand'
     CONDITION_CHOICE = (
         (NEW, 'new'),
         (FRESH, 'fresh'),
-        (SECOND_HAND, 'second hand'),
+        (SECOND_HAND, 'hand'),
     )
     condition = models.CharField(
-        max_length=1,
+        max_length=5,
         choices=CONDITION_CHOICE,
         default=FRESH,
         blank=False,

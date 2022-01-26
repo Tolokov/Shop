@@ -27,14 +27,9 @@
                         </form>
                     </div>
                 </div>
+            <div>
 
-                {% if product.condition == 'N' %}
-                    <img src="{% static 'images/home/new.png' %}" class="new" alt="status-new"/>
-                {% elif product.condition == 'F' %}
-                    <img src="{% static 'images/home/fresh.png' %}" class="new" alt="status-fresh"/>
-                {% else %}
-                    <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-fresh"/>
-                {% endif %}
+      <img src="../../static/images/home/{{ product.condition }}.png" class="new" alt="status-new"/>
 
             </div>
             <div class="single-products">
@@ -57,7 +52,7 @@
             </div>
         </div>
     </div>
-
+</div>
 {% endfor %}
 </div>
 </div>

@@ -49,10 +49,10 @@
                             <div class="col-sm-7">
                                 <!--/product-information-->
                                 <div class="product-information">
-                                    {% if product_detail.condition == 'N' %}
+                                    {% if product_detail.condition == 'new' %}
                                         <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival"
                                              alt="status-new"/>
-                                    {% elif product_detail.condition == 'F' %}
+                                    {% elif product_detail.condition == 'fresh' %}
                                         <img src="{% static 'images/product-details/fresh.png' %}" class="newarrival"
                                              alt="status-fresh"/>
                                     {% else %}

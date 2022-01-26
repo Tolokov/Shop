@@ -36,11 +36,31 @@ function render(data) {
 }
 
 
-
-
 //5. Блок в котором рендерится одна колонка
 let html = '\
-{{#json_answer}}<div class="col-sm-4"><div class="product-image-wrapper"><div class="single-products"><div class="productinfo text-center"><a href="../products/{{ pk }}" target="_blank"><img src="../../media/{{ fields.image }}" alt="{{ fields.name }}"/></a><h2>${{ fields.price }}</h2><p><a href="{{ fields.url }}"> {{ fields.name }}</a></p><div style="margin-right: 20px;"></div></div></div></div></div>\
+{{#json_answer}}\
+<div class="col-sm-4">\
+    <div class="product-image-wrapper">\
+        <div class="single-products">\
+            <div class="productinfo text-center">\
+                <a href="../products/{{ pk }}" target="_blank">\
+                    <img src="../../media/{{ fields.image }}" alt="{{ fields.name }}"/></a>\
+                    <h2>${{ fields.price }}</h2><p><a href="../products/{{ pk }}"> {{ fields.name }}</a></p>\
+                <div style="margin-right: 20px;"></div></div>\
+        <img src="../../static/images/home/{{ fields.condition }}.png" class="new" alt="status"/>\
+</div></div>\
+<div class="single-products">\
+                <div class="productinfo text-center">\
+                    <div class="choose">\
+                        <ul class="nav nav-pills nav-justified" style="">\
+                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">\
+\
+                            </div>\
+                        </ul>\
+                    </div>\
+                </div>\
+            </div>\
+            </div></div>\
 {{/json_answer}}'
 
 
