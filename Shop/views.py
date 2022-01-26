@@ -2,9 +2,13 @@ from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.core import serializers
 from django.db.models import Count, Q, Avg
-from django.urls import reverse_lazy
 from django.db import IntegrityError
+from django.urls import reverse_lazy
+from django.http import JsonResponse
+
+from json import loads
 
 from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
@@ -48,12 +52,9 @@ class ShopListView(DataMixin, ListView):
     queryset = Card_Product.objects.filter(availability=False)
 
 
-class FilterProductView(DataMixin, ListView):
-    """Фильтр продуктов"""
-    template_name = 'pages/shop.html'
+class JsonFilterProductView(DataMixin, ListView):
 
     def get_queryset(self):
-
         if self.request.GET == {}:
             return Card_Product.objects.all()
 
@@ -68,6 +69,11 @@ class FilterProductView(DataMixin, ListView):
                 Q(category__in=self.request.GET.getlist("category")) |
                 Q(brand__in=self.request.GET.getlist("brand"))).distinct()
             return queryset
+
+    def get(self, request, *args, **kwargs):
+        queryset = serializers.serialize("json", self.get_queryset())
+        queryset = loads(queryset)
+        return JsonResponse({"json_answer": queryset}, safe=False)
 
 
 class ProductDetailView(FormView, DetailView):
@@ -134,10 +140,6 @@ class ProductDetailView(FormView, DetailView):
         # return redirect(product.get_absolute_url(), permanent=True)
 
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
-
-
-
-
 
 
 class FavoritesView(ListView):

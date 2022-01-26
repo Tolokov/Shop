@@ -2,6 +2,9 @@
 <!--features-items-->
 <h2 class="title text-center">Features Items</h2>
 
+<div class="ajax">
+<div class="row2">
+
 {% for product in products %}
     <div class="col-sm-4">
         <div class="product-image-wrapper">
@@ -50,16 +53,13 @@
                             </div>
                         </ul>
                     </div>
-                    {#                    <li><a href="{% url 'addFavorites' product.id %}" >#}
-                    {#            <i class="fa fa-plus-square"> </i>Add to wishlist</a></li>#}
-
                 </div>
-
             </div>
-
         </div>
     </div>
 
 {% endfor %}
+</div>
+</div>
 </div>
 <!--features-items-->

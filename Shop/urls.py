@@ -12,7 +12,8 @@ urlpatterns = [
     path('', views.HomeListView.as_view(), name='home'),
     path('products/<int:product_ID>/', views.ProductDetailView.as_view(), name='product_detail'),
     path('review/', views.ProductDetailView.as_view(), name="add_review"),
-    path('filter/', views.FilterProductView.as_view(), name="filter"),
+    path('json-filter/', views.JsonFilterProductView.as_view(), name='json_filter'),
+
     path('shop/', views.ShopListView.as_view(), name='shop'),
 
     path('favorites/', views.FavoritesView.as_view(), name='favorites'),
