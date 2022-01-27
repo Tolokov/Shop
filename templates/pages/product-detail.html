@@ -3,6 +3,9 @@
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
+    <script>
+
+    </script>
     <section>
         <div class="container">
             <div class="row">
@@ -148,7 +151,7 @@
                                     <form action="{% url 'add_review' %}" method="post" name="review">
                                         {% csrf_token %}
                                         <input type="hidden" value="{{ product_detail.id }}" name="product">
-                                        <input type="hidden" value="127.0.0.1" name="ipaddress">
+                                        <input type="hidden" value="#" name="ipaddress">
                                         <span>{{ form.name.errors }} {{ form.email.errors }}</span>
                                         <span>{{ form.name }} {{ form.email }}</span>
                                         {{ form.text }}

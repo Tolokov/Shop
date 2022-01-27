@@ -10,7 +10,8 @@ from django.http import JsonResponse
 
 from json import loads
 
-from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
+from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery, \
+    RatingGrade
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
 
@@ -120,26 +121,25 @@ class ProductDetailView(FormView, DetailView):
         paginator = Paginator(objects, per_page=per_page)
         return paginator
 
+    def get_ip(self, request):
+        redirected = request.META.get('HTTP_X_FORWARDED_FOR')
+        return redirected.split(',')[0] if redirected else request.META.get('REMOTE_ADDR')
+
     def post(self, request, **kwargs):
         form = ReviewForm(request.POST)
         if form.is_valid():
-            print(form)
-            form.save()
+            print(form.cleaned_data)
+            form = form.cleaned_data
+            Review.objects.update_or_create(
+                name=form['name'],
+                email=form['email'],
+                text=form['text'],
+                ipaddress=self.get_ip(self.request),
+                product=form["product"],
+                grade=form['grade'],
+            )
         else:
             print('проверка не прошла')
-
-        # product = Card_Product.objects.get(id=kwargs['pk'])
-        # grade = RatingGrade.objects.get(value=form['grade'])
-        # if form.is_valid():
-        #     print(product, grade)
-            # form = form.cleaned_data
-            # review = Review(
-            #     name=form['name'], ipaddress='127.0.0.1', email=form['email'],
-            #     text=form['text'], product=product, grade=grade,
-            # )
-            # review.save()
-        # return redirect(product.get_absolute_url(), permanent=True)
-
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 

@@ -225,7 +225,6 @@ class Review(models.Model):
     ipaddress = models.CharField('IP адрес', max_length=15)
     product = models.ForeignKey(Card_Product, verbose_name='Продукт', on_delete=CASCADE)
     grade = models.ForeignKey(RatingGrade, on_delete=CASCADE, verbose_name="оценка", blank=True)
-    # g = models.IntegerField("оценка", blank=True)
 
     def __str__(self):
         return f'{self.product}, {self.name}, {self.ipaddress}'
