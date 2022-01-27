@@ -29,10 +29,10 @@ class HomeListView(DataMixin, ListView):
         context['title'] = 'Главная страница'
         context['home_selected'] = 'active'
 
-        recommended_queryset = self.queryset.annotate(cnt=Count('review')).order_by('-cnt')
-        recommended_queryset = self.cut_queryset(recommended_queryset)
-        context['recommended_item'] = recommended_queryset[0]
-        context['recommended_next_items'] = recommended_queryset[1:4]
+        recommended_q = self.queryset.annotate(cnt=Count('review')).order_by('-cnt')
+        recommended_q = self.cut_queryset(recommended_q.values('name', 'price', 'image', 'id', 'condition'))
+        context['recommended_item'] = recommended_q[0]
+        context['recommended_next_items'] = recommended_q[1:4]
 
         context['categories'] = Category.objects.all().order_by('name').prefetch_related('card_product_set')
         return context

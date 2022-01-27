@@ -12,14 +12,14 @@
                         <div class="product-image-wrapper">
                             <div class="single-products">
                                 <div class="productinfo text-center">
-                                    <a href="{{ product.get_absolute_url }}" target="_blank">
+                                    <a href="products/{{ product.id }}" target="_blank">
                                         {% if product.image %}
-                                            <img src="{{ product.image.url }}" alt="{{ product.name }}"/></a>
+                                            <img src="media/{{ product.image }}" alt="{{ product.name }}"/></a>
                                         {% else %}
                                             <b style="color:red"> Изображение не загружено</b>
                                         {% endif %}
                                     <h2>${{ product.price|formatted_float }}</h2>
-                                    <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
+                                    <p><a href="products/{{ product.id }}" target="_blank"> {{ product.name }}</a></p>
 
                                     <!-- add to card -->
                                     <form method="post" action="{% url 'addCart' product.id %}">
@@ -53,10 +53,10 @@
                             <div class="product-image-wrapper">
                                 <div class="single-products">
                                     <div class="productinfo text-center">
-                                        <a href="{{ product.get_absolute_url }}" target="_blank">
-                                            <img src="{{ product.image.url }}" alt="{{ product.name }}"/></a>
+                                        <a href="../products/{{ product.id }}" target="_blank">
+                                            <img src="media/{{ product.image }}" alt="{{ product.name }}"/></a>
                                         <h2>${{ product.price|formatted_float }}</h2>
-                                        <p><a href="{{ product.get_absolute_url }}"> {{ product.name }}</a></p>
+                                        <p><a href="products/{{ product.id }}" target="_blank"> {{ product.name }}</a></p>
 
                                         <!-- add to card -->
                                         <form method="post" action="{% url 'addCart' product.id %}">
