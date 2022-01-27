@@ -49,7 +49,7 @@ class HomeListView(DataMixin, ListView):
 class ShopListView(DataMixin, ListView):
     """Страница с фильтрацией"""
     template_name = 'pages/shop.html'
-    queryset = Card_Product.objects.filter(availability=False)
+    queryset = Card_Product.objects.filter(availability=False).values('name', 'price', 'image', 'id', 'condition')
 
 
 class JsonFilterProductView(DataMixin, ListView):
