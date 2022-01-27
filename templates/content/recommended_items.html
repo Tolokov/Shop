@@ -26,7 +26,7 @@
                                         {% csrf_token %}
                                         <button class="btn btn-fefault cart" style="margin-right: 20px;">
                                             <i class="fa fa-shopping-cart">
-                                            </i>Add to cart
+                                            </i> Добавить в корзину
                                         </button>
                                     </form>
                                 </div>
@@ -49,7 +49,7 @@
                                     {% csrf_token %}
                                     <li>
                                         <button type="submit" class="cart btn">
-                                            <i class="fa fa-plus-square "></i> Add to wishlist
+                                            <i class="fa fa-plus-square "></i> Добавить в избранное
                                         </button>
                                     </li>
                                 </form>
@@ -81,7 +81,7 @@
                                         <form method="post" action="{% url 'addCart' product.id %}">
                                             {% csrf_token %}
                                             <button class="btn btn-fefault cart" style="margin-right: 20px;">
-                                                <i class="fa fa-shopping-cart"></i>Add to cart
+                                                <i class="fa fa-shopping-cart"></i> Добавить в корзину
                                             </button>
                                         </form>
                                     </div>
@@ -103,7 +103,7 @@
                                     {% csrf_token %}
                                     <li>
                                         <button type="submit" class="cart btn">
-                                            <i class="fa fa-plus-square "></i> Add to wishlist
+                                            <i class="fa fa-plus-square "></i> Добавить в избранное
                                         </button>
                                     </li>
                                 </form>

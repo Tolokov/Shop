@@ -78,13 +78,22 @@
                                     <label>На складе:</label>
                                     <input type="text" value="{{ product_detail.quantity }}"/>
 
+                            <!--cart-->
                                     <form method="post" action="{% url 'addCart' product_detail.id %}">
                                     {% csrf_token %}
-                                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i>Add to cart</button></form>
-{#	<button type="button" class="btn btn-fefault cart">#}
-{#		<i class="fa fa-shopping-cart"></i>#}
-{#		Add to cart#}
-{#	</button>#}
+                                    <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i> Добавить в корзину</button>
+                                    </form>
+                            <!--/cart-->
+
+                            <!--favorites-->
+                                <form method="post" action="{% url 'addFavorites' product_detail.id %}">
+                                {% csrf_token %}
+                                    <button type="submit" class="cart btn">
+                                        <i class="fa fa-plus-square "></i> Добавить в избранное
+                                    </button>
+                                </form>
+                            <!--/favorites-->
+
 								</span>
                                     <p><b>Категории:</b>
                                         {{ product_detail.category.all | join:", " }}

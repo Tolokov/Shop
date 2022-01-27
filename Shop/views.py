@@ -162,7 +162,7 @@ class AddFavoritesView(FavoritesView):
             favorite_item.save()
         except IntegrityError as Ie:
             print('Обнаружен дубликат!', {Ie})
-        return redirect(reverse_lazy('home'), permanent=True)
+        return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
 class DeleteFavoritesView(FavoritesView):
