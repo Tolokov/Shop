@@ -35,6 +35,7 @@ function render(data) {
     div.innerHTML = output;
 }
 
+// var csrf = "{% csrf_token %}"
 
 //5. Блок в котором рендерится одна колонка
 let html = '\
@@ -45,22 +46,22 @@ let html = '\
             <div class="productinfo text-center">\
                 <a href="../products/{{ pk }}" target="_blank">\
                     <img src="../../media/{{ fields.image }}" alt="{{ fields.name }}"/></a>\
-                    <h2>${{ fields.price }}</h2><p><a href="../products/{{ pk }}"> {{ fields.name }}</a></p>\
-                <div style="margin-right: 20px;"></div></div>\
-        <img src="../../static/images/home/{{ fields.condition }}.png" class="new" alt="status"/>\
-</div></div>\
-<div class="single-products">\
-                <div class="productinfo text-center">\
-                    <div class="choose">\
-                        <ul class="nav nav-pills nav-justified" style="">\
-                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">\
-\
-                            </div>\
-                        </ul>\
-                    </div>\
+                <h2>${{ fields.price }}</h2>\
+                <p><a href="../products/{{ pk }}" target="_blank"> {{ fields.name }}</a></p>\
+                <div style="margin-right: 20px;">\
+                    <a href="../products/{{ pk }}" target="_blank">\
+                        <button class="btn btn-fefault cart"><i class="fa fa-arrow-circle-right">\
+                        </i> Подробнее о продукте\
+                        </button>\
+                    </a>\
                 </div>\
             </div>\
-            </div></div>\
+            <div>\
+                <img src="../../static/images/home/{{ fields.condition }}.png" class="new" alt="status"/>\
+            </div>\
+        </div>\
+    </div>\
+</div>\
 {{/json_answer}}'
 
 

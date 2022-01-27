@@ -3,59 +3,36 @@
 <h2 class="title text-center">Features Items</h2>
 
 <div class="ajax">
-<div class="row2">
-
-{% for product in products %}
-    <div class="col-sm-4">
-        <div class="product-image-wrapper">
-            <div class="single-products">
-                <div class="productinfo text-center">
-                    <a href="../products/{{ product.id }}" target="_blank">
-                        {% if product.image %}
-                        <img src="../media/{{ product.image }}" alt="{{ product.name }}"/></a>
-                        {% else %}
-                            <b style="color:red"> Изображение не загружено</b>
-                        {% endif %}
-                    <h2>${{ product.price|formatted_float }}</h2>
-                    <p><a href="../products/{{ product.id }}" target="_blank"> {{ product.name }}</a></p>
-                    <div style="margin-right: 20px;">
-
-                        <form method="post" action="{% url 'addCart' product.id %}">
-                            {% csrf_token %}
-                            <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart">
-                            </i>Add to cart
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            <div>
-
-      <img src="../../static/images/home/{{ product.condition }}.png" class="new" alt="status-new"/>
-
-            </div>
-            <div class="single-products">
-                <div class="productinfo text-center">
-                    <div class="choose">
-                        <ul class="nav nav-pills nav-justified" style="">
-                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">
-                                <form method="post" action="{% url 'addFavorites' product.id %}">
-                                    {% csrf_token %}
-                                    <li>
-                                        <button type="submit" class="cart btn">
-                                            <i class="fa fa-plus-square "></i> Add to wishlist
-                                        </button>
-                                    </li>
-                                </form>
+    <div class="row2">
+        {% for product in products %}
+            <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center">
+                            <a href="../products/{{ product.id }}" target="_blank">
+                                {% if product.image %}
+                                    <img src="../media/{{ product.image }}" alt="{{ product.name }}"/></a>
+                                {% else %}
+                                    <b style="color:red"> Изображение не загружено</b>
+                                {% endif %}
+                            <h2>${{ product.price|formatted_float }}</h2>
+                            <p><a href="../products/{{ product.id }}" target="_blank"> {{ product.name }}</a></p>
+                            <div style="margin-right: 20px;">
+                                <a href="../products/{{ product.id }}" target="_blank">
+                                    <button class="btn btn-fefault cart"><i class="fa fa-arrow-circle-right">
+                                    </i> Подробнее о продукте
+                                    </button>
+                                </a>
                             </div>
-                        </ul>
+                        </div>
+                        <div>
+                            <img src="../../static/images/home/{{ product.condition }}.png" class="new" alt="status-new"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
-</div>
-{% endfor %}
-</div>
 </div>
 </div>
 <!--features-items-->
