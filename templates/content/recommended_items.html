@@ -31,7 +31,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+
                         {% if product.condition == 'new' %}
                             <img src="{% static 'images/home/new.png' %}" class="new" alt="status-fresh"/>
                         {% elif product.condition == 'fresh' %}
@@ -39,7 +39,26 @@
                         {% else %}
                             <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-hand"/>
                         {% endif %}
+
+
+                <div class="productinfo text-center">
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified" style="">
+                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">
+                                <form method="post" action="{% url 'addFavorites' product.id %}">
+                                    {% csrf_token %}
+                                    <li>
+                                        <button type="submit" class="cart btn">
+                                            <i class="fa fa-plus-square "></i> Add to wishlist
+                                        </button>
+                                    </li>
+                                </form>
+                            </div>
+                        </ul>
                     </div>
+                </div>
+            </div>
+            </div>
                 {% endfor %}
             </div>
             <!--/slide-one-->
@@ -67,7 +86,7 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+
                             {% if product.condition == 'new' %}
                                 <img src="{% static 'images/home/new.png' %}" class="new" alt="status-new"/>
                             {% elif product.condition == 'fresh' %}
@@ -75,9 +94,26 @@
                             {% else %}
                                 <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-hand"/>
                             {% endif %}
-                        </div>
-                    {% endfor %}
 
+                        <div class="productinfo text-center">
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified" style="">
+                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">
+                                <form method="post" action="{% url 'addFavorites' product.id %}">
+                                    {% csrf_token %}
+                                    <li>
+                                        <button type="submit" class="cart btn">
+                                            <i class="fa fa-plus-square "></i> Add to wishlist
+                                        </button>
+                                    </li>
+                                </form>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    {% endfor %}
                 </div>
             {% endfor %}
             <!--/slide-two-->

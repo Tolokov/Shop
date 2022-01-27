@@ -19,6 +19,7 @@
                     <h2>${{ product.price|formatted_float }}</h2>
                     <p><a href="../products/{{ product.id }}" target="_blank"> {{ product.name }}</a></p>
                     <div style="margin-right: 20px;">
+
                         <form method="post" action="{% url 'addCart' product.id %}">
                             {% csrf_token %}
                             <button class="btn btn-fefault cart"><i class="fa fa-shopping-cart">

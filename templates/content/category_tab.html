@@ -31,9 +31,9 @@
                 <div class="product-image-wrapper">
                     <div class="single-products">
                         <div class="productinfo text-center">
-                            <a href="{{ item.get_absolute_url }}" target="_blank">
+                            <a href="{{ item.get_absolute_url }}" target="_blank"></a>
                                 {% if item.image %}
-                                    <img src="{{ item.image.url }}" alt="{{ item.name }}"/></a>
+                                    <a href="{{ item.get_absolute_url }}" target="_blank"><img src="{{ item.image.url }}" alt="{{ item.name }}"/></a>
                                 {% else %}
                                     <b style="color:red"> Изображение не загружено</b>
                                 {% endif %}
@@ -41,7 +41,6 @@
                             <p><a href="{{ item.get_absolute_url }}"> {{ item.name }}</a></p>
 
                             <!-- add to card -->
-
                             <form method="post" action="{% url 'addCart' item.id %}">
                                 {% csrf_token %}
                                 <button class="btn btn-fefault cart" style="margin-right: 20px;">
@@ -51,6 +50,7 @@
                             </form>
                         </div>
                     </div>
+
                     {% if item.condition == 'new' %}
                         <img src="{% static 'images/home/new.png' %}" class="new" alt="status-new"/>
                     {% elif item.condition == 'fresh' %}
@@ -58,11 +58,31 @@
                     {% else %}
                         <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-hand"/>
                     {% endif %}
+{#                </div>#}
+
+                <div class="productinfo text-center">
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified" style="background-color: white; border: 0px">
+                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">
+                                <form method="post" action="{% url 'addFavorites' item.id %}">
+                                    {% csrf_token %}
+                                    <li>
+                                        <button type="submit" class="cart btn">
+                                            <i class="fa fa-plus-square "></i> Add to wishlist
+                                        </button>
+                                    </li>
+                                </form>
+                            </div>
+                        </ul>
+                    </div>
                 </div>
             </div>
+            </div>
             {% endif %}
+
         {% endfor %}
         <!--/category_tab-->
+
 
         </div>
         {% endfor %}
