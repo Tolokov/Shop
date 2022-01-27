@@ -1,4 +1,4 @@
-{% load static %}
+{% load static float_tags  %}
 <div class="category-tab">
     <div class="col-sm-12">
         <ul class="nav nav-tabs">
@@ -26,6 +26,7 @@
 
         <!--category_tab-->
         {% for item in category.card_product_set.all|slice:":4" %}
+{#            {% if item.availability == False %}#}
             <div class="col-sm-3">
                 <div class="product-image-wrapper">
                     <div class="single-products">
@@ -36,7 +37,7 @@
                                 {% else %}
                                     <b style="color:red"> Изображение не загружено</b>
                                 {% endif %}
-                            <h2>${{ item.price }}</h2>
+                            <h2>${{ item.price|formatted_float }}</h2>
                             <p><a href="{{ item.get_absolute_url }}"> {{ item.name }}</a></p>
 
                             <!-- add to card -->
@@ -50,15 +51,16 @@
                             </form>
                         </div>
                     </div>
-                    {% if item.condition == 'N' %}
+                    {% if item.condition == 'new' %}
                         <img src="{% static 'images/home/new.png' %}" class="new" alt="status-new"/>
-                    {% elif item.condition == 'F' %}
+                    {% elif item.condition == 'fresh' %}
                         <img src="{% static 'images/home/fresh.png' %}" class="new" alt="status-fresh"/>
                     {% else %}
                         <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-hand"/>
                     {% endif %}
                 </div>
             </div>
+{#            {% endif %}#}
         {% endfor %}
         <!--/category_tab-->
 
