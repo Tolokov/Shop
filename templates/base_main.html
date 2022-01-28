@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-{% load static recaptcha3 %}
+{% load static recaptcha3 cache %}
 
 <!--head-->
 <head>
@@ -20,7 +20,7 @@
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
     <!--[if lt IE 9]-->
     <script src="{% static 'js/html5shiv.js' %}"></script>
-    <script src="{% static 'js/respond.min.js' %}"></script>
+{#    <script src="{% static 'js/respond.min.js' %}"></script>#}
     <!--[endif]-->
     <link rel="shortcut icon" href="{% static 'images/ico/favicon.ico' %}">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static 'images/ico/apple-touch-icon-144-precomposed.png' %}">
@@ -34,13 +34,17 @@
 </head>
 <!--/head-->
 
-    {% include 'include/header.html' %}
+    {% cache 250 header %}
+        {% include 'include/header.html' %}
+            {% endcache header %}
 
-        {% block content %}
+            {% block content %}
 
-        {%  endblock content %}
+            {%  endblock content %}
 
-    {% include 'include/footer.html' %}
+    {% cache 250 footer %}
+        {% include 'include/footer.html' %}
+            {% endcache footer %}
 
     <script src="{% static 'js/jquery.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>

@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-{% load static %}
+{% load static cache %}
 {% block title %} {{ title }} {% endblock title %}
 
 {% block content %}
@@ -21,10 +21,11 @@
                     <div class="left-sidebar">
                         <h2>Category</h2>
                         <form action="{% url 'json_filter' %}" method="get" name="filter">
-
+                            {% cache 30 left_panel %}
                             {% include 'left_panel/category_product.html' %}
                             {% include 'left_panel/category_brand.html' %}
                             {# {% include 'left_panel/category_price.html' %}#}
+                            {% endcache left_panel %}
                             <br>
                             <br>
                             <button type="submit" class="btn btn-primary"
