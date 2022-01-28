@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-{% load static i18n %}
+{% load static i18n cache %}
 {% block title %} {{ single_post.title }} {% endblock title %}
 
 {% block content %}
@@ -27,12 +27,20 @@
                             </p>
                             <div class="pager-area">
                                 <ul class="pager pull-right">
-                                    {% if single_post.get_prev_absolute_url %}
-                                        <li><a href="{{ single_post.get_prev_absolute_url }}"><--</a>
-                                        </li>{% else %}{% endif %}
-                                    {% if single_post.get_next_absolute_url %}
-                                        <li><a href="{{ single_post.get_next_absolute_url }}">--></a>
-                                        </li>{% else %}{% endif %}
+                                    {% if prev %}
+                                        <li><a href="{{ prev_link }}"><--</a>
+                                        </li>
+                                    {% else %}
+
+                                    {% endif %}
+
+                                    {% if next %}
+                                        <li><a href="{{ next_link }}">--></a>
+                                        </li>
+                                    {% else %}
+
+                                    {% endif %}
+
                                 </ul>
                             </div>
                         </div>

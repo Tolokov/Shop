@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from django.db.models import Q
+from django.db.models import Q, ObjectDoesNotExist
 from django.views.generic import ListView, DetailView, FormView
 
 from Blog.models import News, Comment, User
@@ -44,7 +44,29 @@ class BlogDetailView(FormView, DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(news=self.object).select_related('creator')
         context['count'] = context['comments'].__len__()
+        if self.check_prev():
+            context['prev'] = True
+            context['prev_link'] = self.object.get_prev_absolute_url()
+
+        if self.check_next():
+            context['next'] = True
+            context['next_link'] = self.object.get_next_absolute_url()
+
         return context
+
+    def check_prev(self):
+        try:
+            if self.object.get_prev_absolute_url():
+                return True
+        except ObjectDoesNotExist as o:
+            print('Сработало исключение, предыдущая страница не существует', o)
+
+    def check_next(self):
+        try:
+            if self.object.get_next_absolute_url():
+                return True
+        except ObjectDoesNotExist as o:
+            print('Сработало исключение, следующая страница не существует', o)
 
     def form_valid(self, form):
         print(form.cleaned_data)
