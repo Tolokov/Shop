@@ -1,6 +1,6 @@
 from pathlib import Path
 from .security_settings import *
-
+from .log_settings import LOGGING
 from os import path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,9 +93,12 @@ AUTHENTICATION_BACKENDS = (
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': path.join(BASE_DIR, 'cash'),
+        'LOCATION': path.join(BASE_DIR, 'cache'),
     }
 }
+
+LOGGING = LOGGING
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
