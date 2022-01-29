@@ -1,12 +1,14 @@
 from django.shortcuts import redirect
-from django.db.models import Q, ObjectDoesNotExist
+from django.db.models import Q
 from django.views.generic import ListView, DetailView, FormView
 
 from Blog.models import News, Comment, User
 from Blog.forms import AddCommentForm
+from Blog.utils import DataMixin
 
 
 class BlogListView(ListView):
+    """Отображение списка всех статей с добавленной пагинацией"""
     model = News
     template_name = 'pages/blog.html'
     context_object_name = 'posts'
@@ -14,6 +16,7 @@ class BlogListView(ListView):
     queryset = News.objects.filter(draft=False).select_related('creator')
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        """Подсветка активной страницы"""
         context = super().get_context_data(**kwargs)
         context['title'] = 'Новостной блог'
         context['blog_selected'] = 'active'
@@ -21,15 +24,25 @@ class BlogListView(ListView):
 
 
 class SearchResultsListView(BlogListView):
+
     def get_queryset(self):
-        request = self.request.GET.get('s')
-        result = News.objects.filter(draft=False).filter(
-            Q(title__icontains=request) | Q(description__icontains=request)
+        """Получение поискового запроса на странице с новостями и возвращение результата"""
+        user_search_request = self.request.GET.get('s')
+        request = self.get_results_filter(user_search_request)
+        return request
+
+    @staticmethod
+    def get_results_filter(request):
+        """Формирование ответа"""
+        objects = News.objects.filter()
+        result = objects.filter(
+            Q(title__icontains=request) |
+            Q(description__icontains=request)
         ).select_related('creator')
         return result
 
 
-class BlogDetailView(FormView, DetailView):
+class BlogDetailView(FormView, DetailView, DataMixin):
     model = News
     template_name = 'pages/blog-single.html'
     pk_url_kwarg = 'post_id'
@@ -44,44 +57,20 @@ class BlogDetailView(FormView, DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(news=self.object).select_related('creator')
         context['count'] = context['comments'].__len__()
-        if self.check_prev():
-            context['prev'] = True
-            context['prev_link'] = self.object.get_prev_absolute_url()
-
-        if self.check_next():
-            context['next'] = True
-            context['next_link'] = self.object.get_next_absolute_url()
-
+        context = self.check_next_and_prev_pages(context)
         return context
 
-    def check_prev(self):
-        try:
-            if self.object.get_prev_absolute_url():
-                return True
-        except ObjectDoesNotExist as o:
-            print('Сработало исключение, предыдущая страница не существует', o)
-
-    def check_next(self):
-        try:
-            if self.object.get_next_absolute_url():
-                return True
-        except ObjectDoesNotExist as o:
-            print('Сработало исключение, следующая страница не существует', o)
-
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super(BlogDetailView, self).form_valid(form)
-
     def post(self, request, **kwargs):
+        """Сохранение комментариев к новостям"""
         form = AddCommentForm(request.POST)
-        news = News.objects.get(id=kwargs['pk'])
+
         if form.is_valid():
+            news = News.objects.get(id=kwargs['pk'])
             creator = User.objects.get(id=self.request.user.id)
             form = form.cleaned_data
+            parent = None
             if request.POST.get('parent', None):
                 parent = Comment.objects.get(id=int(request.POST.get('parent')))
-            else:
-                parent = None
 
             comment = Comment(text=form['text'], parent=parent, news=news, creator=creator)
             comment.save()

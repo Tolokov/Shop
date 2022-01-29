@@ -1,21 +1,22 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator
-from django.core import serializers
+from django.core import serializers, paginator
 from django.db.models import Count, Q, Avg
 from django.db import IntegrityError
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
+from logging import getLogger
 from json import loads
 
-from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery, \
-    RatingGrade
+from Interactive.models import Delivery
+from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
 
-from Interactive.models import Delivery
+
+logger = getLogger(__name__)
 
 
 class HomeListView(DataMixin, ListView):
@@ -117,9 +118,9 @@ class ProductDetailView(FormView, DetailView):
     @staticmethod
     def paginator_optimization(queryset, per_page=3, max_pages=5):
         """Paginator optimization (9 SQL queries --> 6 SQL queries)"""
-        objects = list(queryset[:per_page * max_pages])
-        paginator = Paginator(objects, per_page=per_page)
-        return paginator
+        list_objects = list(queryset[:per_page * max_pages])
+        paginator_object = paginator.Paginator(list_objects, per_page=per_page)
+        return paginator_object
 
     def get_ip(self, request):
         redirected = request.META.get('HTTP_X_FORWARDED_FOR')

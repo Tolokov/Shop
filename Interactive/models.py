@@ -7,7 +7,7 @@ from django.dispatch import receiver
 
 @receiver(post_save, sender=User)
 def save_or_create_profile(sender, instance, created, **kwargs):
-    """ Создание модели Покупателя после регистрации"""
+    """Создание модели Покупателя после регистрации"""
     if created:
         Customer.objects.create(user=instance)
     else:
