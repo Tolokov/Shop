@@ -34,9 +34,7 @@
 </head>
 <!--/head-->
 
-    {% cache 250 header %}
-        {% include 'include/header.html' %}
-            {% endcache header %}
+    {% include 'include/header.html' %}
 
             {% block content %}
 

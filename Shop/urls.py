@@ -1,16 +1,16 @@
 from django.urls import path
-from django.views.decorators.cache import cache_page
-
 from rest_framework import routers
 
 from Shop import views
 from Shop.api import CardViewSet
 
+
 router = routers.DefaultRouter()
 router.register('api/card', CardViewSet, 'card_product')
 
+
 urlpatterns = [
-    path('', cache_page(60 * 5)(views.HomeListView.as_view()), name='home'),
+    path('', views.HomeListView.as_view(), name='home'),
     path('products/<int:product_ID>/', views.ProductDetailView.as_view(), name='product_detail'),
     path('review/', views.ProductDetailView.as_view(), name="add_review"),
     path('json-filter/', views.JsonFilterProductView.as_view(), name='json_filter'),
