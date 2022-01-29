@@ -18,7 +18,7 @@ urlpatterns += i18n_patterns(
     path('accounts/', include('allauth.urls')),
 )
 
-handler404 = 'Interactive.views.ex404'
+handler404 = 'e_shopper.handlers.ex404'
 
 if settings.DEBUG:
     import debug_toolbar
