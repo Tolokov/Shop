@@ -31,7 +31,7 @@ function render(data) {
     let template = Hogan.compile(html);
     let output = template.render(data);
 
-    const div = document.querySelector('.ajax>.row2');
+    const div = document.querySelector('.ajax>.row-scripts');
     div.innerHTML = output;
 }
 

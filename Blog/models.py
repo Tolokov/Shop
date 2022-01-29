@@ -7,7 +7,7 @@ from mptt.models import TreeForeignKey, MPTTModel
 
 
 class News(models.Model):
-    """Новости и события, доступ к форме только для пользователей"""
+    """Новости и события"""
     title = models.CharField('Заголовок', max_length=150)
     description = models.TextField('Описание', max_length=5000)
     date = models.DateField('Дата создания', default=date.today)
@@ -23,10 +23,12 @@ class News(models.Model):
         return reverse('single_post', kwargs={'post_id': self.id})
 
     def get_prev_absolute_url(self):
+        """Получить предыдущую новость"""
         prev_page = self.get_previous_by_date(draft=False).id
         return reverse('single_post', kwargs={'post_id': prev_page})
 
     def get_next_absolute_url(self):
+        """Получить следующую новость"""
         next_page = self.get_next_by_date(draft=False).id
         return reverse('single_post', kwargs={'post_id': next_page})
 
@@ -37,7 +39,7 @@ class News(models.Model):
 
 
 class Comment(MPTTModel):
-    """Комментарии к News"""
+    """Комментарии к News (доступ к возможности комментирования открыт только для авторизованных пользователей)"""
     text = models.TextField('Коментарий', max_length=1500, blank=False)
     parent = TreeForeignKey(
         'self',

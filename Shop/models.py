@@ -5,7 +5,6 @@ from django.urls import reverse
 
 from django.utils import timezone
 from decimal import Decimal
-from random import randint
 
 from Interactive.models import Delivery
 
@@ -41,13 +40,7 @@ class Brand(models.Model):
 
 class Card_Product(models.Model):
     """Карточка продукта"""
-    product_public_ID = models.IntegerField(
-        primary_key=False,
-        unique=True,
-        null=False,
-        # default=randint(1000000, 9999999)
-        default=1111111
-    )
+    product_public_ID = models.IntegerField(primary_key=False, unique=True, null=False, default=1111111)
     name = models.CharField(max_length=300)
     description = models.TextField(max_length=5000)
     price = models.DecimalField(max_digits=12, decimal_places=2)
@@ -86,7 +79,7 @@ class Card_Product(models.Model):
 
 
 class ProductImage(models.Model):
-    """Изображения отображаемые с карточкой товара. на галерее изображений"""
+    """Изображения отображаемые с карточкой товара на галерее изображений"""
     title = models.CharField("Заголовок", max_length=100, blank=True)
     description = models.TextField("Описание", max_length=2000, blank=True)
     image = models.ImageField("Фотография товара", upload_to="media/")
@@ -116,7 +109,7 @@ class Cart(models.Model):
 
     @property
     def product_cost(self):
-        """Итоговая стоимость одинаковых товаров"""
+        """Стоимость всех идентичных товаров добавленных в корзину"""
         total = self.total * self.product.price
         return total
 
@@ -188,6 +181,7 @@ class Order(models.Model):
 
 
 class DefaultDelivery(models.Model):
+    """Отображаемый по умолчанию <адрес доставки>(Interactive.Delivery) для каждого пользователя"""
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
     default = models.OneToOneField(Delivery, on_delete=models.SET_NULL, null=True)
 
@@ -200,7 +194,7 @@ class DefaultDelivery(models.Model):
 
 
 class RatingGrade(models.Model):
-    """Отображаемые значения рейтинга"""
+    """Отображаемые значения рейтинга (от 1 до 5)"""
     value = models.PositiveSmallIntegerField("Рейтинг", default=3)
 
     def __str__(self):

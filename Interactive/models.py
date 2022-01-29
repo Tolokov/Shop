@@ -18,6 +18,7 @@ def save_or_create_profile(sender, instance, created, **kwargs):
 
 
 class Customer(models.Model):
+    """Дополнительные параметры пользователя"""
     user = models.OneToOneField(User, null=True, on_delete=models.CASCADE, blank=True)
     first_name = models.CharField(max_length=150, null=True, default='')
     last_name = models.CharField(max_length=150, null=True, default='')
