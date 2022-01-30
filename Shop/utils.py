@@ -55,3 +55,18 @@ class GetImage:
     get_image.short_description = 'Изображение'
 
 
+def global_exception_decorator(func):
+    def processed_function(*args, **kwargs):
+        try:
+            result = func(*args, **kwargs)
+            return result
+        except BaseException as be:
+            from logging import getLogger
+            logger = getLogger(__name__)
+            logger.error('GLOBAL BASE EXCEPTION ', be)
+            from django.urls import reverse_lazy
+            from django.shortcuts import redirect
+            return redirect(reverse_lazy("home"))
+
+    return processed_function
+

@@ -43,7 +43,7 @@ LOGGING = {
         'file_detail': {
             'class': 'logging.FileHandler',
             'formatter': 'json_formatter',
-            'filename': 'log/shop_information.log'
+            'filename': 'log/shop_information.json'
         },
     },
     'loggers': {
