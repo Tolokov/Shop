@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from logging import getLogger
 from json import loads
 
-from Shop.models import Review, User, Card_Product, Favorites
+from Shop.models import Review, User, Card_Product, Favorites, Cart
 
 logger = getLogger(__name__)
 
@@ -101,7 +101,7 @@ class FavoritesActions:
             favorite_item = Favorites.objects.create(user=user, products=product_id)
             favorite_item.save()
         except IntegrityError as Ie:
-            print('Обнаружен дубликат!', {Ie})
+            logger.debug(f'Обнаружен дубликат в избранном! {Ie}')
 
 
     @staticmethod
@@ -112,4 +112,46 @@ class FavoritesActions:
         favorite_item = Favorites.objects.get(user=user, products=product_id)
         favorite_item.delete()
 
+
+class CartActions:
+
+    @staticmethod
+    def add_to_card(user_id, product_id):
+        """Добавление продукта в корзину"""
+        user = User.objects.get(id=user_id)
+        product_id = Card_Product.objects.get(id=product_id)
+        try:
+            selected_product = Cart.objects.create(user=user, product=product_id, total=1)
+            selected_product.save()
+        except IntegrityError as Ie:
+            logger.debug(f'Обнаружен дубликат в корзине! {Ie}')
+            update_concrete_item = Cart.objects.get(user=user, product=product_id)
+            update_concrete_item.total += 1
+            update_concrete_item.save()
+
+    @staticmethod
+    def pop_from_card(user_id, product_id):
+        """
+        Вычитание продукта из корзины
+
+        Если количество продукта 0, то продукт удаляется из корзины
+        """
+
+        user = User.objects.get(id=user_id)
+        product_id = Card_Product.objects.get(id=product_id)
+        update_concrete_item = Cart.objects.get(user=user, product=product_id)
+        update_concrete_item.total -= 1
+        if update_concrete_item.total <= 0:
+            update_concrete_item.delete()
+        else:
+            update_concrete_item.save()
+
+    @staticmethod
+    def del_from_cart(user_id, product_id):
+        """Удаление из корзины пользователя"""
+        user = User.objects.get(id=user_id)
+        product_id = Card_Product.objects.get(id=product_id)
+        selected_item = Cart.objects.get(user=user, product=product_id)
+        selected_item.delete()
+        logger.info(f'Продукт удален из корзины пользователя {user_id}')
 

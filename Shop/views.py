@@ -2,7 +2,6 @@ from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.db import IntegrityError
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
@@ -11,7 +10,7 @@ from Shop.models import Card_Product, Category, ProductImage, Favorites, User, C
 from Shop.forms import ReviewForm
 from Shop.utils import MixinForMainPages
 
-from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions
+from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions
 
 
 class HomeListView(MixinForMainPages, ListView):
@@ -113,46 +112,27 @@ class CartListView(ListView):
         return Cart.objects.filter(user=self.request.user.id).select_related('product')
 
 
-class AddCart(CartListView):
+class AddCart(CartListView, CartActions):
     """Добавление единицы товара в корзину"""
 
     def post(self, request, **kwargs):
-        user = User.objects.get(id=request.user.id)
-        product_id = Card_Product.objects.get(id=kwargs['product_id'])
-        try:
-            selected_product = Cart.objects.create(user=user, product=product_id, total=1)
-            selected_product.save()
-        except IntegrityError as Ie:
-            print('Обнаружен дубликат!', {Ie})
-            update_product = Cart.objects.get(user=user, product=product_id)
-            update_product.total += 1
-            update_product.save()
+        self.add_to_card(request, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class PopCart(CartListView):
-    """Вычитание продукта из корзины товаров. Если количество продукта 0, то продукт удаляется из корзины"""
+class PopCart(CartListView, CartActions):
+    """Уменьшение количества одинаковых продуктов в корзину."""
 
     def post(self, request, **kwargs):
-        user = User.objects.get(id=request.user.id)
-        product_id = Card_Product.objects.get(id=kwargs['product_id'])
-        update_product = Cart.objects.get(user=user, product=product_id)
-        update_product.total -= 1
-        if update_product.total <= 0:
-            update_product.delete()
-        else:
-            update_product.save()
+        self.pop_from_card(request, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class DeleteCartProduct(CartListView):
+class DeleteCartProduct(CartListView, CartActions):
     """Удаление продукта из корзины товаров"""
 
     def post(self, request, **kwargs):
-        user = User.objects.get(id=request.user.id)
-        product_id = Card_Product.objects.get(id=kwargs['product_id'])
-        selected_item = Cart.objects.get(user=user, product=product_id)
-        selected_item.delete()
+        self.pop_from_card(request, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
