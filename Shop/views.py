@@ -7,16 +7,12 @@ from django.db import IntegrityError
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
-from logging import getLogger
 from json import loads
 
 from Interactive.models import Delivery
 from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
-
-
-logger = getLogger(__name__)
 
 
 class HomeListView(DataMixin, ListView):
@@ -49,12 +45,13 @@ class HomeListView(DataMixin, ListView):
 
 
 class ShopListView(DataMixin, ListView):
-    """Страница с фильтрацией"""
+    """Страница каталога продуктов с фильтрацией"""
     template_name = 'pages/shop.html'
     queryset = Card_Product.objects.filter(availability=False).values('name', 'price', 'image', 'id', 'condition')
 
 
 class JsonFilterProductView(DataMixin, ListView):
+    """Ajax фильтр"""
 
     def get_queryset(self):
         queryset = Card_Product.objects.filter(availability=False)
@@ -80,15 +77,13 @@ class JsonFilterProductView(DataMixin, ListView):
 
 
 class ProductDetailView(FormView, DetailView):
-    """Подробности о продукте"""
+    """Карточка продукта"""
     model = Card_Product
     template_name = 'pages/product-detail.html'
     context_object_name = 'product_detail'
     pk_url_kwarg = 'product_ID'
     form_class = ReviewForm
-
-    def get_queryset(self):
-        return Card_Product.objects.filter(availability=False).select_related('brand').prefetch_related('category')
+    queryset = Card_Product.objects.filter(availability=False).select_related('brand').prefetch_related('category')
 
     def get_success_url(self):
         return self.request.path
@@ -145,6 +140,7 @@ class ProductDetailView(FormView, DetailView):
 
 
 class FavoritesView(ListView):
+    """Отображение страницы со всеми сохраненными адресами доставки"""
     model = Favorites
     template_name = 'pages/favorites.html'
     context_object_name = 'favorites_items'
@@ -154,6 +150,7 @@ class FavoritesView(ListView):
 
 
 class AddFavoritesView(FavoritesView):
+    """Добавление в избранное"""
 
     def post(self, request, **kwargs):
         user = User.objects.get(id=request.user.id)
@@ -167,6 +164,7 @@ class AddFavoritesView(FavoritesView):
 
 
 class DeleteFavoritesView(FavoritesView):
+    """Удаление продукта из избранного"""
 
     def post(self, request, **kwargs):
         user = User.objects.get(id=request.user.id)
@@ -177,6 +175,7 @@ class DeleteFavoritesView(FavoritesView):
 
 
 class CartListView(ListView):
+    """Отображение всех продуктов добавленных в корзину"""
     model = Cart
     template_name = 'pages/cart.html'
     context_object_name = 'cart_items'
@@ -186,6 +185,8 @@ class CartListView(ListView):
 
 
 class AddCart(CartListView):
+    """Добавление единицы товара в корзину"""
+
     def post(self, request, **kwargs):
         user = User.objects.get(id=request.user.id)
         product_id = Card_Product.objects.get(id=kwargs['product_id'])
@@ -201,6 +202,8 @@ class AddCart(CartListView):
 
 
 class PopCart(CartListView):
+    """Вычитание продукта из корзины товаров. Если количество продукта 0, то продукт удаляется из корзины"""
+
     def post(self, request, **kwargs):
         user = User.objects.get(id=request.user.id)
         product_id = Card_Product.objects.get(id=kwargs['product_id'])
@@ -214,6 +217,8 @@ class PopCart(CartListView):
 
 
 class DeleteCartProduct(CartListView):
+    """Удаление продукта из корзины товаров"""
+
     def post(self, request, **kwargs):
         user = User.objects.get(id=request.user.id)
         product_id = Card_Product.objects.get(id=kwargs['product_id'])
@@ -223,6 +228,7 @@ class DeleteCartProduct(CartListView):
 
 
 class OrderListView(LoginRequiredMixin, ListView):
+    """Формирование заказа"""
     model = Cart
     template_name = 'pages/order.html'
 

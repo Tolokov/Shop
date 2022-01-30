@@ -4,6 +4,10 @@ from snowpenguin.django.recaptcha3.fields import ReCaptchaField
 
 from Interactive.models import Customer, Delivery, Mail
 
+from logging import getLogger
+
+logger = getLogger(__name__)
+
 
 class MailForm(ModelForm):
     captcha = ReCaptchaField()
@@ -33,7 +37,6 @@ class CustomerForm(ModelForm):
 
 class AddNewAddressDeliveryForm(ModelForm):
     """Форма добавления адреса для доставки со скрытым полем пользователя"""
-    # <input type="hidden" value="{{ user.id }}" name="user">
 
     class Meta:
         required = {"required": "required"}
@@ -60,6 +63,7 @@ class AddNewAddressDeliveryForm(ModelForm):
         data = self.cleaned_data
         if Delivery.objects.filter(user=data['user'],
                                    address_header=data['address_header']).exists():
+            logger.debug(f'Пользователь попытался сохранить уже существующий адрес доставки: user_id:{data["user"]}')
             raise ValidationError(f'Адресс доставки с таким названием уже сохранен')
         return data
 

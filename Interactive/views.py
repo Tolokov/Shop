@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery, MailForm
 from Interactive.models import Customer, Mail
 from Interactive.service import send_mail_to_support
-from Shop.models import Cart
 
 
 class ProfileCreate(LoginRequiredMixin, CreateView):
@@ -34,12 +33,14 @@ class ProfileCreate(LoginRequiredMixin, CreateView):
 
 
 class MailView(CreateView):
+    """Форма подписки на рассылку. Размещение в footer.html"""
     model = Mail
     form_class = MailForm
     success_url = "/"
 
 
 class ContactFormView(FormView):
+    """Страница contact-us"""
     template_name = 'pages/contact-us.html'
     form_class = ContactForm
     success_url = '/contact/'
@@ -63,26 +64,27 @@ class ContactFormView(FormView):
 
 
 class DeliveryFormView(LoginRequiredMixin, FormView):
+    """Страница добавления адреса"""
     template_name = 'pages/delivery.html'
     form_class = AddNewAddressDeliveryForm
     success_url = '/delivery/'
     raise_exception = True
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        """Отображение сохраненных адресов"""
         context = super().get_context_data(**kwargs)
         user_id = self.request.user.id
         context['addresses'] = Delivery.objects.filter(user=user_id)
-        context['cart_items'] = Cart.objects.filter(user=user_id).select_related('product')
         return context
 
     def form_valid(self, form):
         form.save()
-        print(form.cleaned_data)
         return super(DeliveryFormView, self).form_valid(form)
 
 
 class DeleteDelivery(View):
+    """Удаление сохраненного адреса пользователя"""
     def post(self, request, **kwargs):
-        delivery = Delivery.objects.get(id=self.request.POST['addr'])
+        delivery = Delivery.objects.get(id=self.request.POST['delete_user_address'])
         delivery.delete()
         return redirect(reverse_lazy('delivery'), permanent=True)

@@ -26,43 +26,43 @@
             {% else %}
 
                 <div class="bill-to"><p>Сохраненные адреса доставки: </p>
-                {% for address in addresses %}
+                {% for concrete_user_address in addresses %}
                     <div>
-                        <h3>{{ address.address_header }}</h3>
+                        <h3>{{ concrete_user_address.address_header }}</h3>
                         <div class="register-req">
-                            {% if address.email %}
-                                <p><b>Электронная почта:</b><span> {{ address.email }}{{ address.email }}</span></p>
+                            {% if concrete_user_address.email %}
+                                <p><b>Электронная почта:</b><span> {{ concrete_user_address.email }}{{ concrete_user_address.email }}</span></p>
                             {% endif %}
-                            {% if address.name_first %}
-                                <p><b>Фамилия:</b><span> {{ address.name_first }}</span></p>
+                            {% if concrete_user_address.name_first %}
+                                <p><b>Фамилия:</b><span> {{ concrete_user_address.name_first }}</span></p>
                             {% endif %}
-                            {% if  address.name_last %}
-                                <p><b>Имя:</b><span> {{ address.name_last }}</span></p>
+                            {% if  concrete_user_address.name_last %}
+                                <p><b>Имя:</b><span> {{ concrete_user_address.name_last }}</span></p>
                             {% endif %}
-                            {% if address.country %}
-                                <p><b>Страна:</b><span> {{ address.country }}</span></p>{% endif %}
-                            {% if address.state %}<p><b>Регион:</b><span> {{ address.state }}</span></p>
+                            {% if concrete_user_address.country %}
+                                <p><b>Страна:</b><span> {{ concrete_user_address.country }}</span></p>{% endif %}
+                            {% if concrete_user_address.state %}<p><b>Регион:</b><span> {{ concrete_user_address.state }}</span></p>
                             {% endif %}
-                            {% if address.address %}
-                                <p><b>Город и улица:</b><span> {{ address.address }}</span></p>
+                            {% if concrete_user_address.address %}
+                                <p><b>Город и улица:</b><span> {{ concrete_user_address.address }}</span></p>
                             {% endif %}
-                            {% if address.zip %}
-                                <p><b>Почтовый индекс:</b><span> {{ address.zip }}</span></p>
+                            {% if concrete_user_address.zip %}
+                                <p><b>Почтовый индекс:</b><span> {{ concrete_user_address.zip }}</span></p>
                             {% endif %}
-                            {% if address.phone %}
-                                <p><b>Номер телефона:</b><span> {{ address.phone }}</span></p>
+                            {% if concrete_user_address.phone %}
+                                <p><b>Номер телефона:</b><span> {{ concrete_user_address.phone }}</span></p>
                             {% endif %}
-                            {% if address.sub_phone %}
-                                <p><b>Дополнительный номер телефона:</b><span> {{ address.sub_phone }}</span></p>
+                            {% if concrete_user_address.sub_phone %}
+                                <p><b>Дополнительный номер телефона:</b><span> {{ concrete_user_address.sub_phone }}</span></p>
                             {% endif %}
-                            {% if address.comment %}
-                                <p><b>Комментарий:</b><span> {{ address.comment }}</span></p>
+                            {% if concrete_user_address.comment %}
+                                <p><b>Комментарий:</b><span> {{ concrete_user_address.comment }}</span></p>
                             {% endif %}
                         </div>
-                    <form method="post" action="{% url 'delDelivery' %}">
+                    <form method="post" action="{% url 'deleteDelivery' %}">
                         {% csrf_token %}
                         <input type="hidden" value="{{ user.id }}" name="user">
-                        <input type="hidden" value="{{ address.id }}" name="addr">
+                        <input type="hidden" value="{{ concrete_user_address.id }}" name="delete_user_address">
                         <button type="submit" class="cart btn"> Удалить</button>
                     </form>
                     </div>
@@ -91,7 +91,6 @@
 
                             <span>{{ form.address_header.errors }} {{ form.phone.errors }}</span>
                             <span>{{ form.address_header }} {{ form.phone }}</span>
-
 
                             <span>{{ form.name_first.errors }} {{ form.name_last.errors }}</span>
                             <span>{{ form.name_first }} {{ form.name_last }}</span>

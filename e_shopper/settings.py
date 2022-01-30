@@ -1,6 +1,6 @@
 from pathlib import Path
 from .security_settings import *
-from .log_settings import LOGGING
+from .logging_settings import LOGGING
 from os import path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
