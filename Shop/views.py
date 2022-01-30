@@ -1,16 +1,14 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
-from Interactive.models import Delivery
-from Shop.models import Card_Product, Category, ProductImage, Favorites, User, Cart, DefaultDelivery
+from Shop.models import Card_Product, Category, ProductImage, Favorites, Cart
 from Shop.forms import ReviewForm
 from Shop.utils import MixinForMainPages
 
-from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions, OrderAction
+from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions, OrderActions
 
 
 class HomeListView(MixinForMainPages, ListView):
@@ -136,14 +134,17 @@ class DeleteCartProduct(CartListView, CartActions):
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class OrderListView(LoginRequiredMixin, ListView, OrderAction):
+class OrderListView(LoginRequiredMixin, ListView, OrderActions):
     """Формирование заказа"""
     model = Cart
     template_name = 'pages/order.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        self.upgrade_context_information(context)
+        context['products_for_pay'] = self.get_products_for_pay()
+        context['total_price'] = self.get_total_price()
+        context['user_delivery'] = self.get_default_delivery()
+        context['addresses'] = self.get_addresses()
         return context
 
     def post(self, request, **kwargs):

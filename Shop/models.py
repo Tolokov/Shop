@@ -101,7 +101,7 @@ class Cart(models.Model):
 
     @staticmethod
     def total_price(user_pk):
-        """Итоговая стоимость всех товаров в корзине пользователя"""
+        """запрос в базу данных о стоимости всех товаров в корзине пользователя"""
         total = Cart.objects.filter(user=user_pk).aggregate(
             total_price=Sum(F('total') * F('product__price'))
         )['total_price'] or Decimal('0')

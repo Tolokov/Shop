@@ -103,7 +103,6 @@ class FavoritesActions:
         except IntegrityError as Ie:
             logger.debug(f'Обнаружен дубликат в избранном! {Ie}')
 
-
     @staticmethod
     def remove_product_from_favorites(user_id, product_id):
         """Удаление продукта из избранного для авторизованного пользователя"""
@@ -131,11 +130,7 @@ class CartActions:
 
     @staticmethod
     def pop_from_card(user_id, product_id):
-        """
-        Вычитание продукта из корзины
-
-        Если количество продукта 0, то продукт удаляется из корзины
-        """
+        """Вычитание продукта из корзины.Если количество продукта 0, то продукт удаляется из корзины"""
         user = User.objects.get(id=user_id)
         product_id = Card_Product.objects.get(id=product_id)
         update_concrete_item = Cart.objects.get(user=user, product=product_id)
@@ -155,44 +150,68 @@ class CartActions:
         logger.info(f'Продукт удален из корзины пользователя {user_id}')
 
 
-class OrderAction:
+class OrderActions:
     # Сделать обработку, если пользователь заходит без доставки и товаров
     # непример случайно http://127.0.0.1:8000/order/, ошибка отсутствия адреса
 
-    def upgrade_context_information(self, context: dict) -> dict:
-        user_id = self.request.user.id
-        context['products_for_pay'] = Cart.objects.filter(user=user_id).select_related('product')
-        context['total_price'] = Cart.total_price(user_pk=user_id)
-
+    def get_products_for_pay(self) -> [object, bool]:
         try:
-            context['user_delivery'] = DefaultDelivery.objects.get(user=user_id)
+            obj = Cart.objects.filter(user=self.request.user.id).select_related('product')
+            return obj
+        except Exception as error:
+            logger.warning('Пользователь запросил экземпляр корзины, но на пуста ', error)
+            return False
 
+    def get_total_price(self) -> [object, bool]:
+        """Получение стоимости всех товаров в корзине пользователя"""
+        try:
+            obj = Cart.total_price(user_pk=self.request.user.id)
+            return obj
+        except Exception as error:
+            logger.warning('Пользователь запросил экземпляр корзины, но на пуста ', error)
+            return False
+
+    def get_default_delivery(self) -> [object, bool]:
+        """Получение сохраненного оп умолчанию адреса доставки"""
+        try:
+            obj = DefaultDelivery.objects.get(user=self.request.user.id)
+            return obj
         except Exception as e:
-            print('Ошибка при оформлении адреса доставки, '
-                  'Предположительно отсутствует адрес доставки:', e)
-            default_address = Delivery.objects.filter(user=user_id)
-            new_default_address = DefaultDelivery.objects.create(
-                user=User.objects.get(id=user_id),
-                default=Delivery.objects.get(id=default_address[0].id))
+            logger.warning('Пользователь получил достук форме оформления заказа с пустой корзиной и доставкой:', e)
+            self.select_first_saved_address_on_default()
+            return False
+
+    def select_first_saved_address_on_default(self):
+        """Установка по умолчанию первого сохраненного адреса доставки"""
+        try:
+            default_address = Delivery.objects.filter(user=self.request.user.id)
+            user = User.objects.get(id=self.request.user.id)
+            default = Delivery.objects.get(id=default_address[0].id)
+            new_default_address = DefaultDelivery.objects.create(user=user, default=default)
             new_default_address.save()
+        except IndexError:
+            logger.warning('У пользователя нет сохранённых адресов')
+            return False
 
+    def get_addresses(self) -> [object, bool]:
+        """Получение всех сохраненных адресов для выбора в качестве основного"""
         try:
-            context['addresses'] = Delivery.objects.filter(user=user_id).values('id', 'address_header')
+            obj = Delivery.objects.filter(user=self.request.user.id).values('id', 'address_header')
+            return obj
         except Exception as e:
-            print('Оформление заказа с пустой корзиной', e)
-
-        return context
+            logger.warning(f'Оформление заказа с пустой корзиной {e}')
+            return False
 
     def select_new_address_for_delivery(self):
-        user_id = self.request.user.id
+        """Пользователь выбирает адрес для доставки и заполняет таблицу заказа данными"""
         try:
-            old_default_address = DefaultDelivery.objects.get(user=User.objects.get(id=user_id))
+            user = User.objects.get(id=self.request.user.id)
+            old_default_address = DefaultDelivery.objects.get(user=user)
             old_default_address.delete()
-            new_default_address = DefaultDelivery.objects.create(
-                user=User.objects.get(id=user_id),
-                default=Delivery.objects.get(id=self.request.POST['address_form'])
-            )
+
+            address = Delivery.objects.get(id=self.request.POST['address_form'])
+            new_default_address = DefaultDelivery.objects.create(user=user, default=address)
             new_default_address.save()
+
         except Exception as e:
             logger.error('Ошибка заполнения формы адреса, данными', e)
-
