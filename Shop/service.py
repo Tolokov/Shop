@@ -1,10 +1,11 @@
-from django.db.models import Q, Avg
 from django.core import serializers, paginator
+from django.db.models import Q, Avg
+from django.db import IntegrityError
 
 from logging import getLogger
 from json import loads
 
-from Shop.models import Review
+from Shop.models import Review, User, Card_Product, Favorites
 
 logger = getLogger(__name__)
 
@@ -86,4 +87,29 @@ class ProductDetailMixin:
             logger.info(f'Успешно опубликован комментарий к новости: {form["product"]}')
 
         else:
-            logger.warning(f'Пользователь не смог оставить комментарий, {form}')
+            logger.warning(f'Пользователь не смог оставить комментарий, {form.cleaned_data}')
+
+
+class FavoritesActions:
+
+    @staticmethod
+    def add_product_from_favorites(user_id, product_id):
+        """Добавление продукта к избранному для авторизованного пользователя"""
+        user = User.objects.get(id=user_id)
+        product_id = Card_Product.objects.get(id=product_id)
+        try:
+            favorite_item = Favorites.objects.create(user=user, products=product_id)
+            favorite_item.save()
+        except IntegrityError as Ie:
+            print('Обнаружен дубликат!', {Ie})
+
+
+    @staticmethod
+    def remove_product_from_favorites(user_id, product_id):
+        """Удаление продукта из избранного для авторизованного пользователя"""
+        user = User.objects.get(id=user_id)
+        product_id = Card_Product.objects.get(id=product_id)
+        favorite_item = Favorites.objects.get(user=user, products=product_id)
+        favorite_item.delete()
+
+

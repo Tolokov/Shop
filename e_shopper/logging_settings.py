@@ -10,7 +10,6 @@ LOGGING = {
             'format': '{asctime} - {levelname} - {filename} - {message}',
             'style': '{',
         },
-
     },
     'handlers': {
         'console': {
@@ -19,7 +18,7 @@ LOGGING = {
             'formatter': 'simple',
         },
         'console_detail': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'detail',
         },
@@ -33,10 +32,9 @@ LOGGING = {
             'handlers': ['console_detail'],
             'level': 'DEBUG',
         },
-        'e_shopper': {
+        'Shop': {
             'handlers': ['console_detail'],
             'level': 'INFO',
         },
-
     },
 }

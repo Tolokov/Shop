@@ -4,7 +4,7 @@ from django.db.models import Count
 from Shop.models import Card_Product, Category, Brand
 
 
-class DataMixin:
+class MixinForMainPages:
     model = Card_Product
     context_object_name = 'products'
 
@@ -51,3 +51,5 @@ class GetImage:
         return mark_safe(f'<img src={obj.image.url} width="100" height="80"')
 
     get_image.short_description = 'Изображение'
+
+

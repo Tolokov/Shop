@@ -9,12 +9,12 @@ from django.http import JsonResponse
 from Interactive.models import Delivery
 from Shop.models import Card_Product, Category, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
-from Shop.utils import DataMixin
+from Shop.utils import MixinForMainPages
 
-from Shop.service import JsonHandler, ProductDetailMixin
+from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions
 
 
-class HomeListView(DataMixin, ListView):
+class HomeListView(MixinForMainPages, ListView):
     """Главная страница"""
     template_name = 'pages/index.html'
     queryset = Card_Product.objects.filter(availability=False)
@@ -35,13 +35,13 @@ class HomeListView(DataMixin, ListView):
         return context
 
 
-class ShopListView(DataMixin, ListView):
+class ShopListView(MixinForMainPages, ListView):
     """Страница каталога продуктов с фильтрацией"""
     template_name = 'pages/shop.html'
     queryset = Card_Product.objects.filter(availability=False).values('name', 'price', 'image', 'id', 'condition')
 
 
-class JsonFilterProductView(DataMixin, ListView, JsonHandler):
+class JsonFilterProductView(MixinForMainPages, ListView, JsonHandler):
     """Ajax фильтр"""
     queryset = Card_Product.objects.filter(availability=False)
 
@@ -91,28 +91,19 @@ class FavoritesView(ListView):
         return Favorites.objects.filter(user=self.request.user.id).select_related('products')
 
 
-class AddFavoritesView(FavoritesView):
+class AddFavoritesView(FavoritesView, FavoritesActions):
     """Добавление в избранное"""
 
     def post(self, request, **kwargs):
-        user = User.objects.get(id=request.user.id)
-        product_id = Card_Product.objects.get(id=kwargs['product_id'])
-        try:
-            favorite_item = Favorites.objects.create(user=user, products=product_id)
-            favorite_item.save()
-        except IntegrityError as Ie:
-            print('Обнаружен дубликат!', {Ie})
+        self.add_product_from_favorites(request.user.id, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class DeleteFavoritesView(FavoritesView):
+class DeleteFavoritesView(FavoritesView, FavoritesActions):
     """Удаление продукта из избранного"""
 
     def post(self, request, **kwargs):
-        user = User.objects.get(id=request.user.id)
-        product_id = Card_Product.objects.get(id=kwargs['product_id'])
-        favorite_item = Favorites.objects.get(user=user, products=product_id)
-        favorite_item.delete()
+        self.remove_product_from_favorites(request.user.id, kwargs['product_id'])
         return redirect(reverse_lazy('favorites'), permanent=True)
 
 
