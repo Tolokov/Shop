@@ -37,7 +37,8 @@
                 <div class="bill-to"><p>Формирование заказа:</p></div>
                 <div class="table-responsive cart_info">
                     <div>
-                        {% if user_delivery.default %}
+
+                        {% if user_delivery %}
                         <p><b>Заказчик:</b>
                             <i>{{ user_delivery.default.name_first }}&nbsp;</i><i>{{ user_delivery.default.name_last }}</i></p>
                         <p><i>{{ user_delivery.default.country }}&nbsp;&nbsp;&nbsp;</i><i> {{ user_delivery.default.state }}&nbsp;&nbsp;&nbsp;</i>

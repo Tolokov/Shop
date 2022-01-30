@@ -10,7 +10,7 @@ from Shop.models import Card_Product, Category, ProductImage, Favorites, User, C
 from Shop.forms import ReviewForm
 from Shop.utils import MixinForMainPages
 
-from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions
+from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions, OrderAction
 
 
 class HomeListView(MixinForMainPages, ListView):
@@ -116,7 +116,7 @@ class AddCart(CartListView, CartActions):
     """Добавление единицы товара в корзину"""
 
     def post(self, request, **kwargs):
-        self.add_to_card(request, kwargs['product_id'])
+        self.add_to_card(request.user.id, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
@@ -124,7 +124,7 @@ class PopCart(CartListView, CartActions):
     """Уменьшение количества одинаковых продуктов в корзину."""
 
     def post(self, request, **kwargs):
-        self.pop_from_card(request, kwargs['product_id'])
+        self.pop_from_card(request.user.id, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
@@ -132,51 +132,20 @@ class DeleteCartProduct(CartListView, CartActions):
     """Удаление продукта из корзины товаров"""
 
     def post(self, request, **kwargs):
-        self.pop_from_card(request, kwargs['product_id'])
+        self.del_from_cart(request.user.id, kwargs['product_id'])
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class OrderListView(LoginRequiredMixin, ListView):
+class OrderListView(LoginRequiredMixin, ListView, OrderAction):
     """Формирование заказа"""
     model = Cart
     template_name = 'pages/order.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_id = self.request.user.id
-
-        context['products_for_pay'] = Cart.objects.filter(user=user_id).select_related('product')
-        context['total_price'] = Cart.total_price(user_pk=user_id)
-
-        try:
-            context['user_delivery'] = DefaultDelivery.objects.get(user=user_id)
-
-        except Exception as e:
-            print('Ошибка при оформлении адреса доставки:', e)
-            default_address = Delivery.objects.filter(user=user_id)
-            new_default_address = DefaultDelivery.objects.create(
-                user=User.objects.get(id=user_id),
-                default=Delivery.objects.get(id=default_address[0].id))
-            new_default_address.save()
-
-        try:
-            context['addresses'] = Delivery.objects.filter(user=user_id).values('id', 'address_header')
-        except Exception as e:
-            print('Оформление заказа с пустой корзиной', e)
-
+        self.upgrade_context_information(context)
         return context
 
     def post(self, request, **kwargs):
-        user_id = self.request.user.id
-        try:
-            old_default_address = DefaultDelivery.objects.get(user=User.objects.get(id=user_id))
-            old_default_address.delete()
-            new_default_address = DefaultDelivery.objects.create(
-                user=User.objects.get(id=user_id),
-                default=Delivery.objects.get(id=self.request.POST['address_form'])
-            )
-            new_default_address.save()
-        except Exception as e:
-            print('Ошибка заполнения формы адреса, данными', e)
-
+        self.select_new_address_for_delivery()
         return redirect(reverse_lazy('order'), permanent=True)

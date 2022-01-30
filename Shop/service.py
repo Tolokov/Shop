@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from logging import getLogger
 from json import loads
 
-from Shop.models import Review, User, Card_Product, Favorites, Cart
+from Shop.models import Review, User, Card_Product, Favorites, Cart, DefaultDelivery, Delivery
 
 logger = getLogger(__name__)
 
@@ -136,7 +136,6 @@ class CartActions:
 
         Если количество продукта 0, то продукт удаляется из корзины
         """
-
         user = User.objects.get(id=user_id)
         product_id = Card_Product.objects.get(id=product_id)
         update_concrete_item = Cart.objects.get(user=user, product=product_id)
@@ -154,4 +153,46 @@ class CartActions:
         selected_item = Cart.objects.get(user=user, product=product_id)
         selected_item.delete()
         logger.info(f'Продукт удален из корзины пользователя {user_id}')
+
+
+class OrderAction:
+    # Сделать обработку, если пользователь заходит без доставки и товаров
+    # непример случайно http://127.0.0.1:8000/order/, ошибка отсутствия адреса
+
+    def upgrade_context_information(self, context: dict) -> dict:
+        user_id = self.request.user.id
+        context['products_for_pay'] = Cart.objects.filter(user=user_id).select_related('product')
+        context['total_price'] = Cart.total_price(user_pk=user_id)
+
+        try:
+            context['user_delivery'] = DefaultDelivery.objects.get(user=user_id)
+
+        except Exception as e:
+            print('Ошибка при оформлении адреса доставки, '
+                  'Предположительно отсутствует адрес доставки:', e)
+            default_address = Delivery.objects.filter(user=user_id)
+            new_default_address = DefaultDelivery.objects.create(
+                user=User.objects.get(id=user_id),
+                default=Delivery.objects.get(id=default_address[0].id))
+            new_default_address.save()
+
+        try:
+            context['addresses'] = Delivery.objects.filter(user=user_id).values('id', 'address_header')
+        except Exception as e:
+            print('Оформление заказа с пустой корзиной', e)
+
+        return context
+
+    def select_new_address_for_delivery(self):
+        user_id = self.request.user.id
+        try:
+            old_default_address = DefaultDelivery.objects.get(user=User.objects.get(id=user_id))
+            old_default_address.delete()
+            new_default_address = DefaultDelivery.objects.create(
+                user=User.objects.get(id=user_id),
+                default=Delivery.objects.get(id=self.request.POST['address_form'])
+            )
+            new_default_address.save()
+        except Exception as e:
+            logger.error('Ошибка заполнения формы адреса, данными', e)
 
