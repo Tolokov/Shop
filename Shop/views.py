@@ -1,18 +1,17 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core import paginator
-from django.db.models import Avg
+
 from django.db import IntegrityError
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
 from Interactive.models import Delivery
-from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
+from Shop.models import Card_Product, Category, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
 
-from Shop.service import JsonHandler
+from Shop.service import JsonHandler, ProductDetailMixin
 
 
 class HomeListView(DataMixin, ListView):
@@ -57,7 +56,7 @@ class JsonFilterProductView(DataMixin, ListView, JsonHandler):
         return JsonResponse({"json_answer": queryset}, safe=False)
 
 
-class ProductDetailView(FormView, DetailView):
+class ProductDetailView(FormView, DetailView, ProductDetailMixin):
     """Карточка продукта"""
     model = Card_Product
     template_name = 'pages/product-detail.html'
@@ -72,50 +71,13 @@ class ProductDetailView(FormView, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = self.object.name
-
         context['form'] = ReviewForm()
-        review_queryset = Review.objects.filter(product=self.object).select_related('grade')
-        context['reviews'] = review_queryset
-        context['count'] = review_queryset.__len__()
-
-        if context['reviews']:
-            avg = review_queryset.aggregate(Avg('grade__value'))['grade__value__avg']
-            stars = round(avg)
-            context['grade_on'] = range(stars)
-            context['grade_off'] = range(5 - stars)
-        else:
-            context['avg_grade'] = False
-
-        product_images_queryset = ProductImage.objects.filter(product=self.object)
-        context['slider'] = self.paginator_optimization(product_images_queryset)
+        self.get_review_queryset(context)
+        context['slider'] = self.paginator_optimization(ProductImage.objects.filter(product=self.object))
         return context
 
-    @staticmethod
-    def paginator_optimization(queryset, per_page=3, max_pages=5):
-        """Paginator optimization (9 SQL queries --> 6 SQL queries)"""
-        list_objects = list(queryset[:per_page * max_pages])
-        paginator_object = paginator.Paginator(list_objects, per_page=per_page)
-        return paginator_object
-
-    def get_ip(self, request):
-        redirected = request.META.get('HTTP_X_FORWARDED_FOR')
-        return redirected.split(',')[0] if redirected else request.META.get('REMOTE_ADDR')
-
     def post(self, request, **kwargs):
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            form = form.cleaned_data
-            Review.objects.update_or_create(
-                name=form['name'],
-                email=form['email'],
-                text=form['text'],
-                ipaddress=self.get_ip(self.request),
-                product=form["product"],
-                grade=form['grade'],
-            )
-        else:
-            print('проверка не прошла')
+        self.save_form(ReviewForm(request.POST))
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
