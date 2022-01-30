@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core import serializers, paginator
-from django.db.models import Count, Q, Avg
+from django.db.models import Q, Avg
 from django.db import IntegrityError
 from django.urls import reverse_lazy
 from django.http import JsonResponse
@@ -21,27 +21,19 @@ class HomeListView(DataMixin, ListView):
     queryset = Card_Product.objects.filter(availability=False)
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        """Формирование отображаемых на главной странице карточек разложенных по категориям и рекомендациям"""
         context = super().get_context_data(**kwargs)
         del context['title']
         del context['shop_selected']
         context['title'] = 'Главная страница'
         context['home_selected'] = 'active'
 
-        recommended_q = self.queryset.annotate(cnt=Count('review')).order_by('-cnt')
-        recommended_q = self.cut_queryset(recommended_q.values('name', 'price', 'image', 'id', 'condition'))
-        context['recommended_item'] = recommended_q[0]
-        context['recommended_next_items'] = recommended_q[1:4]
+        recommended_items = self.get_recommended_queryset(self.queryset)
+        context['recommended_item'] = recommended_items[0]
+        context['recommended_next_items'] = recommended_items[1]
 
         context['categories'] = Category.objects.all().order_by('name').prefetch_related('card_product_set')
         return context
-
-    @staticmethod
-    def cut_queryset(queryset, step=3) -> list:
-        """ [[img,img,img.], [...], ...] """
-        result = list()
-        for i in range(0, len(queryset), step):
-            result.append(queryset[i:i + step])
-        return result
 
 
 class ShopListView(DataMixin, ListView):

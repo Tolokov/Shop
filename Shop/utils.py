@@ -1,4 +1,5 @@
 from django.utils.safestring import mark_safe
+from django.db.models import Count
 
 from Shop.models import Card_Product, Category, Brand
 
@@ -23,6 +24,23 @@ class DataMixin:
     def get_brands():
         """Отображение всех брендов на странице каталога продуктов"""
         return Brand.objects.all().prefetch_related('card_product_set')
+
+    @staticmethod
+    def cut_queryset(queryset, step=3) -> list:
+        """ Режет queryset на блоки для отображения на странице [[img,img,img.], [...], ...] """
+        result = list()
+        for i in range(0, len(queryset), step):
+            result.append(queryset[i:i + step])
+        return result
+
+    def get_recommended_queryset(self, queryset, how_much_to_display_on_main=4 ):
+        """Список карточек товаров отсортированные по количеству отзывов, отображаются на главной странице"""
+        recommended = queryset.annotate(cnt=Count('review')).order_by('-cnt')
+        recommended_queryset = self.cut_queryset(recommended.values('name', 'price', 'image', 'id', 'condition'), 3)
+        first_block_of_cards = recommended_queryset[0]
+        next_blocks_of_cards = recommended_queryset[1:how_much_to_display_on_main]
+        result = (first_block_of_cards, next_blocks_of_cards)
+        return result
 
 
 class GetImage:
