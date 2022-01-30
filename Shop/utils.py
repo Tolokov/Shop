@@ -33,14 +33,16 @@ class MixinForMainPages:
             result.append(queryset[i:i + step])
         return result
 
-    def get_recommended_queryset(self, queryset, how_much_to_display_on_main=4 ):
+    def get_recommended_queryset(self, queryset, context: dict, how_much_to_display_on_main=4) -> dict:
         """Список карточек товаров отсортированные по количеству отзывов, отображаются на главной странице"""
         recommended = queryset.annotate(cnt=Count('review')).order_by('-cnt')
         recommended_queryset = self.cut_queryset(recommended.values('name', 'price', 'image', 'id', 'condition'), 3)
         first_block_of_cards = recommended_queryset[0]
         next_blocks_of_cards = recommended_queryset[1:how_much_to_display_on_main]
         result = (first_block_of_cards, next_blocks_of_cards)
-        return result
+        context['recommended_item'] = result[0]
+        context['recommended_next_items'] = result[1]
+        return context
 
 
 class GetImage:

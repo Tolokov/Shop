@@ -26,11 +26,7 @@ class HomeListView(MixinForMainPages, ListView):
         del context['shop_selected']
         context['title'] = 'Главная страница'
         context['home_selected'] = 'active'
-
-        recommended_items = self.get_recommended_queryset(self.queryset)
-        context['recommended_item'] = recommended_items[0]
-        context['recommended_next_items'] = recommended_items[1]
-
+        self.get_recommended_queryset(self.queryset, context)
         context['categories'] = Category.objects.all().order_by('name').prefetch_related('card_product_set')
         return context
 
