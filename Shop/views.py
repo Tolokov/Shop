@@ -1,18 +1,18 @@
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core import serializers, paginator
-from django.db.models import Q, Avg
+from django.core import paginator
+from django.db.models import Avg
 from django.db import IntegrityError
 from django.urls import reverse_lazy
 from django.http import JsonResponse
-
-from json import loads
 
 from Interactive.models import Delivery
 from Shop.models import Card_Product, Category, Review, ProductImage, Favorites, User, Cart, DefaultDelivery
 from Shop.forms import ReviewForm
 from Shop.utils import DataMixin
+
+from Shop.service import JsonHandler
 
 
 class HomeListView(DataMixin, ListView):
@@ -42,29 +42,18 @@ class ShopListView(DataMixin, ListView):
     queryset = Card_Product.objects.filter(availability=False).values('name', 'price', 'image', 'id', 'condition')
 
 
-class JsonFilterProductView(DataMixin, ListView):
+class JsonFilterProductView(DataMixin, ListView, JsonHandler):
     """Ajax фильтр"""
+    queryset = Card_Product.objects.filter(availability=False)
 
     def get_queryset(self):
-        queryset = Card_Product.objects.filter(availability=False)
-        if self.request.GET == {}:
-            return queryset
-
-        elif len(self.request.GET) == 2:
-            queryset = queryset.filter(
-                Q(category__in=self.request.GET.getlist("category")) &
-                Q(brand__in=self.request.GET.getlist("brand"))).distinct()
-            return queryset
-
-        else:
-            queryset = queryset.filter(
-                Q(category__in=self.request.GET.getlist("category")) |
-                Q(brand__in=self.request.GET.getlist("brand"))).distinct()
-            return queryset
+        """Формирование ответа"""
+        queryset = self.handler()
+        return queryset
 
     def get(self, request, *args, **kwargs):
-        queryset = serializers.serialize("json", self.get_queryset())
-        queryset = loads(queryset)
+        """Получение запроса к ajax и формирование json"""
+        queryset = self.json_answer()
         return JsonResponse({"json_answer": queryset}, safe=False)
 
 
@@ -85,7 +74,6 @@ class ProductDetailView(FormView, DetailView):
         context['title'] = self.object.name
 
         context['form'] = ReviewForm()
-
         review_queryset = Review.objects.filter(product=self.object).select_related('grade')
         context['reviews'] = review_queryset
         context['count'] = review_queryset.__len__()
