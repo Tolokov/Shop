@@ -1,4 +1,5 @@
 from django.core import serializers, paginator
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, Avg
 from django.db import IntegrityError
 
@@ -87,7 +88,7 @@ class ProductDetailMixin:
             logger.info(f'Успешно опубликован комментарий к новости: {form["product"]}')
 
         else:
-            logger.warning(f'Пользователь не смог оставить комментарий, {form.cleaned_data}')
+            logger.warning(f'Пользователь не смог оставить комментарий {form.cleaned_data}')
 
 
 class FavoritesActions:
@@ -159,7 +160,7 @@ class OrderActions:
             obj = Cart.objects.filter(user=self.request.user.id).select_related('product')
             return obj
         except Exception as error:
-            logger.warning('Пользователь запросил экземпляр корзины, но на пуста ', error)
+            logger.warning('Пользователь запросил экземпляр корзины но на пуста ', error)
             return False
 
     def get_total_price(self) -> [object, bool]:
@@ -168,7 +169,7 @@ class OrderActions:
             obj = Cart.total_price(user_pk=self.request.user.id)
             return obj
         except Exception as error:
-            logger.warning('Пользователь запросил экземпляр корзины, но на пуста ', error)
+            logger.warning('Пользователь запросил экземпляр корзины но на пуста ', error)
             return False
 
     def get_default_delivery(self) -> [object, bool]:
@@ -176,7 +177,7 @@ class OrderActions:
         try:
             obj = DefaultDelivery.objects.get(user=self.request.user.id)
             return obj
-        except Exception as e:
+        except ObjectDoesNotExist as e:
             logger.warning('Пользователь получил достук форме оформления заказа с пустой корзиной и доставкой:', e)
             self.select_first_saved_address_on_default()
             return False
@@ -190,7 +191,7 @@ class OrderActions:
             new_default_address = DefaultDelivery.objects.create(user=user, default=default)
             new_default_address.save()
         except IndexError:
-            logger.warning('У пользователя нет сохранённых адресов')
+            logger.warning(f'У пользователя нет сохранённых адресов user_id:{self.request.user.id}')
             return False
 
     def get_addresses(self) -> [object, bool]:
@@ -199,7 +200,7 @@ class OrderActions:
             obj = Delivery.objects.filter(user=self.request.user.id).values('id', 'address_header')
             return obj
         except Exception as e:
-            logger.warning(f'Оформление заказа с пустой корзиной {e}')
+            logger.warning(f'Оформление заказа с пустой корзиной user_id:{self.request.user.id} {e}')
             return False
 
     def select_new_address_for_delivery(self):
@@ -214,4 +215,4 @@ class OrderActions:
             new_default_address.save()
 
         except Exception as e:
-            logger.error('Ошибка заполнения формы адреса, данными', e)
+            logger.error('Ошибка заполнения формы адреса данными', e)
