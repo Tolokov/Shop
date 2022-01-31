@@ -8,9 +8,6 @@ Scripts/
 /db.sqlite3
 */security_settings.py
 /fixtures/archive/
-/practice.py
-/practice.html
-/Doc.txt
 
 /cache/
 /log/
