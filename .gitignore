@@ -4,11 +4,11 @@ pyvenv.cfg
 Lib
 /newvenv39/
 Scripts/
-
+.coverage
 /db.sqlite3
 */security_settings.py
 /fixtures/archive/
-
+htmlcov/
 /cache/
 /log/
 /media/

@@ -13,7 +13,7 @@ class News(models.Model):
     date = models.DateField('Дата создания', default=date.today)
     time = models.TimeField('Время создания', auto_now=True, null=True)
     draft = models.BooleanField('Черновик', default=False)
-    poster = models.ImageField('Постер', upload_to='media/poster/')
+    poster = models.ImageField('Постер', upload_to='media/poster/', null=True)
     creator = models.ForeignKey(User, verbose_name='Создатель', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
