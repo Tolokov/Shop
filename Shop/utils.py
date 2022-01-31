@@ -70,3 +70,21 @@ def global_exception_decorator(func):
 
     return processed_function
 
+def timer(func):
+    def processed_function(*args, **kwargs):
+        from datetime import datetime
+        start = datetime.now()
+        try:
+            result = func(*args, **kwargs)
+            return result
+        except BaseException as be:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error('Сработал BaseException :', be)
+        finally:
+            end = datetime.now()
+            print('Функция работает:', end - start)
+
+    return processed_function
+
+

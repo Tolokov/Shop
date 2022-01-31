@@ -5,6 +5,7 @@ from django.db import IntegrityError
 
 from logging import getLogger
 from json import loads
+from Shop.utils import timer
 
 from Shop.models import Review, User, Card_Product, Favorites, Cart, DefaultDelivery, Delivery
 
@@ -30,11 +31,25 @@ class JsonHandler:
                 Q(brand__in=self.request.GET.getlist("brand"))).distinct()
             return queryset
 
+    @timer
+    def serialization(self, queryset):
+        """Функция работает: 0:00:02.334938, нужна замена сериализатора"""
+        return serializers.serialize("json", queryset)
+        # повторить попытку позже
+        # from rest_framework.renderers import JSONRenderer
+        # return JSONRenderer().render(queryset)
+
+    @timer
+    def json_load(self, queryset_str):
+        """Функция работает: 0:00:00.001000"""
+        return loads(queryset_str)
+
     def json_answer(self):
         """Иза ошибки форимирования json ответа, пришлось воспользоваться встроенной библиотекой json"""
-        queryset = serializers.serialize("json", self.get_queryset())
-        queryset = loads(queryset)
-        return queryset
+        queryset = self.get_queryset()
+        serialized = self.serialization(queryset)
+        json_loaded = self.json_load(serialized)
+        return json_loaded
 
 
 class ProductDetailMixin:
