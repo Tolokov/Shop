@@ -17,7 +17,7 @@ class JsonHandler:
     def handler(self):
         """Обработчик поступающих запросов к ajax фильтру"""
         if self.request.GET == {}:
-            return self.queryset
+            return self.queryset[:18]
 
         elif len(self.request.GET) == 2:
             queryset = self.queryset.filter(
@@ -35,9 +35,6 @@ class JsonHandler:
     def serialization(self, queryset):
         """Функция работает: 0:00:02.334938, нужна замена сериализатора"""
         return serializers.serialize("json", queryset)
-        # повторить попытку позже
-        # from rest_framework.renderers import JSONRenderer
-        # return JSONRenderer().render(queryset)
 
     @timer
     def json_load(self, queryset_str):

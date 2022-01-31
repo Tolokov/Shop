@@ -31,7 +31,7 @@ class HomeListView(MixinForMainPages, ListView):
 class ShopListView(MixinForMainPages, ListView):
     """Страница каталога продуктов с фильтрацией"""
     template_name = 'pages/shop.html'
-    queryset = Card_Product.objects.filter(availability=False).values('name', 'price', 'image', 'id', 'condition')
+    queryset = Card_Product.objects.filter(availability=False).values('name', 'price', 'image', 'id', 'condition')[:18]
 
 
 class JsonFilterProductView(MixinForMainPages, ListView, JsonHandler):
