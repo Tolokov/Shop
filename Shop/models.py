@@ -3,7 +3,6 @@ from django.db.models import CASCADE, SET_NULL, F, Sum
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from django.utils import timezone
 from decimal import Decimal
 
 from Interactive.models import Delivery
@@ -227,29 +226,3 @@ class Review(models.Model):
         verbose_name = 'Отзывы'
         verbose_name_plural = 'Отзывы'
         ordering = ['created']
-
-
-
-# class Promo(models.Model):
-#     """
-#     Промокоды, скидки и подарочные сертификаты
-#     """
-#
-# class Currency(models.Model):
-#     """
-#     Курс валют
-#     """
-#
-# class Notification(models.Model):
-#     """Уведомления"""
-#     recipient = models.ForeignKey(Customer, on_delete=models.CASCADE, verbose_name='Получатель')
-#     text = models.TextField()
-#     read = models.BooleanField(default=False)
-#     objects = NotificationManager()
-#
-#     def __str__(self):
-#         return f"Уведомление для {self.recipient.user.username} | id={self.id}"
-#
-#     class Meta:
-#         verbose_name = 'Уведомление'
-#         verbose_name_plural = 'Уведомления'

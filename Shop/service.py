@@ -164,8 +164,6 @@ class CartActions:
 
 
 class OrderActions:
-    # Сделать обработку, если пользователь заходит без доставки и товаров
-    # непример случайно http://127.0.0.1:8000/order/, ошибка отсутствия адреса
 
     def get_products_for_pay(self) -> [object, bool]:
         try:
