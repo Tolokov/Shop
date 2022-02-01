@@ -1,14 +1,13 @@
-from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 
+from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions, OrderActions, BuyActions
 from Shop.models import Card_Product, Category, ProductImage, Favorites, Cart
 from Shop.forms import ReviewForm
 from Shop.utils import MixinForMainPages
-
-from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions, OrderActions
 
 
 class HomeListView(MixinForMainPages, ListView):
@@ -150,3 +149,12 @@ class OrderListView(LoginRequiredMixin, ListView, OrderActions):
     def post(self, request, **kwargs):
         self.select_new_address_for_delivery()
         return redirect(reverse_lazy('order'), permanent=True)
+
+
+class BuyView(View, BuyActions):
+    def post(self, request, **kwargs):
+        self.pay_for_the_goods(self.request.user.id)
+        return redirect(reverse_lazy('order'), permanent=True)
+
+
+

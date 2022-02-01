@@ -141,14 +141,14 @@ class Order(models.Model):
     user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True, )
 
-    first_name = models.CharField(max_length=350, verbose_name='Имя')
-    last_name = models.CharField(max_length=350, verbose_name='Фамилия')
+    name_first = models.CharField(max_length=350, verbose_name='Имя')
+    name_last = models.CharField(max_length=350, verbose_name='Фамилия')
     phone = models.CharField(max_length=20, verbose_name='Телефон')
     address = models.TextField(verbose_name='Адрес', null=True, blank=True)
     message = models.TextField(verbose_name='Комментарий', null=True, blank=True)
 
-    order_start = models.DateTimeField(auto_now_add=True, verbose_name='Пполучен')
-    order_finish = models.DateTimeField(verbose_name='Исполнен', default=timezone.now)
+    order_start = models.DateTimeField(auto_now_add=True, verbose_name='Получен')
+    order_finish = models.BooleanField(verbose_name='Исполнен', default=False)
 
     STATUS_1 = 'created'
     STATUS_2 = 'in_progress'

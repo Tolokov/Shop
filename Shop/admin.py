@@ -102,8 +102,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'cart',
-        'first_name',
-        'last_name',
+        'name_first',
+        'name_last',
         'phone',
         'address',
         'message',

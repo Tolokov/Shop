@@ -16,7 +16,7 @@
 
                         {% for address in addresses %}
                             <p>
-                            <form method="post" action="{% url 'choice' address.id %}">
+                            <form method="post" action="{% url 'choice' %}">
                                 {% csrf_token %}
                                 <button value="{{ address.id }}" class="btn btn-default" name="address_form"
                                         type="submit">

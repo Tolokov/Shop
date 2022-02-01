@@ -28,7 +28,8 @@ urlpatterns = [
     path('del_favorites/<int:product_id>', g(views.DeleteFavoritesView.as_view()), name='delFavorites'),
 
     path('order/', g(views.OrderListView.as_view()), name='order'),
-    path('order/<int:id>/', g(views.OrderListView.as_view()), name='choice'),
+    path('default_delivery/', g(views.OrderListView.as_view()), name='choice'),
+    path('order/buy', g(views.BuyView.as_view()), name='pay')
 
 ]
 
