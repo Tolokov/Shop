@@ -1,11 +1,12 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from Blog.models import News, Comment, User
-from Shop.models import Category, Brand
+from Blog.models import News, Comment
+from Shop.models import *
 
 
 class NewsModelTest(TestCase):
+    """Blog.models.News"""
 
     @classmethod
     def setUpTestData(cls):
@@ -63,6 +64,7 @@ class NewsModelTest(TestCase):
 
 
 class CommentModelTest(TestCase):
+    """Blog.models.Comment"""
 
     @classmethod
     def setUpTestData(cls):
@@ -102,15 +104,16 @@ class CommentModelTest(TestCase):
 
 
 class BrandModelsTest(TestCase):
+    """Shop.models.Brand"""
 
     @classmethod
     def setUpTestData(cls):
         image_path = 'fixtures/archive/MK/Logo_MK.jpg'
         image_object = SimpleUploadedFile(
-                name='Logo_MK',
-                content=open(image_path, 'rb').read(),
-                content_type='image/jpeg'
-            )
+            name='Logo_MK',
+            content=open(image_path, 'rb').read(),
+            content_type='image/jpeg'
+        )
 
         Brand.objects.create(
             name='Michael',
@@ -156,10 +159,11 @@ class BrandModelsTest(TestCase):
 
 
 class CategoryModelsTest(TestCase):
+    """Shop.models.Category"""
 
     @classmethod
     def setUpTestData(cls):
-        Category.objects.create(name='Blue', description='Blue jeans', slug='blue',)
+        Category.objects.create(name='Blue', description='Blue jeans', slug='blue', )
 
     def test_name_label(self):
         obj = Category.objects.get(id=1)
@@ -191,3 +195,121 @@ class CategoryModelsTest(TestCase):
         expected_object_name = '%s' % str(obj)
         self.assertEquals(expected_object_name, 'Blue')
 
+
+class Card_ProductModelsTest(TestCase):
+    """Shop.models.Card_Product"""
+
+    @classmethod
+    def setUpTestData(cls):
+        Category.objects.create(name='Blue', description='Blue jeans', slug='blue', )
+        image_path = 'fixtures/archive/MK/Logo_MK.jpg'
+        image_object = SimpleUploadedFile(
+            name='Logo_MK',
+            content=open(image_path, 'rb').read(),
+            content_type='image/jpeg'
+        )
+
+        Brand.objects.create(
+            name='Michael',
+            description='The Michael it is Brand',
+            slug='michael',
+            image=image_object,
+        )
+
+        Card_Product.objects.create(
+            product_public_ID=999000,
+            name='Шорты',
+            description='Шорты Класические',
+            price='100.00',
+        )
+
+    def test_object_str(self):
+        obj = Card_Product.objects.get(id=1)
+        expected_object_name = '%s' % str(obj)
+        self.assertEquals(expected_object_name, 'ID: 999000 NAME: Шорты')
+
+    def test_get_absolute_url_ru(self):
+        obj = Card_Product.objects.get(id=1)
+        expected_absolute_url = '%s' % obj.get_absolute_url()
+        self.assertEquals(expected_absolute_url, '/products/1/')
+
+
+class ProductImageModelsTest(TestCase):
+    """Shop.models.ProductImage"""
+
+    @classmethod
+    def setUpTestData(cls):
+        product = Card_Product.objects.create(
+            product_public_ID=9090909,
+            name='Шорты',
+            description='Шорты Класические',
+            price='100.00'
+        )
+        image_path = 'fixtures/archive/CUCCI/img1.jpg'
+        image = SimpleUploadedFile(
+            name='img1',
+            content=open(image_path, 'rb').read(),
+            content_type='image/jpeg'
+        )
+
+        ProductImage.objects.create(title='image-1', description='description-1', image=image, product=product)
+        ProductImage.objects.create(title='', description='', image=image, product=product)
+
+    def test_object_str_1(self):
+        obj = ProductImage.objects.get(id=1)
+        expected_object_name = '%s' % str(obj)
+        self.assertEquals(expected_object_name, 'image-1 ID: 9090909 NAME: Шорты')
+
+    def test_object_str_2(self):
+        obj = ProductImage.objects.get(id=2)
+        expected_object_name = '%s' % str(obj)
+        self.assertEquals(expected_object_name, 'нет заголовка ID: 9090909 NAME: Шорты')
+
+
+class CartModelsTest(TestCase):
+    """Shop.models.Cart"""
+
+    def test_product_cost_1(self):
+        card = Card_Product.objects.create(product_public_ID=999991, name='name', description='des', price=100.00)
+        obj = Cart.objects.create(user=User.objects.create(username='admin'), product=card, total=1)
+        expected_object_name = '%s' % str(obj.product_cost)
+        self.assertEquals(expected_object_name, '100.0')
+
+    def test_product_cost_2(self):
+        card = Card_Product.objects.create(product_public_ID=999991, name='name', description='des', price=444.44)
+        obj = Cart.objects.create(user=User.objects.create(username='admin'), product=card, total=4)
+        expected_object_name = '%s' % str(obj.product_cost)
+        self.assertEquals(expected_object_name, '1777.76')
+
+    def test_product_cost_3(self):
+        card = Card_Product.objects.create(product_public_ID=999991, name='name', description='des', price=0)
+        obj = Cart.objects.create(user=User.objects.create(username='admin'), product=card, total=1)
+        expected_object_name = '%s' % str(obj.product_cost)
+        self.assertEquals(expected_object_name, '0')
+
+    def test_object_str(self):
+        card = Card_Product.objects.create(product_public_ID=999991, name='name', description='des', price=1)
+        obj = Cart.objects.create(user=User.objects.create(username='admin'), product=card, total=1)
+        expected_object_name = '%s' % str(obj)
+        self.assertEquals(expected_object_name, 'ID: 999991 NAME: name, admin')
+
+    def test_total_price(self):
+        card = Card_Product.objects.create(product_public_ID=999991, name='name', description='des', price=1)
+        obj = Cart.objects.create(user=User.objects.create(username='admin'), product=card, total=1)
+        expected_object_name = '%s' % str(obj.total_price(1))
+        self.assertEquals(expected_object_name, '1')
+
+
+class FavoritesModelsTest(TestCase):
+    """Shop.models.Favorites"""
+
+    @classmethod
+    def setUpTestData(cls):
+        user = User.objects.create(username='admin')
+        card = Card_Product.objects.create(product_public_ID=999991, name='name', description='des', price=1)
+        Favorites.objects.create(user=user, products=card)
+
+    def test_object_str(self):
+        obj = Favorites.objects.get(id=1)
+        expected_object_name = '%s' % str(obj)
+        self.assertEquals(expected_object_name, 'admin, ID: 999991 NAME: name')
