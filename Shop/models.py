@@ -121,24 +121,17 @@ class Cart(models.Model):
         unique_together = (('user', 'product'),)
 
 
-class Favorites(models.Model):
-    """Избранное пользователя"""
-    user = models.ForeignKey(User, on_delete=CASCADE)
-    products = models.ForeignKey(Card_Product, on_delete=CASCADE)
-
-    def __str__(self):
-        return f'{self.user}, {self.products}'
-
-    class Meta:
-        verbose_name = "Избранное"
-        verbose_name_plural = "Избранные"
-        unique_together = (("user", "products"),)
+class BuyProduct(models.Model):
+    product_for_buy = models.ForeignKey(Card_Product, on_delete=models.SET_NULL, null=True, verbose_name='Купленные продукты')
+    total = models.PositiveSmallIntegerField()
 
 
 class Order(models.Model):
     """Заказ пользователя"""
-    user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True, )
+    user = models.ForeignKey(User, verbose_name='Покупатель', on_delete=models.SET_NULL, null=True)
+    cards = models.ManyToManyField(Card_Product)
+
+    total = models.DecimalField(max_digits=12, decimal_places=2)
 
     name_first = models.CharField(max_length=350, verbose_name='Имя')
     name_last = models.CharField(max_length=350, verbose_name='Фамилия')
@@ -171,8 +164,8 @@ class Order(models.Model):
         max_length=22, verbose_name='Тип заказа', choices=BUYING_CHOICES, default=BUYING_SELF
     )
 
-    def __str__(self):
-        return f'{self.user}, {self.cart}'
+    def get_products_names(self):
+        return ([str(obj.name) for obj in self.cards.all()])
 
     class Meta:
         verbose_name = 'Заказ'
@@ -226,3 +219,17 @@ class Review(models.Model):
         verbose_name = 'Отзывы'
         verbose_name_plural = 'Отзывы'
         ordering = ['created']
+
+
+class Favorites(models.Model):
+    """Избранное пользователя"""
+    user = models.ForeignKey(User, on_delete=CASCADE)
+    products = models.ForeignKey(Card_Product, on_delete=CASCADE)
+
+    def __str__(self):
+        return f'{self.user}, {self.products}'
+
+    class Meta:
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранные"
+        unique_together = (("user", "products"),)

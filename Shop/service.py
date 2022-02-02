@@ -7,7 +7,7 @@ from logging import getLogger
 from json import loads
 from Shop.utils import timer
 
-from Shop.models import Review, User, Card_Product, Favorites, Cart, DefaultDelivery, Delivery
+from Shop.models import Review, User, Card_Product, Favorites, Cart, DefaultDelivery, Delivery, Order, BuyProduct
 
 logger = getLogger(__name__)
 
@@ -69,7 +69,7 @@ class ProductDetailMixin:
 
     @staticmethod
     def paginator_optimization(queryset, per_page=3, max_pages=5):
-        """Paginator optimization (9 SQL queries --> 6 SQL queries)"""
+        """Paginator optimization (4 SQL queries --> 1 SQL queries)"""
         list_objects = list(queryset[:per_page * max_pages])
         paginator_object = paginator.Paginator(list_objects, per_page=per_page)
         return paginator_object
@@ -143,7 +143,7 @@ class CartActions:
 
     @staticmethod
     def pop_from_card(user_id, product_id):
-        """Вычитание продукта из корзины.Если количество продукта 0, то продукт удаляется из корзины"""
+        """Вычитание продукта из корзины. Если количество продукта 0, то продукт удаляется из корзины"""
         user = User.objects.get(id=user_id)
         product_id = Card_Product.objects.get(id=product_id)
         update_concrete_item = Cart.objects.get(user=user, product=product_id)
@@ -155,7 +155,7 @@ class CartActions:
 
     @staticmethod
     def del_from_cart(user_id, product_id):
-        """Удаление из корзины пользователя"""
+        """Удаление продукта из корзины пользователя"""
         user = User.objects.get(id=user_id)
         product_id = Card_Product.objects.get(id=product_id)
         selected_item = Cart.objects.get(user=user, product=product_id)
@@ -166,6 +166,7 @@ class CartActions:
 class OrderActions:
 
     def get_products_for_pay(self) -> [object, bool]:
+        """Получить перечень всех продуктов добавленных в корзину"""
         try:
             obj = Cart.objects.filter(user=self.request.user.id).select_related('product')
             return obj
@@ -174,7 +175,7 @@ class OrderActions:
             return False
 
     def get_total_price(self) -> [object, bool]:
-        """Получение стоимости всех товаров в корзине пользователя"""
+        """Получение итоговой стоимости всех товаров в корзине пользователя"""
         try:
             obj = Cart.total_price(user_pk=self.request.user.id)
             return obj
@@ -183,7 +184,7 @@ class OrderActions:
             return False
 
     def get_default_delivery(self) -> [object, bool]:
-        """Получение сохраненного оп умолчанию адреса доставки"""
+        """Получение сохраненного по умолчанию адреса доставки"""
         try:
             obj = DefaultDelivery.objects.get(user=self.request.user.id)
             return obj
@@ -193,7 +194,7 @@ class OrderActions:
             return False
 
     def select_first_saved_address_on_default(self):
-        """Установка по умолчанию первого сохраненного адреса доставки"""
+        """Установка по умолчанию первого сохраненного адреса доставки, если таковой имеется"""
         try:
             default_address = Delivery.objects.filter(user=self.request.user.id)
             user = User.objects.get(id=self.request.user.id)
@@ -226,3 +227,71 @@ class OrderActions:
 
         except Exception as e:
             logger.error('Ошибка заполнения формы адреса данными', e)
+
+
+class BuyActions:
+
+    @staticmethod
+    def get_data_about_user(user_instance) -> tuple:
+        """Получение данных о пользователе, которые понадобятся при оформлении заказа"""
+        default_delivery_instance = DefaultDelivery.objects.get(user=user_instance)
+        user_info = (
+            default_delivery_instance.default.name_first,
+            default_delivery_instance.default.name_last,
+            default_delivery_instance.default.phone,
+            default_delivery_instance.default.address,
+            default_delivery_instance.default.comment,
+        )
+        return user_info
+
+    @staticmethod
+    def create_buy_product_instances(user_instance) -> tuple:
+        """Сохранение в базу данных количество приобретаемого товара"""
+        cart_instance = Cart.objects.filter(user=user_instance)
+        what_products_were_purchased = list()
+        for cart in cart_instance:
+            product_instance = cart.product
+            total_instance = cart.total
+            buy_instance = BuyProduct.objects.create(product_for_buy=product_instance, total=total_instance)
+            what_products_were_purchased.append(buy_instance.id)
+        return tuple(what_products_were_purchased)
+
+    @staticmethod
+    def get_total_price(user_instance) -> float:
+        """Получение итоговой стоимости"""
+        total_price = Cart.total_price(user_pk=user_instance)
+        return round(total_price, 2)
+
+    @staticmethod
+    def another_create_order(user, info, total):
+        """Создание заказа"""
+        cart = Cart.objects.filter(user=user.id)
+        cards_ids = [i.id for i in cart]
+        cards_obj = Card_Product.objects.filter(id__in=cards_ids)
+
+        order = Order.objects.create(
+            user=user,
+            total=total,
+            name_first=info[0],
+            name_last=info[1],
+            phone=info[2],
+            address=info[3],
+            message=info[4]
+        )
+        order.cards.add(*cards_obj)
+
+    @staticmethod
+    def deleting_selected_products_in_cart(user_instance):
+        """Удаление всех товаров из корзины пользователя"""
+        selected_item = Cart.objects.filter(user=user_instance)
+        selected_item.delete()
+        logger.info(f'Продукт удален из корзины пользователя {user_instance.id}')
+
+    def pay_for_the_goods(self, user_id):
+        """Запуск цепочки оплаты"""
+        user_instance = User.objects.get(id=user_id)
+        user_info = self.get_data_about_user(user_instance)
+        total = self.get_total_price(user_instance)
+        self.another_create_order(user_instance, user_info,  total)
+        # Тут должна быть оплата
+        self.deleting_selected_products_in_cart(user_instance)

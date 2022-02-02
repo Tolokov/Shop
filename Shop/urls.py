@@ -29,7 +29,8 @@ urlpatterns = [
 
     path('order/', g(views.OrderListView.as_view()), name='order'),
     path('default_delivery/', g(views.OrderListView.as_view()), name='choice'),
-    path('order/buy', g(views.BuyView.as_view()), name='pay')
+    path('order/buy', g(views.BuyView.as_view()), name='pay'),
+    path('order/process/', g(views.OrderInProcessingListView.as_view()), name='orders_status')
 
 ]
 

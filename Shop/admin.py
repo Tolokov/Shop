@@ -9,6 +9,7 @@ admin.site.site_header = 'Панель администрирования инт
 admin.site.register(Favorites)
 admin.site.register(DefaultDelivery)
 admin.site.register(RatingGrade)
+admin.site.register(Order)
 
 
 @admin.register(Brand)
@@ -97,18 +98,21 @@ class CartGradeAdmin(admin.ModelAdmin):
     list_display = ('user', 'total', 'product')
 
 
-@admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = (
-        'user',
-        'cart',
-        'name_first',
-        'name_last',
-        'phone',
-        'address',
-        'message',
-        'order_start',
-        'order_finish',
-        'status',
-        'buying_type',
-    )
+
+# @admin.register(Order)
+# class OrderAdmin(admin.ModelAdmin):
+#     list_display = (
+#         'user',
+#         'cart',
+#         'name_first',
+#         'name_last',
+#         'phone',
+#         'address',
+#         'message',
+#         'order_start',
+#         'order_finish',
+#         'status',
+#         'buying_type',
+#     )
+
+

@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.http import JsonResponse
 
 from Shop.service import JsonHandler, ProductDetailMixin, FavoritesActions, CartActions, OrderActions, BuyActions
-from Shop.models import Card_Product, Category, ProductImage, Favorites, Cart
+from Shop.models import Card_Product, Category, ProductImage, Favorites, Cart, Order
 from Shop.forms import ReviewForm
 from Shop.utils import MixinForMainPages
 
@@ -157,4 +157,10 @@ class BuyView(View, BuyActions):
         return redirect(reverse_lazy('order'), permanent=True)
 
 
+class OrderInProcessingListView(ListView):
+    model = Order
+    template_name = 'pages/orders_in_processing.html'
+    context_object_name = 'orders'
 
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user.id).select_related('user').prefetch_related('cards')
