@@ -1,6 +1,6 @@
 {% extends 'pages/base.html' %}
 {% load static %}
-{% block title %} order {% endblock title %}
+{% block title %} Оформление заказа {% endblock title %}
 
 {% block content %}
 
@@ -83,7 +83,7 @@
                     </table>
                 </div>
             {% if user_delivery.default %}
-                <form href="#">
+                <form action="{% url 'pay' %}" method="post">
                     {% csrf_token %}
                     <button class="btn btn-default pull-right"> Оплатить</button>
                 </form>
