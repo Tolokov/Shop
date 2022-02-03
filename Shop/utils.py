@@ -61,12 +61,14 @@ def global_exception_decorator(func):
             result = func(*args, **kwargs)
             return result
         except BaseException as be:
+            from django.http import HttpResponse
+            from django.shortcuts import redirect
             from logging import getLogger
+
             logger = getLogger(__name__)
             logger.error('GLOBAL BASE EXCEPTION ', be)
-            from django.urls import reverse_lazy
-            from django.shortcuts import redirect
-            return redirect(reverse_lazy("home"))
+
+            return redirect(HttpResponse(status=500))
 
     return processed_function
 

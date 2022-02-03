@@ -1,6 +1,6 @@
 {% extends 'base_main.html' %}
 {% load static %}
-{% block title %} Страница не найдена {% endblock title %}
+{% block title %} Ошибка сервера {% endblock title %}
 
 {% block content %}
     <body>
@@ -9,10 +9,11 @@
             <a href="../pages/index.html"><img src="{% static 'images/home/logo.png' %}" alt="logo"/></a>
         </div>
         <div class="content-404">
-            <img src="{% static 'images/400/404.png' %}" class="img-responsive" alt="404error"/>
+            <img src="{% static 'images/500/500.png' %}" class="img-responsive" alt="500error"/>
             <br>
             <h1><b>УПСС!</b> {{ errorMessage }}</h1>
-            <p>Страница, которую вы ищете, не существует..</p>
+            <p>Произошла ошибка сервера... Пожалуйста, сообщите о проблеме через форму
+                <a href="{% url 'contact' %}">обратной связи</a></p>
             <h2><a href="{% url 'home' %}">Вернуться на главную страницу</a></h2>
         </div>
     </div><br><br>

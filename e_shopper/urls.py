@@ -19,6 +19,7 @@ urlpatterns += i18n_patterns(
 )
 
 handler404 = 'e_shopper.handlers.ex404'
+handler500 = 'e_shopper.handlers.ex500'
 
 if settings.DEBUG:
     import debug_toolbar
