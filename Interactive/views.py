@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 
 from Interactive.forms import ContactForm, CustomerForm, AddNewAddressDeliveryForm, Delivery, MailForm
 from Interactive.models import Customer, Mail
-from Interactive.service import send_mail_to_support
+from Interactive.service import send_mail_to_support, save_mail_or_error
 
 
 class ProfileCreate(LoginRequiredMixin, CreateView):
@@ -37,6 +37,11 @@ class MailView(CreateView):
     model = Mail
     form_class = MailForm
     success_url = "/"
+    template_name = 'templatetags/mail.html'
+
+    def post(self, request, **kwargs):
+        save_mail_or_error(request)
+        return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
 class ContactFormView(FormView):

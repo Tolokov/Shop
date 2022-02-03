@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-{% load static recaptcha3 cache %}
+{% load static recaptcha3 %}
 
 <!--head-->
 <head>
@@ -40,9 +40,9 @@
 
         {%  endblock content %}
 
-    {% cache 250 footer %}
+
         {% include 'include/footer.html' %}
-            {% endcache footer %}
+
 
     <script src="{% static 'js/jquery.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>

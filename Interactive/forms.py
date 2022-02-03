@@ -12,14 +12,10 @@ logger = getLogger(__name__)
 class MailForm(ModelForm):
     captcha = ReCaptchaField()
 
-    def __init__(self, *args, **kwargs):
-        super(MailForm, self).__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs['placeholder'] = 'Подписаться'
-
     class Meta:
         model = Mail
         fields = ('email', 'captcha')
-        widgets = {'email': EmailInput()}
+        widgets = {'email': TextInput(attrs={'placeholder': 'Подписаться'})}
         labels = {'email': ''}
 
 
