@@ -55,9 +55,7 @@
                                 <li><a href="{% url 'orders_status' %}"><i class="fa fa-crosshairs"></i>Заказы</a></li>
                                 <li><a href="{% url 'account_logout' %}"><i class="fa fa-lock"></i> Выйти</a></li>
                             {% else %}
-                                <li><a href="{% url 'favorites' %}"><i class="fa fa-star"></i> Избранное </a></li>
-                                <li><a href="{% url 'account_login' %}"><i class="fa fa-lock"></i> Войти</a></li>
-                                <li><a href="{% url 'account_signup' %}"><i class="fa fa-lock"></i> Регистрация</a></li>
+                                <li><a href="{% url 'account_login' %}"><i class="fa fa-lock"></i> Войти или авторизироваться через социальные сети </a></li>
                             {% endif %}
 
                         </ul>

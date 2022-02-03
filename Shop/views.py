@@ -73,7 +73,7 @@ class ProductDetailView(FormView, DetailView, ProductDetailMixin):
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
 
-class FavoritesView(ListView):
+class FavoritesView(LoginRequiredMixin, ListView):
     """Отображение страницы со всеми сохраненными адресами доставки"""
     model = Favorites
     template_name = 'pages/favorites.html'
@@ -99,7 +99,7 @@ class DeleteFavoritesView(FavoritesView, FavoritesActions):
         return redirect(reverse_lazy('favorites'), permanent=True)
 
 
-class CartListView(ListView):
+class CartListView(LoginRequiredMixin, ListView):
     """Отображение всех продуктов добавленных в корзину"""
     model = Cart
     template_name = 'pages/cart.html'
@@ -157,7 +157,7 @@ class BuyView(View, BuyActions):
         return redirect(reverse_lazy('order'), permanent=True)
 
 
-class OrderInProcessingListView(ListView):
+class OrderInProcessingListView(LoginRequiredMixin, ListView):
     model = Order
     template_name = 'pages/orders_in_processing.html'
     context_object_name = 'orders'
