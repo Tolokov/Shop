@@ -62,17 +62,17 @@ class BlogDetailView(FormView, DetailView, DataMixin):
 
     def post(self, request, **kwargs):
         """Сохранение комментариев к новостям"""
-        form = AddCommentForm(request.POST)
+        news_instance = News.objects.get(id=kwargs['pk'])
+        self.save_comment(AddCommentForm(request.POST), news_instance)
+        return redirect(news_instance.get_absolute_url(), permanent=True)
 
+    def save_comment(self, form, news):
         if form.is_valid():
-            news = News.objects.get(id=kwargs['pk'])
             creator = User.objects.get(id=self.request.user.id)
             form = form.cleaned_data
             parent = None
-            if request.POST.get('parent', None):
-                parent = Comment.objects.get(id=int(request.POST.get('parent')))
+            if self.request.POST.get('parent', None):
+                parent = Comment.objects.get(id=int(self.request.POST.get('parent')))
 
             comment = Comment(text=form['text'], parent=parent, news=news, creator=creator)
             comment.save()
-
-        return redirect(news.get_absolute_url(), permanent=True)
