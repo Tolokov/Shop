@@ -68,7 +68,7 @@ class ProductDetailView(FormView, DetailView, ProductDetailMixin):
         context['slider'] = self.paginator_optimization(ProductImage.objects.filter(product=self.object))
         return context
 
-    def post(self, request, **kwargs):
+    def post(self, request):
         self.save_form(ReviewForm(request.POST))
         return redirect(request.META.get('HTTP_REFERER'), permanent=True)
 
@@ -146,7 +146,7 @@ class OrderListView(LoginRequiredMixin, ListView, OrderActions):
         context['addresses'] = self.get_addresses()
         return context
 
-    def post(self, request, **kwargs):
+    def post(self, request):
         self.select_new_address_for_delivery()
         return redirect(reverse_lazy('order'), permanent=True)
 

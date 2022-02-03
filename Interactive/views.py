@@ -23,7 +23,7 @@ class ProfileCreate(LoginRequiredMixin, CreateView):
         context['form'] = form_class
         return context
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """Обновление данных о пользователе"""
         customer = self.request.user.customer
         form = CustomerForm(self.request.POST, self.request.FILES, instance=customer)
@@ -89,7 +89,7 @@ class DeliveryFormView(LoginRequiredMixin, FormView):
 
 class DeleteDelivery(View):
     """Удаление сохраненного адреса пользователя"""
-    def post(self, request, **kwargs):
+    def post(self, request):
         delivery = Delivery.objects.get(id=self.request.POST['delete_user_address'])
         delivery.delete()
         return redirect(reverse_lazy('delivery'), permanent=True)

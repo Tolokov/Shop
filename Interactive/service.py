@@ -19,6 +19,7 @@ except Exception as error:
 
 
 def save_mail_or_error(request):
+    """Проверка формы подписки на рассылку на совпадение в БД и ошибки валидации"""
     form = MailForm(request.POST)
     try:
         if form.is_valid:
