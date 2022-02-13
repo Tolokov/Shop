@@ -10,7 +10,7 @@ SECRET_KEY = project_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # DEBUG = False
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -146,7 +146,7 @@ LOGOUT_REDIRECT_URL = '/'
 STATIC_URL = '/static/'
 STATIC_DIR = path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
-# STATIC_ROOT = path.join(BASE_DIR, 'static')
+# STATIC_ROOT = path.join(BASE_DIR, 'collectstatic')
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 

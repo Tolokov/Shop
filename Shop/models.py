@@ -94,7 +94,7 @@ class ProductImage(models.Model):
 
 class Cart(models.Model):
     """Корзина пользователя"""
-    user = models.OneToOneField(User, on_delete=CASCADE)
+    user = models.ForeignKey(User, on_delete=CASCADE)
     product = models.ForeignKey(Card_Product, on_delete=CASCADE, blank=True)
     total = models.PositiveIntegerField(default=1)
 
