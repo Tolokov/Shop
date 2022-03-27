@@ -10,3 +10,6 @@ _<http://e-shopper.space/>_
 
 Frontend taken from catalog of a free website templates:
 _<https://freehtmlthemes.ru/templates/free>_
+
+<img src="https://user-images.githubusercontent.com/89586840/160276014-2b92faf3-32b3-4a73-bb1f-478c58d37b2b.png" width="348">
+
