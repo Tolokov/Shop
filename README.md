@@ -4,7 +4,7 @@
 ![repo-size](https://img.shields.io/github/repo-size/Tolokov/Shop?color=green)
 ![coverage](https://shields.io/badge/coverage-74%25-yellowgreen)
 
-_<http://e-shopper.space/>_
+> ~~_<http://e-shopper.space/>_~~ Unfortunately the site is blocked
 
 ![Site functionality](https://github.com/Tolokov/Shop/blob/master/static/gif/functionality.gif?raw=true)
 
