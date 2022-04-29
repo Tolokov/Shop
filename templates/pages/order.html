@@ -1,0 +1,106 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %} Оформление заказа {% endblock title %}
+
+{% block content %}
+
+    <!--order-->
+    {% if products_for_pay %}
+        <section id="cart_items">
+            <div class="container">
+
+                <!--address-->
+                <div>
+                    {% if addresses %}
+                        <div class="bill-to"><p>Использовать адрес доставки: </p></div>
+
+                        {% for address in addresses %}
+                            <p>
+                            <form method="post" action="{% url 'choice' %}">
+                                {% csrf_token %}
+                                <button value="{{ address.id }}" class="btn btn-default" name="address_form"
+                                        type="submit">
+                                    {{ address.address_header }}
+                                </button>
+                            </form></p>
+                        {% endfor %}
+
+                    {% else %}
+                        <h2 class="title text-center">
+                            <strong>
+                                Нет сохраненных адресов,
+                                для сохранения адреса перейдите на страницу <a href="{% url 'delivery' %}"> Доставка </a>
+                            </strong>
+                        </h2>
+                    {% endif %}
+                </div>
+                <br>
+                <div class="bill-to"><p>Формирование заказа:</p></div>
+                <div class="table-responsive cart_info">
+                    <div>
+                    <!--detail_about_user-->
+                        {% if user_delivery %}
+                        <p><b>Заказчик:</b>
+                            <i>{{ user_delivery.default.name_first }}&nbsp;</i><i>{{ user_delivery.default.name_last }}</i></p>
+                        <p><i>{{ user_delivery.default.country }}&nbsp;&nbsp;&nbsp;</i><i> {{ user_delivery.default.state }}&nbsp;&nbsp;&nbsp;</i>
+                            <i> {{ user_delivery.default.email }}</i></p>
+                        <p><i>{{ user_delivery.default.address }} &nbsp;&nbsp;</i></p></i><br>
+                            {% else %}
+                        <p><b>Нет данных о заказчике</b></p>
+                            {% endif %}
+                    <!--/detail_about_user-->
+                    </div>
+
+                    <table class="table table-condensed">
+                        <tr class="cart_menu">
+                            <td>Продукт</td>
+                            <td>Цена</td>
+                            <td>Количество</td>
+                            <td>Итоговая стоимость</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        <!--total_list-->
+                        {% for product in products_for_pay %}
+                            <tr>
+                                <td>{{ product.product.name }}</td>
+                                <td>$ {{ product.product.price }}</td>
+                                <td>{{ product.total }}</td>
+                                <td>$ {{ product.product_cost|floatformat:"2" }}</td>
+                            </tr>
+                        {% endfor %}
+                        <!--/total_lis-->
+
+                        <tr class="cart_menu">
+                            <td>Итого :</td>
+                            <td></td>
+                            <td></td>
+                            <td>$ {{ total_price|floatformat:"2" }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            {% if user_delivery.default %}
+                <form action="{% url 'pay' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-default pull-right"> Оплатить</button>
+                </form>
+                {% else %}
+                {% endif %}
+
+            </div>
+        </section><br><br>
+
+    {% else %}
+        <h2 class="title text-center">
+            <strong> Товаров нет.
+                Для Приобретения товара необходимо добавить его в корзину на странице<br>
+                <a href="{% url 'shop' %}"><u>с каталогом товаров</u></a>
+            </strong>
+        </h2>
+        <br>
+    {% endif %}
+    <!--/order-->
+{% endblock content %}

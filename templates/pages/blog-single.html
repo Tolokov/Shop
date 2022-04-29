@@ -1,0 +1,143 @@
+{% extends 'pages/base.html' %}
+{% load static i18n %}
+{% block title %} {{ single_post.title }} {% endblock title %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-9" style="width:75%;">
+
+                    <!--blog-post-area-->
+                    <div class="blog-post-area">
+                        <h2 class="title text-center">{% trans 'Последнее из нашего блога' %}</h2>
+                        <div class="single-blog-post">
+                            <h3>{{ single_post.title }}</h3>
+                            <div class="post-meta">
+                                <ul>
+                                    <li><i class="fa fa-user"></i>{{ single_post.creator }}</li>
+                                    <li><i class="fa fa-clock-o"></i>{{ single_post.time }}</li>
+                                    <li><i class="fa fa-calendar"></i>{{ single_post.date }}</li>
+                                </ul>
+                            </div>
+                            <img src="{{ single_post.poster.url }}" alt="{% trans 'poster' %}">
+                            <p>
+                                {{ single_post.description|safe }}
+                            </p>
+                            <div class="pager-area">
+                                <ul class="pager pull-right">
+                                    {% if prev %}
+                                        <li><a href="{{ prev_link }}"><--</a>
+                                        </li>
+                                    {% else %}
+
+                                    {% endif %}
+
+                                    {% if next %}
+                                        <li><a href="{{ next_link }}">--></a>
+                                        </li>
+                                    {% else %}
+
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <!--/blog-post-area-->
+
+                    <!--Comments-->
+                    <div class="response-area">
+                        <h2>{{ count }} {% trans 'ОТЗЫВОВ' %}</h2>
+                        <ul class="media-list">
+                            {% for comment in comments %}
+
+                                {% if comment.parent is None %}
+                                    <li class="media">
+                                        {% else %}
+                                        {% if comment.parent.level == 0 %}
+                                            <li class="media" style="margin-left: 4%;">
+                                                {% elif comment.parent.level == 1 %}
+                                            <li class="media" style="margin-left: 6%;">
+                                                {% else %}
+                                            <li class="media" style="margin-left: {{ comment.parent.level|add:8 }}%;">
+                                        {% endif %}
+                                {% endif %}
+
+                            <!--avatar-->
+                            <a class="pull-left">
+                                <img class="media-object" src="{{ comment.creator.customer.avatar.url }}" alt="{% trans 'Аватар' %}">
+                            </a>
+                            <!--/avatar-->
+
+                            <div class="media-body">
+                                <ul class="sinlge-post-meta">
+                                    <li><i class="fa fa-user"></i>{{ comment.creator }}</li>
+                                    <li><i class="fa fa-clock-o"></i>{{ comment.created|date:"G:i" }} PM</li>
+                                    <li><i class="fa fa-calendar"></i>
+                                        {{ comment.created|date:"d-F-Y" }}</li>
+                                </ul>
+                                <p>{{ comment.text }}</p>
+                                <a class="btn btn-primary" href="#formComment"
+                                   onclick="addComment('{{ comment.creator }}', '{{ comment.id }}')">
+                                    <i class="fa fa-reply"></i>Replay</a>
+                            </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!--/Comments-->
+
+                    <!--replay-box-->
+                    {% if user.is_authenticated %}
+                        <div class="replay-box">
+                            <div>
+                                <hr>
+                                <form id="formComment" action="{% url 'single_post' single_post.id %}" method="post">
+                                    {% csrf_token %}
+                                    <h2> {% trans 'Оставить комментарий:' %}</h2>
+                                    <input type="hidden" name="parent" id="contactparent" value="">
+                                    <div>
+                                        {{ form.text }}
+                                        <br>
+                                        <br>
+                                        <button class="btn btn-default btn-primary pull-right" href="#formComment"
+                                                type="submit" name="submit">
+                                             {% trans 'Отправить' %}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+
+                        <!--login-signup-->
+                        <div class="replay-box">
+                            <div class="row">
+                                <h2 class="title text-center">
+                                    <strong>{% trans 'Доступ к комментариям отключен не авторизованным пользователям,:' %}
+                                        <a href="{% url 'account_login' %}"><u> {% trans 'войдите' %}</u></a> {% trans 'или' %}
+                                        <a href="{% url 'account_signup' %}"><u>{% trans 'зарегистрируйтесь' %}</u></a>
+                                    </strong>
+                                </h2>
+                            </div>
+                        </div>
+                        <!--/login-signup-->
+                    {% endif %}
+                    <!--/replay-box-->
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        function addComment(name, id) {
+            document.getElementById("contactparent").value = id;
+            document.getElementById("commentator").innerText = `${name}, `
+        }
+    </script>
+
+{% endblock content %}

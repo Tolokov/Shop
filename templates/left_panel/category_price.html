@@ -1,0 +1,15 @@
+<!--price-range-->
+<div class="price-range">
+    <h2>Price Range</h2>
+    <div class="well text-center">
+        <input type="text" class="span2" value=""
+               data-slider-min="{{ view.get_price_min }}"
+               data-slider-max="{{ view.get_price_max }}"
+               data-slider-step="500"
+               data-slider-value="[{{ view.get_price_min }},{{ view.get_price_max }}]"
+               id="sl2"><br/>
+        <b class="pull-left">$ {{ view.get_price_min }}</b>
+        <b class="pull-right">$ {{ view.get_price_max }}</b>
+    </div>
+</div>
+<!--/price-range-->

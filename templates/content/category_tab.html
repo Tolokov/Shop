@@ -1,0 +1,93 @@
+{% load static float_tags  %}
+<div class="category-tab">
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs">
+
+            {% for category in categories %}
+                {% if category == categories|first %}
+                    <li class="active">
+                        {% else %}
+                    <li>
+                {% endif %}
+            <a href="#{{ category.id }}" data-toggle="tab">{{ category.name }}</a></li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+    <!--RECOMMENDED head-->
+    <div class="tab-content">
+        {% for category in categories %}
+            {% if category == categories|first %}
+                <div class="tab-pane fade active in" id="{{ category.id }}">
+            {% else %}
+                <div class="tab-pane fade in" id="{{ category.id }}">
+            {% endif %}
+
+        <!--category_tab-->
+        {% for item in category.card_product_set.all|slice:":4" %}
+            {% if item.availability == False %}
+            <div class="col-sm-3">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center">
+                            <a href="{{ item.get_absolute_url }}" target="_blank"></a>
+                                {% if item.image %}
+                                    <a href="{{ item.get_absolute_url }}" target="_blank"><img src="{{ item.image.url }}" alt="{{ item.name }}"/></a>
+                                {% else %}
+                                    <b style="color:red"> Изображение не загружено</b>
+                                {% endif %}
+                            <h2>${{ item.price|formatted_float }}</h2>
+                            <p><a href="{{ item.get_absolute_url }}"> {{ item.name }}</a></p>
+
+                            <!-- add to card -->
+                            <form method="post" action="{% url 'addCart' item.id %}">
+                                {% csrf_token %}
+                                <button class="btn btn-fefault cart" style="margin-right: 20px;">
+                                    <i class="fa fa-shopping-cart">
+                                    </i> Добавить в корзину
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {% if item.condition == 'new' %}
+                        <img src="{% static 'images/home/new.png' %}" class="new" alt="status-new"/>
+                    {% elif item.condition == 'fresh' %}
+                        <img src="{% static 'images/home/fresh.png' %}" class="new" alt="status-fresh"/>
+                    {% else %}
+                        <img src="{% static 'images/home/hand.png' %}" class="new" alt="status-hand"/>
+                    {% endif %}
+
+                <div class="productinfo text-center">
+                    <div class="choose">
+                        <ul class="nav nav-pills nav-justified" style="background-color: white; border: 0px">
+                            <div class="justify-center btn " style="margin:auto; margin-right: 20px;">
+                                <form method="post" action="{% url 'addFavorites' item.id %}">
+                                    {% csrf_token %}
+                                    <li>
+                                        <button type="submit" class="cart btn">
+                                            <i class="fa fa-plus-square "></i> Добавить в избранное
+                                        </button>
+                                    </li>
+                                </form>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% endif %}
+
+        {% endfor %}
+        <!--/category_tab-->
+
+
+        </div>
+        {% endfor %}
+
+        <!--/RECOMMENDED head-->
+        </div>
+    </div>
+</div>
+<!--/category-tab-->

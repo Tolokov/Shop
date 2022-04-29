@@ -1,0 +1,190 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+{% block title %} {{ title }} {% endblock title %}
+
+{% block content %}
+    <script>
+
+    </script>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 padding-right">
+
+                    <!--product-details-->
+                    <div class="product-details">
+                        <div class="col-sm-5">
+                            <div class="view-product">
+                                <img src="{{ product_detail.image.url }}" alt="Главное изображение"/>
+                            </div>
+                            <div id="similar-product" class="carousel slide" data-ride="carousel">
+
+                                <!-- wrapper-for-slides -->
+                                <div class="carousel-inner">
+                                    {% for page in slider %}
+                                        {% if page.number > 1 %}
+                                            <div class="item carousel-inner">
+                                        {% else %}
+                                            <div class="item active carousel-inner">
+                                        {% endif %}
+                                    {% for image in page.object_list %}
+                                        <a href="{{ image.image.url }}" target="_blank">
+                                            <img src="{{ image.image.url }}" alt="{{ image.image.title }}" width="80"
+                                                 height="100">
+                                        </a>
+                                    {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                    </div>
+                                    <!-- /wrapper-for-slides--->
+
+                                    <!-- Controls -->
+                                    <a class="left item-control" href="#similar-product" data-slide="prev">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                    <a class="right item-control" href="#similar-product" data-slide="next">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                    <!--/Controls -->
+
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <!--/product-information-->
+                                <div class="product-information">
+                                    {% if product_detail.condition == 'new' %}
+                                        <img src="{% static 'images/product-details/new.jpg' %}" class="newarrival"
+                                             alt="status-new"/>
+                                    {% elif product_detail.condition == 'fresh' %}
+                                        <img src="{% static 'images/product-details/fresh.png' %}" class="newarrival"
+                                             alt="status-fresh"/>
+                                    {% else %}
+                                        <img src="{% static 'images/product-details/hand.png' %}" class="newarrival"
+                                             alt="status-fresh"/>
+                                    {% endif %}
+                                    <h2>{{ product_detail.name }}</h2>
+                                    <p>Web ID: {{ product_detail.product_public_ID }}</p>
+                                    <p>
+                                        {% if grade_on %}
+                                            {% for star in grade_on %}
+                                                <img src="{% static 'images/star-on-big.png' %}" alt="rating"/>
+                                            {% endfor %}
+                                            {% for star in grade_off %}
+                                                <img src="{% static 'images/star-off-big.png' %}" alt="rating"/>
+                                            {% endfor %}
+                                        {% else %}
+                                            <b> Оценок ещё нет</b>
+                                        {% endif %}
+                                    </p>
+                                    <span>
+                                    <span> $ {{ product_detail.price }}</span>
+                                    <label>На складе:</label>
+                                    <input type="text" value="{{ product_detail.quantity }}"/>
+
+                            <!--cart-->
+                                    <form method="post" action="{% url 'addCart' product_detail.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-fefault cart"><i class="fa fa-shopping-cart"></i> Добавить в корзину</button>
+                                    </form>
+                            <!--/cart-->
+
+                            <!--favorites-->
+                                <form method="post" action="{% url 'addFavorites' product_detail.id %}">
+                                {% csrf_token %}
+                                    <button type="submit" class="cart btn">
+                                        <i class="fa fa-plus-square "></i> Добавить в избранное
+                                    </button>
+                                </form>
+                            <!--/favorites-->
+
+								</span>
+                                    <p><b>Категории:</b>
+                                        {{ product_detail.category.all | join:", " }}
+                                    </p>
+                                    <p><b>Качество товара:</b> {{ product_detail.get_condition_display|upper }}</p>
+                                    <p><b>Бренд:</b> {{ product_detail.brand }}</p>
+                                    <p><b>Описание:</b> {{ product_detail.description }}</p>
+                                </div>
+                                <!--/product-information-->
+                            </div>
+                        </div>
+                        <!--/product-details-->
+
+                        {% if count == 0 %}
+                            <div><p><b>Рецензий ещё нет!</b></p>
+                        {% else %}
+                            <div><p><b>{{ count }} Рецензий </b></p>
+                        {% endif %}
+                        <!--reviews-->
+                        <hr>
+                        <div class="tab-pane fade active in" id="reviews">
+                            <div class="col-sm-12">
+                                <!--review-detail-->
+                                {% for review in reviews %}
+                                    <ul>
+                                        <li><a><i class="fa fa-user"></i>{{ review.name }}</a></li>
+                                        <li><a><i class="fa fa-clock-o"></i>{{ review.update|date:"G:i" }}
+                                            PM</a>
+                                        </li>
+                                        <li><a><i class="fa fa-calendar-o"></i>{{ review.update|date:"d-F-Y" }}
+                                        </a>
+                                        </li>
+                                    </ul>
+                                    <p>{{ review.text }}</p>
+                                    <br>
+                                    {% for star in review.grade.get_value %}
+                                        <img src="{% static 'images/star-on-big.png' %}" alt="rating"/>
+                                    {% endfor %}
+                                    <hr>
+                                {% endfor %}
+                                <!--/review-detail-->
+
+                                <!--contact-form-->
+                                <div>
+                                    {% if count == 0 %}
+                                        <div><p><b>Оставить первый отзыв:</b></p>
+                                    {% else %}
+                                        <div><p><b>Написать отзыв:</b></p>
+                                    {% endif %}
+
+                                    <!--form-->
+                                    <form action="{% url 'add_review' %}" method="post" name="review">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ product_detail.id }}" name="product">
+                                        <input type="hidden" value="#" name="ipaddress">
+                                        <span>{{ form.name.errors }} {{ form.email.errors }}</span>
+                                        <span>{{ form.name }} {{ form.email }}</span>
+                                        {{ form.text }}
+                                        <b>Оценить: </b>
+                                        {% for k, v in form.fields.grade.choices %}
+                                            <input required id="review{{ v }}" type="radio" name="grade"
+                                                   value="{{ k }}">
+                                            <label for="review{{ v }}">{{ k }}</label>
+                                        {% endfor %}
+                                        <button class="btn btn-default pull-right" type="submit" name="submit">
+                                            Submit
+                                        </button>
+                                    </form>
+                                    <!--/form-->
+
+                                    </div>
+                                    </div>
+                                    <br><br><br>
+                                </div>
+                                <!--/contact-form-->
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                        <!--/reviews-->
+                    </div>
+                </div>
+            </div>
+    </section>
+{% endblock content %}
+
+
+
