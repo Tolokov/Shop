@@ -3,5 +3,4 @@ cache/
 collectstatic/
 log/
 fixtures/
-media/
 static/
