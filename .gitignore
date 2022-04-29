@@ -7,5 +7,4 @@ rest_framework/
 mptt/
 ckeditor/
 /static/admin/
-/media/fixtures/images/
 /media/fixtures/!archive/
