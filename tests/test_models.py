@@ -108,7 +108,7 @@ class BrandModelsTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        image_path = 'fixtures/archive/MK/Logo_MK.jpg'
+        image_path = 'fixtures_data/archive/MK/Logo_MK.jpg'
         image_object = SimpleUploadedFile(
             name='Logo_MK',
             content=open(image_path, 'rb').read(),
@@ -202,7 +202,7 @@ class Card_ProductModelsTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         Category.objects.create(name='Blue', description='Blue jeans', slug='blue', )
-        image_path = 'fixtures/archive/MK/Logo_MK.jpg'
+        image_path = 'fixtures_data/archive/MK/Logo_MK.jpg'
         image_object = SimpleUploadedFile(
             name='Logo_MK',
             content=open(image_path, 'rb').read(),
@@ -245,7 +245,7 @@ class ProductImageModelsTest(TestCase):
             description='Шорты Класические',
             price='100.00'
         )
-        image_path = 'fixtures/archive/CUCCI/img1.jpg'
+        image_path = 'fixtures_data/archive/CUCCI/img1.jpg'
         image = SimpleUploadedFile(
             name='img1',
             content=open(image_path, 'rb').read(),

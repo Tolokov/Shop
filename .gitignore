@@ -2,8 +2,10 @@
 cache/
 collectstatic/
 log/
-fixtures/
+fixtures_data/
 rest_framework/
 mptt/
 ckeditor/
 /static/admin/
+/media/fixtures/images/
+/media/fixtures/!archive/
