@@ -3,4 +3,7 @@ cache/
 collectstatic/
 log/
 fixtures/
-static/
+rest_framework/
+mptt/
+ckeditor/
+/static/admin/
