@@ -1,5 +1,4 @@
 .idea
-security_settings.py
 cache/
 collectstatic/
 log/

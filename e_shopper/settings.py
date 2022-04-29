@@ -1,5 +1,5 @@
 from pathlib import Path
-from .security_settings import *
+from e_shopper.security_settings import *
 from os import path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
