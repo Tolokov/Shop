@@ -6,7 +6,7 @@
 
 > _<https://e-shopper.space/>_ 
 
-![Site functionality](https://github.com/Tolokov/Shop/blob/final/static/gif/functionality.gif?raw=true)
+![Site functionality](https://github.com/Tolokov/Shop/blob/final/static/gif/functionality.gif)
 
 Frontend taken from catalog of a free website templates:
 _<https://freehtmlthemes.ru/templates/free>_
